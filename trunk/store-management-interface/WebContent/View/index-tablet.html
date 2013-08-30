@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Tablet Samsung 7.0 </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	
+    <link href="../styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="../styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="../styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="../styles/tabletGraphByCate.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/jquery.shadow.css" />
+    <link href="../jqueryUI/css/custom-theme/jquery-ui-1.9.2.custom.min.css" rel="stylesheet">
+    
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/kendo.all.min.js"></script>
+    
+    <script src="../Controller/mainStoreTablet.js"></script>
+    
+	<script src="../Controller/SMI_salePerDay.js"></script><!-- graph1 -->
+	<script src="../Controller/SMI_SalePerMonth.js"></script><!-- graph2 -->
+	<script src="../Controller/SMI_CustomerPerMonth.js"></script><!-- graph3 -->
+	<script src="../Controller/SMI_BillPerMonth.js"></script><!-- graph4 -->
+	<script src="../Controller/SMI_SalePerBill.js"></script> <!--  graph5--> 
+	<script src="../Controller/SMI_DeptWastePerDay.js"></script> <!--  graph6-->
+	<script src="../Controller/SMI_SaleByFoodTypePerDay.js"></script> <!--  graph6-->
+    
+    <script src="../js/jquery.shadow.js"></script>	
+    <script type="text/javascript" src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
+  	<script src="../js/kendo.dataviz.min.js" type="text/javascript"></script>
+   
+</head>
+<body>
+
+<div id="dialog" style="display: none;" title="graph1">
+	<div id="selectFav">
+		<ul>
+		<!--  
+		Slot#1 Name:Top 10 Product
+		Slot#2 Name:Empty
+		Slot#3 Name:Empty
+		Slot#4 Name:Top 10 Cooking Time
+		Slot#5 Name:Customer Per Month
+		-->
+			<li>
+				<div class="statusFav ballRed"></div>
+				<div class="slotFavName">
+					<a href="#">
+						Slot#1 Name:Top 10 Product
+					</a>
+				</div>
+			</li>
+			<li><div class="statusFav ballGreen"></div><div class="slotFavName"><a href="#">Slot#2 Name:Empty</a></div></li>
+			<li><div class="statusFav ballGreen"></div><div class="slotFavName"><a href="#">Slot#3 Name:Empty</a></div></li>
+			<li><div class="statusFav ballRed" ></div><div class="slotFavName"><a href="#">Slot#4 Name:Top 10 Cooking Time</a></div></li>
+			<li><div class="statusFav ballRed"></div><div class="slotFavName"><a href="#">Slot#5 Name:Customer Per Month</a></div></li>
+		
+		</ul>
+	</div>
+</div>
+
+<!-- manage css custom start-->
+<div id="tabletContent">
+	<div id="tabletHeadArea">
+		<div id="tabletHead">
+				<div id="boxL">
+					<div id="button">
+						<div id="btHideShow">
+							<button class="hideShow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">=</button>
+						</div>
+					</div>
+					<div id="text">Dashboard Name</div>
+				</div>
+				<div id="boxR">
+					<div class="ball"></div>
+					<div class="ball"></div>
+					<div class="ball"></div>
+				</div>
+				<br style="clear:both">
+		</div>
+	</div>
+	<div id=tabletCotentArea>
+		<!-- tablet Content start -->
+			<div id="tabletContent">
+				<div id="leftMenu" class="expansion">
+					<div id="boxContent">
+						<div id="boxTitle">
+							<div id="txt">
+								เมนูหลัก(Main Manu)
+							</div>
+						</div>
+						<ul>
+							<li id="cate1"><a href="#">คน(5)</a></li>
+							<li id="cate2"><a href="#">ขาย(6)</a></li>
+							<li id="cate3"><a href="#">cost(6)</a></li>
+							<li id="cate4"><a href="#">คุณภาพ	ระบบ(4)</a></li>
+							<li id="cate5"><a href="#">บริการ(5)</a></li>
+							<li id="myViewCate"><a href="#">My views(6)</a></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div id="contentGraph">
+				<!--  
+					<div class="graphTop" id="graph1">
+						<div id="settingArea">
+							<div class="setting">
+								<span class="ui-icon ui-icon-gear"></span>
+							</div>
+						</div>	
+						<div id="chartArea">
+						
+								<div class="chart"></div>
+							
+						</div>
+					</div>	
+					
+					<div class="graphBottom">
+						<div class="graphDetail">
+						สรุปยอดจำหน่าย ประจำเดือนเมษายน 2556
+						</div>
+						<div class="graphAddFav" style="text-align:right">
+							
+							<button class="addMyView ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" >Add MyView</button>
+						</div>
+					</div>
+					
+					-->
+					
+				</div>
+				
+				
+			</div>
+			<!-- tablet Content end -->
+			
+	</div>
+	<!-- 
+	<div id="listCate">
+	Div List Category
+	</div>
+	-->
+</div>
+<br style="clearL:both">
+<!-- manage css custom end -->
+
+<!--  
+ <div data-role="view" id="scrollview-home" data-title="Photo Gallery">
+    <div id="scrollview-container">
+        <div data-role="scrollview" data-page="2">
+        
+            <div class="content1" data-role="page">
+             	<center>Hello world jQuery1</center>
+            </div>
+            <div class="content2" data-role="page">
+            	<center>Hello world jQuery2</center>
+            </div>
+            <div class="content3" data-role="page">
+            	<center>Hello world jQuery3</center>
+            </div>
+
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    var app = new kendo.mobile.Application(document.body);
+</script>
+
+-->
+</body>
+</html>
