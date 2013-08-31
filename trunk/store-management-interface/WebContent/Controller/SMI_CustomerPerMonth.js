@@ -92,19 +92,20 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 	 var num1=0;
 	 var num2=0;
 	 var num3=0;
+	 
      //console.log($("#chartMTDSalePerMonth-1 svg text"));
      $(""+"#chart"+graphName+"-"+arIndex+">svg>text").each(function(){
 
     	var labelValue = $(this).text();
     	var labelValueAmount = labelValue.split(":");
-
+    	//alert(labelValueAmount[0]);
     	if(labelValueAmount[0]=="thisYear"){
-
+    		//alert(labelValueAmount[1]);
     		var salesValue="";
     		if(objDataSeriesCustomerValueMonthThisYear[num1]!=0){
     			salesValue="="+objDataSeriesCustomerValueMonthThisYear[num1]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
     	}
     	if(labelValueAmount[0]=="lastYear"){
@@ -113,7 +114,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
     		if(objDataSeriesCustomerValueMonthLastYear[num2]!=0){
     			salesValue="="+objDataSeriesCustomerValueMonthLastYear[num2]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
     	}
     	
@@ -123,7 +124,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
     		if(objDataSeriesCustomerValueTarget[num3]!=0){
     			salesValue="="+objDataSeriesCustomerValueTarget[num3]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num3++;
     	}
      });

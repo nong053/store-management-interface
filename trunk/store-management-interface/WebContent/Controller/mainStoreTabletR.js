@@ -34,7 +34,6 @@ $(document).ready(function(){
 			         name: "Unique visitors",
 			         data: [52000, 34000, 23000, 48000, 67000, 83000]
 			     }],
-			     valueAxis: {
 			         max: 140000,
 			         line: {
 			             visible: false
@@ -136,7 +135,7 @@ $(document).ready(function(){
 		};
 		
 		
-		$("#boxSubGraph").live("click",function(){
+		$("#btnShowHideSubMenu").live("click",function(){
 			if($("#boxSubGraph").hasClass("expansionSubGraph")){
 				expansionSubGraphFn();
 			}else{
@@ -366,6 +365,7 @@ $(document).ready(function(){
 								"<div id=\"boxL\">" +
 									"<div id=\"button\">" +
 										"<div id=\"btHideShow\">" +
+										//"<a href=\"#\" data-role=\"button\"  data-icon=\"bars\" data-iconpos=\"left\" data-inline=\"true\">Button</a>" +
 											"<button class=\"hideShow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only\">=</button>" +
 											"<div id=\"titleDashboardName\">" +
 											"Store Management <div id=\"categroryNameTitle\"></div>" +
@@ -382,12 +382,20 @@ $(document).ready(function(){
 									"</div>" +
 									"<div class=\"subGraph\">" +
 										"<div id=\"boxSubGraph\" class=\"expansionSubGraph\" >" +
-											"<ul>" +
-											"<li><a href=\"#\">graph1</a></li>" +
-											"<li><a href=\"#\">graph2</a></li>" +
-											"<li><a href=\"#\">graph3</a></li>" +
-											"<li><a href=\"#\">graph4</a></li>" +
-											"</ul>" +
+											"<div id=\"subMenuR\">"+
+												"<ul>" +
+													"<li><a href=\"#\">graph1</a></li>" +
+													"<li><a href=\"#\">graph2</a></li>" +
+													"<li><a href=\"#\">graph3</a></li>" +
+													"<li><a href=\"#\">graph4</a></li>" +
+												"</ul>" +
+											"</div>" +
+											"<div id=\"areaBtnShowHideSubMenu\">" +
+												"<div id=\"btnShowHideSubMenu\">" +
+												"<div id=\"txt\">Sub Menu</div>" +
+												"</div>" +
+											"</div>"+
+											
 										"</div>" +
 									"</div>" +
 									"<div class=\"areaSettingExternal\">" +
@@ -558,8 +566,8 @@ $(document).ready(function(){
 				var htmlSubGraph="";
 				htmlSubGraph="<li><a href=\"#\" class=\"listSubGraph\" id=\"SubGraphId-"+graphName+"\">"+graphName+"</a></li>";
 				//alert(htmlSubGraph);
-				$("#boxSubGraph>ul").append(htmlSubGraph);
-				$("#boxSubGraph").shadow();
+				$("#boxSubGraph>#subMenuR>ul").append(htmlSubGraph);
+				/*$("#boxSubGraph").shadow();*/
 				
 			};
 			
@@ -815,7 +823,7 @@ $(document).ready(function(){
 				$("body").append("<input type=\"hidden\" id=\"embCateGraphId\" class=\"embCateGrap\" value=\""+this.id+"\">");
 				//clear old value
 				$("#contentGraph").empty();
-				$("#boxSubGraph>ul").empty();
+				$("#boxSubGraph>#subMenuR>ul").empty();
 				//$("#boxR").empty();
 				if(this.id=="cateView"){
 					createStructureLayoutMyView();
@@ -1415,3 +1423,380 @@ $(document).ready(function(){
 			
 			
 	});
+
+
+//###################function using share other funciton start##########################
+function getBranchParameter(graphNameArea,branchCode){
+	//alert("branchCode"+branchCode);
+	var branchHtml = "";
+	$.ajax({
+		url:"../Model/SMI_getBranch.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		success:function(data){
+			branchHtml+="<select class=\"list\" id=\"paramBranch"+graphNameArea+"\">";
+			$.each(data,function(index,indexEntry){
+				if(branchCode==indexEntry[0]){
+		
+				branchHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
+				}else{
+				branchHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";	
+				}
+			});
+			branchHtml+="</select>";
+		}
+	});
+$("td#areaParamBranch"+graphNameArea).html(branchHtml);
+$("select#paramBranch"+graphNameArea).kendoDropDownList();
+}
+
+function getYearParameterOnly(graphNameArea,paramYear){
+	//alert("hello call function year parameter");
+	var yearHtml = "";
+	$.ajax({
+		url:"../Model/SMI_ParamYear.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		success:function(data){
+			yearHtml+="<select class=\"list\" id=\"paramYear"+graphNameArea+"\">";
+			$.each(data,function(index,indexEntry){
+				if(paramYear==indexEntry[0]){
+					//alert(branchCode==indexEntry[0]);
+					yearHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[0]+"</option>";
+				}else{
+					yearHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[0]+"</option>";	
+				}
+			});
+			yearHtml+="</select>";
+		}
+	});
+$("td#areaParamYear"+graphNameArea).html(yearHtml);
+$("select#paramYear"+graphNameArea).kendoDropDownList();
+	
+}
+function getYearParameter(graphNameArea,paramYear){
+	//alert("hello call function year parameter");
+	var yearHtml = "";
+	$.ajax({
+		url:"../Model/SMI_ParamYear.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		success:function(data){
+			yearHtml+="<select class=\"list\" id=\"paramYear"+graphNameArea+"\">";
+			$.each(data,function(index,indexEntry){
+				if(paramYear==indexEntry[0]){
+					//alert(branchCode==indexEntry[0]);
+					yearHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[0]+"</option>";
+				}else{
+					yearHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[0]+"</option>";	
+				}
+			});
+			yearHtml+="</select>";
+		}
+	});
+$("td#areaParamYear"+graphNameArea).html(yearHtml);
+$("select#paramYear"+graphNameArea).kendoDropDownList();
+$("select#paramYear"+graphNameArea).die("change");
+$("select#paramYear"+graphNameArea).live("change",function(){
+	//alert(this.value);
+	getParamStartWeek(graphNameArea,this.value);
+	getParamEndWeek(graphNameArea,this.value);
+	
+});
+
+}
+function getMonthParameter(graphNameArea,paramMonthSelected){
+	//alert("paramMonthSelected"+paramMonthSelected);
+	var monthHtml = "";
+	$.ajax({
+		url:"../Model/SMI_ParamMonth.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		success:function(data){
+			monthHtml+="<select class=\"list\" id=\"paramMonth"+graphNameArea+"\">";
+			$.each(data,function(index,indexEntry){
+				if(parseInt(paramMonthSelected)==indexEntry[0]){
+					//alert(branchCode==indexEntry[0]);
+					monthHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
+				}else{
+					monthHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";	
+				}
+			});
+			monthHtml+="</select>";
+		}
+	});
+$("td#areaParamMonth"+graphNameArea).html(monthHtml);
+$("select#paramMonth"+graphNameArea).kendoDropDownList();
+}
+
+
+function getParamStartWeek(graphNameArea,paramYear,startWeekSeleted){
+	var htmlParam="";
+	$.ajax({
+		url:"../Model/SMI_ParamWeekInterval.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		data:{"paramYear":paramYear},
+		success:function(data){
+		
+			htmlParam+="<select class=\"list\" id=\"paramStartWeek"+graphNameArea+"\">";
+			$.each(data,function(index,indexEntry){
+				var startWeekNumber=indexEntry[0].substring("1");
+				if(startWeekSeleted==startWeekNumber){
+				htmlParam+="<option selected value="+startWeekNumber+">"+indexEntry[0]+" "+indexEntry[1]+"</option>"; 
+				}else{
+				htmlParam+="<option value="+startWeekNumber+">"+indexEntry[0]+" "+indexEntry[1]+"</option>"; 	
+				}
+			});
+			htmlParam+="</select>";
+			$("td#areaParamStartWeek"+graphNameArea).html(htmlParam);
+			$("select#paramStartWeek"+graphNameArea).kendoDropDownList();
+		}
+	});
+}
+
+
+
+function getParamEndWeek(graphNameArea,paramYear,endWeekSeleted){
+	var htmlParam="";
+	$.ajax({
+		url:"../Model/SMI_ParamWeekInterval.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		data:{"paramYear":paramYear},
+		success:function(data){
+		
+			htmlParam+="<select class=\"list\" id=\"paramEndWeek"+graphNameArea+"\">";
+			$.each(data,function(index,indexEntry){
+				
+				var endWeekNumber=indexEntry[0].substring("1");
+				if(endWeekSeleted==endWeekNumber){
+				htmlParam+="<option selected value="+endWeekNumber+">"+indexEntry[0]+" "+indexEntry[1]+"</option>"; 
+				}else{
+				htmlParam+="<option value="+endWeekNumber+">"+indexEntry[0]+""+indexEntry[1]+"</option>"; 	
+				}
+			});
+			htmlParam+="</select>";
+			
+			$("td#areaParamEndWeek"+graphNameArea).html(htmlParam);
+			$("select#paramEndWeek"+graphNameArea).kendoDropDownList();
+		}
+	});
+}
+function getStartDateParameter(graphNameArea,paramDate){
+	//alert(graphNameArea+"ll"+paramDate);
+	var html="<input type=\"text\" name=\"paramStartDate"+graphNameArea+"\" id=\"paramStartDate"+graphNameArea+"\" class=\"date\">";
+	$("td#areaParamStartDate"+graphNameArea).html(html);
+	
+	
+	$("#paramStartDate"+graphNameArea).datepicker({
+		 showOn: "button",
+		 buttonImage: "../images/calendar.gif",
+		 buttonImageOnly: true
+		 });
+	 $("#paramStartDate"+graphNameArea).datepicker("option", "dateFormat", "yy-mm-dd");
+	 $("#paramStartDate"+graphNameArea).val(paramDate);
+	 
+		
+}
+function getEndDateParameter(graphNameArea,paramDate){
+	var html="<input type=\"text\" name=\"paramEndDate"+graphNameArea+"\" id=\"paramEndDate"+graphNameArea+"\" class=\"date\">";
+	$("td#areaParamEndDate"+graphNameArea).html(html);
+
+	$("#paramEndDate"+graphNameArea).datepicker({
+		 showOn: "button",
+		 buttonImage: "../images/calendar.gif",
+		 buttonImageOnly: true
+		 });
+	 $("#paramEndDate"+graphNameArea).datepicker("option", "dateFormat", "yy-mm-dd");
+	 $("#paramEndDate"+graphNameArea).val(paramDate);
+}
+/*
+function getWeekInterval(paramWeek){
+	var weekInterval="";
+	$.ajax({
+		url:"../Model/SMI_weekInterval.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		data:{"paramWeek":paramWeek},
+		success:function(data){
+			weekInterval= data[0][0];
+		}
+		
+	});
+	return weekInterval;
+}
+*/
+function getWeekInterval(paramYear,paramWeek){
+	var vWeek0="";
+	var vWeek="";
+	switch(paramWeek){
+	case 1:vWeek0="01";break;
+	case 2:vWeek0="02";break;
+	case 3:vWeek0="03";break;
+	case 4:vWeek0="04";break;
+	case 5:vWeek0="05";break;
+	case 6:vWeek0="06";break;
+	case 7:vWeek0="07";break;
+	case 8:vWeek0="08";break;
+	case 9:vWeek0="09";break;
+	
+	}
+	if(vWeek0!=""){
+	vWeek='W'+vWeek0;
+	}else{
+	vWeek='W'+paramWeek;	
+	}
+	//alert("vWeek="+vWeek);
+	
+	var weekInterval="";
+	$.ajax({
+		url:"../Model/SMI_weekInterval.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		data:{"paramYear":paramYear,"paramWeek":vWeek},
+		success:function(data){
+			weekInterval= data[0][0];
+		}
+		
+	});
+	return weekInterval;
+	
+}
+
+//Get return monthName start
+function getMonthName(monthNo){
+				var monthName="";
+				//'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+				switch(parseInt(monthNo)){
+				case 1:monthName="Jan";break;
+				case 2:monthName="Feb";break;
+				case 3:monthName="Mar";break;
+				case 4:monthName="Apr";break;
+				case 5:monthName="May";break;
+				case 6:monthName="Jun";break;
+				case 7:monthName="Jul";break;
+				case 8:monthName="Aug";break;
+				case 9:monthName="Sep";break;
+				case 10:monthName="Oct";break;
+				case 11:monthName="Nov";break;
+				case 12:monthName="Dec";break;
+				
+				}
+				return monthName;
+			}
+
+//Get return monthName end
+
+//Get return monthName start
+function getMonthFullName(monthNo){
+				var monthName="";
+				/*
+				1. January – Jan.
+				2 . February – Feb.
+				3. March – Mar.
+				4. April – Apr.
+				5. May – May
+				6. June – Jun.
+				7. July – Jul.
+				8. August – Aug.
+				9. September – Sep. or Sept.
+				10. October – Oct.
+				11. November – Nov.
+				12. December – Dec.
+				*/
+				switch(parseInt(monthNo)){
+				case 1:monthName="January";break;
+				case 2:monthName="February";break;
+				case 3:monthName="March";break;
+				case 4:monthName="April";break;
+				case 5:monthName="May";break;
+				case 6:monthName="June";break;
+				case 7:monthName="July";break;
+				case 8:monthName="August";break;
+				case 9:monthName="September";break;
+				case 10:monthName="October";break;
+				case 11:monthName="November";break;
+				case 12:monthName="December";break;
+				
+				}
+				return monthName;
+			}
+
+//Get return monthName end
+
+
+//date Time start
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
+if (mm < 10) {
+	    mm = '0' + mm;
+	}
+
+	if (dd < 10) {
+	    dd = '0' + dd;
+	}
+	 //date Time start	
+
+function getYearONDate(date){
+	
+	 var thisDate = new Date(date);
+	 var yyyy = thisDate.getFullYear();
+	 return yyyy;
+
+}
+function getMonthOnDate(date){
+	var thisDate = new Date(date);
+	var mm = thisDate.getMonth()+1; //January is 0!
+	return mm;
+
+}
+function getDayOnDate(date){
+	var thisDate = new Date(date);
+	var dd = thisDate.getDate();
+	return dd;
+	 
+
+}
+/*
+var dd = thisDate.getDate();
+
+*/
+
+//ฟังก์ชันสำหรับ tooltip แสดงค่าตัวเลข 2 ตำแหน่ง และ Commas
+function getDicimalCommas(value){
+var nStr=(value).toFixed(2);
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+//ฟังก์ชันจัดการ Commas
+function addCommas(nStr)
+{
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}	
+//###############################function using share other funciton start ####################################
