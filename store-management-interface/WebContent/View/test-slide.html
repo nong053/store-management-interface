@@ -23,13 +23,21 @@
     <script src="../js/kendo.all.min.js"></script>
     
     
-    <script src="../Controller/SMI_SalesDaily.js"></script><!-- graph1 -->
-	<script src="../Controller/SMI_SalesMonthly.js"></script><!-- graph2 -->
-	<script src="../Controller/SMI_CustomerPerMonth.js"></script><!-- graph3 -->
-	<script src="../Controller/SMI_BillPerMonth.js"></script><!-- graph4 -->
-	<script src="../Controller/SMI_SalePerBill.js"></script> <!--  graph5--> 
-	<script src="../Controller/SMI_DeptWastePerDay.js"></script> <!--  graph6-->
-	<script src="../Controller/SMI_SaleByFoodTypePerDay.js"></script> <!--  graph6-->
+ <script src="../Controller/SMI_SalesDaily.js"></script><!-- graph1 -->
+<script src="../Controller/SMI_SalesMonthly.js"></script><!-- graph2 -->
+<script src="../Controller/SMI_CustomerPerMonth.js"></script><!-- graph3 -->
+<script src="../Controller/SMI_BillWeekly.js"></script><!-- graph4 -->
+<script src="../Controller/SMI_SalesPerBillWeekly.js"></script> <!--  graph5--> 
+<script src="../Controller/SMI_WasteDaily.js"></script> <!--  graph6-->
+<script src="../Controller/SMI_WasteWeekly.js"></script> <!--  graph7-->
+<script src="../Controller/SMI_SalesByProductCategoryWeekly.js"></script> <!--  graph8-->
+<script src="../Controller/SMI_SalesByPromotionMonthly.js"></script> <!--  graph9-->
+<script src="../Controller/SMI_Top10Food.js"></script> <!--  graph10-->
+<script src="../Controller/SMI_Top10Bakery.js"></script> <!--  graph11-->
+<script src="../Controller/SMI_Top10Beverage.js"></script> <!--  graph12-->
+<script src="../Controller/SMI_Top10Waste.js"></script> <!--  graph13-->
+<script src="../Controller/SMI_Top10CookingTime.js"></script> <!--  graph14-->
+<script src="../Controller/SMI_CookingTimeRange.js"></script> <!--  graph15-->
 	
 	<script src="../Controller/mainStoreTabletR.js"></script>
 	
@@ -45,9 +53,24 @@
 	
 </head>
 <body>
+
+<!-- set loading start -->
 <div id="loading">
-Loading...
+		
+		<div id="loadImage">
+			<table>
+				<tr>
+					<td><img src="../images/loader.gif"></td>
+					<td><span id="loadText">Loading... </span></td>
+				</tr>
+			</table>
+			
+			
+		</div>
 </div>
+<!-- set loading end -->
+
+
 <div id="dialogSlot" class="selectListSlot" style="display: none;" title="graph1">
 <!-- content select slot start-->
 	<div id="selectFav">
@@ -81,12 +104,14 @@ Loading...
 			<div class="touchslider-nav">
 				<div id="boxL">
 					<div id="button">
+					
 						<div id="btHideShow">
-							<button class="hideShow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">=</button>
+							<button class="hideShow "></button>
 							<div id="titleDashboardName">
 							Store Management <div id="categroryNameTitle"></div>
 							</div>
 						</div>
+					
 					</div>
 					
 				</div>
