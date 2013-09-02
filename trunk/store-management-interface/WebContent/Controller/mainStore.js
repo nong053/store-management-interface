@@ -1535,12 +1535,12 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					var slotTxt5="Slot#5 Name: Empty";
 					var slotTxt6="Slot#6 Name: Empty";
 					
-					var slotStatus1="<div class=\"statusFav ballRed\"></div>";
-					var slotStatus2="<div class=\"statusFav ballRed\"></div>";
-					var slotStatus3="<div class=\"statusFav ballRed\"></div>";
-					var slotStatus4="<div class=\"statusFav ballRed\"></div>";
-					var slotStatus5="<div class=\"statusFav ballRed\"></div>";
-					var slotStatus6="<div class=\"statusFav ballRed\"></div>";
+					var slotStatus1="<div class=\"statusFav ballGreen\"></div>";
+					var slotStatus2="<div class=\"statusFav ballGreen\"></div>";
+					var slotStatus3="<div class=\"statusFav ballGreen\"></div>";
+					var slotStatus4="<div class=\"statusFav ballGreen\"></div>";
+					var slotStatus5="<div class=\"statusFav ballGreen\"></div>";
+					var slotStatus6="<div class=\"statusFav ballGreen\"></div>";
 					
 					var htmlSlot="";
 					
@@ -1550,32 +1550,32 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						
 						if(indexEntry[3]==1){
 							
-							slotStatus1="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballGreen\"></div>";
+							slotStatus1="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 							slotTxt1="Slot#1 Name:"+indexEntry[1];
 						}
 						
 						if(indexEntry[3]==2){
-							slotStatus2="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballGreen\"></div>";
+							slotStatus2="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 							slotTxt2="Slot#2 Name:"+indexEntry[1];
 						}
 						
 						if(indexEntry[3]==3){
-							slotStatus3="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballGreen\"></div>";
+							slotStatus3="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 							slotTxt3="Slot#3 Name:"+indexEntry[1];
 						}
 						
 						if(indexEntry[3]==4){
-							slotStatus4="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballGreen\"></div>";
+							slotStatus4="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 							slotTxt4="Slot#4 Name:"+indexEntry[1];
 						}
 						
 						if(indexEntry[3]==5){
-							slotStatus5="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballGreen\"></div>";
+							slotStatus5="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 							slotTxt5="Slot#5 Name:"+indexEntry[1];
 						}
 						
 						if(indexEntry[3]==6){
-							slotStatus6="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballGreen\"></div>";
+							slotStatus6="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 							slotTxt6="Slot#6 Name:"+indexEntry[1];
 						}
 						

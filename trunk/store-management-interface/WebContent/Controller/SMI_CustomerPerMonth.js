@@ -130,10 +130,11 @@ function embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWee
 	//Embed Default Parameter end
 }
 //#######################Embed parameter Function end #################
-
+						  //graphName,graphType,arIndex,branchId,paramYear,startWeek,endWeek,graphWidth,graphHeight
 function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine){
 	
-	
+	alert(startWeek);
+	alert(endWeek);
 	//Embed Default Parameter start
 	var startWeekInterval= getWeekInterval(startWeek);
 	var endWeekInterval=getWeekInterval(endWeek);

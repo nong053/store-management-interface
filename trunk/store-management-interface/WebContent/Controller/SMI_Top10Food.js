@@ -131,6 +131,7 @@ function createChart_SMI_Top10Food(graphName,graphType,graphSeries,graphCategory
 };
 
 var htmlParam_SMI_Top10Food = function(graphNameArea){
+	
 	 var htmlParam ="";
 	 htmlParam+="<div id=\"setParamForm\" class=\"setParamForm"+graphNameArea+"\">";
 	 htmlParam+="<div class=\"setParamArea\">";
@@ -257,8 +258,8 @@ var dialogSetParam_SMI_Top10FoodFn=function(paramTitleSetting){
 	 effect: "explode",
 	 duration: 1000
 	 },
-	 width: 350,
-	 height:235,
+	 width: 450,
+	 height:300,
 	 modal: true,
 	 /*
 	 buttons: {
@@ -321,8 +322,8 @@ function manageParamTop10FoodFn(graphNameArea,graphWidth,graphHeight,paramMachin
 		 //create button submit
 		 //#####################check parameter is selected start#########################
 		getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
-		getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text());
-		getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text());
+		getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
+		getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text(),paramMachine);
 		//######################check parameter is selected end###########################
 		 submit_SMI_Top10Food(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);
 		 

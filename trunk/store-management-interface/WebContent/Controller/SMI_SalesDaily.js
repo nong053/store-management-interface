@@ -257,7 +257,6 @@ var dialogSetParam_SMI_SalePerDayFn=function(paramTitleSetting){
 	 duration: 1000
 	 },
 	 width: 450,
-	 //width: 700,
 	 height:300,
 	 modal: true,
 	
