@@ -356,7 +356,7 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 	};
 	/*####################### config dialog for tablet start ###################*/ 
 	
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_Top10CookingTimeFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -401,10 +401,11 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_Top10CookingTime(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	 dialogSetParam_SMI_Top10CookingTimeFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_Top10CookingTime(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -423,7 +424,7 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_Top10CookingTimeFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

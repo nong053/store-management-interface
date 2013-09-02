@@ -2,7 +2,15 @@
 //$(document).on("click",".setting",function(){
 
 function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText) {
-
+/*
+seriesDefaultsFont
+valueAxisFont
+legendFont
+categoryAxisFont
+titleFont
+labelsRotation
+tooltipFont
+ */
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
@@ -12,13 +20,16 @@ function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphS
 	     title: {
 	         text:titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	           position:"bottom"
+	           position:"bottom",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -28,7 +39,7 @@ function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphS
                  visible: true,
                  //template: "#=value#",
                  template: "#= addCommas(value) #",
-                 font:seriesFont,
+                 font:seriesDefaultsFont,
                  background: "transparent",
                  rotation : 0
              }
@@ -41,7 +52,7 @@ function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphS
 	        // max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value)#",
-                // font:valueAxisFont
+                 font:valueAxisFont
              },
 	         line: {
 	             visible: false
@@ -57,7 +68,7 @@ function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphS
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	             font: categoryAxisFont,
 	        	  rotation : 0
 	          }
 	          
@@ -65,6 +76,7 @@ function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphS
 	     tooltip: {
 	         visible: true,
 	         template: "#= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 };
@@ -411,7 +423,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 		
 	};
 	/*####################### config dialog for tablet start ###################*/ 
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_SalesByProductCategoryWeeklyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -424,8 +436,8 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 480,
+		 height:350,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -459,7 +471,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 				 $(".areaSettingExternal").empty();
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_SalesByProductCategoryWeekly(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	dialogSetParam_SMI_SalesByProductCategoryWeeklyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_SalesByProductCategoryWeekly(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -487,7 +499,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_SalesByProductCategoryWeeklyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

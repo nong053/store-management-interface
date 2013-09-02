@@ -1,27 +1,7 @@
 
 function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText,paramMachine,objDataSeriesCustomerValueMonthThisYear,objDataSeriesCustomerValueMonthLastYear,objDataSeriesCustomerValueTarget) {
 
-	var titleFont="";
-	var legendFont="";
-	var valueAxisFont="";
-	var cateFont="";
-	var seriesFont="";
-	if(paramMachine=="Tablet"){
 	
-		titleFont="20px Tahoma";
-		legendFont="16px Tahoma";
-		valueAxisFont="16px Tahoma";
-		seriesFont="14px Tahoma";
-		cateFont="16px Tahoma";
-		
-	}else{
-
-		titleFont="13px Tahoma";
-		legendFont="13px Tahoma";
-		valueAxisFont="13px Tahoma";
-		seriesFont="10px Tahoma";
-		cateFont="13px Tahoma";
-	}
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
@@ -50,7 +30,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 	         labels: {
                  visible: true,
                  template: "#= series.name2 #: #= value #",
-                 font:seriesFont,
+                 font:seriesDefaultsFont,
                  background: "transparent"
              }
 	     },
@@ -78,13 +58,14 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 	         labels: {
 	             //font: "10px Tahoma",
 	        	  //rotation : -50,
-	        	  font:cateFont
+	        	  font:categoryAxisFont
 	          }
 	          
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value) #"
+	         template: "#= series.name #: #= addCommas(value) #",
+	         font: tooltipFont,
 	         }
 	     });
 	 
@@ -437,7 +418,7 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 
 	};
 	/*####################### config dialog for tablet start ###################*/ 
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_CustomerPerMonthFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -450,8 +431,8 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 480,
+		 height:350,
 		 modal: true,
 
 	 });
@@ -594,10 +575,11 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_CusPerMonth(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	dialogSetParam_CustomerPerMonthFn("<b>"+graphName+"</b>");
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_CusPerMonth(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -623,7 +605,7 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_CustomerPerMonthFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

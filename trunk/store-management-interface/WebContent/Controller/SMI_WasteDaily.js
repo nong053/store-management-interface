@@ -86,7 +86,7 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
     		if(objdataSeriesWasteDailyPercentage[num1]!=0){
     			salesValue="="+objdataSeriesWasteDailyPercentage[num1]+"%";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
     	}
     	

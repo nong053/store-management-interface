@@ -19,13 +19,16 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 	     title: {
 	         text:titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	           position:"right"
+	           position:"right",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -33,7 +36,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 	         labels: {
                  visible: true,
                  template: "#= series.name2 #: #= value #",
-                 font:"10px Tahoma",
+                 font:seriesDefaultsFont,
                  background: "transparent"
              }
 	     },
@@ -49,7 +52,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 	             visible: true
 	         },
 	         labels: {
-	            // font: valueAxisFont,
+	             font: valueAxisFont,
 	             template: "#= kendo.format('{0:N0}', value ) # ",
 	             visible: false
 	        	
@@ -61,7 +64,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	             font: categoryAxisFont,
 	             
 	        	 // rotation : -50
 	          }
@@ -69,7 +72,8 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= value #"
+	         template: "#= series.name #: #= value #",
+	         font: tooltipFont,
 	         }
 	     });
 	 
@@ -88,7 +92,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
     		if(objdataSeriesBillWeeklyValueThisYear[num1]!=0){
     			salesValue="="+objdataSeriesBillWeeklyValueThisYear[num1]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
     	}
     	if(labelValueAmount[0]=="lastYear"){
@@ -97,7 +101,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
     		if(objDataSeriesBillWeeklyValueLastYear[num2]!=0){
     			salesValue="="+objDataSeriesBillWeeklyValueLastYear[num2]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
     	}
     	
@@ -107,7 +111,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
     		if(objDataSeriesBillWeeklyValueTarget[num3]!=0){
     			salesValue="="+objDataSeriesBillWeeklyValueTarget[num3]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num3++;
     	}
      });
@@ -496,10 +500,10 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 		
 	};
 	/*####################### config dialog for tablet start ###################*/ 
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_BillWeeklyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
-		 title:paramTitleSetting+"-Setting",
+		 title:"<b>"+paramTitleSetting+"-Setting</b>",
 		 autoOpen: false,
 		 show: {
 		 effect: "blind",
@@ -509,8 +513,8 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 480,
+		 height:350,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -684,10 +688,11 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_BillWeekly(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	dialogSetParam_SMI_BillWeeklyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_BillWeekly(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -717,7 +722,7 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_BillWeeklyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

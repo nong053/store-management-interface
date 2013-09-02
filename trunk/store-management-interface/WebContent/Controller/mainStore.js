@@ -9,6 +9,9 @@ $(document).ready(function(){
 	var graphWidth="580";
 	var graphHeight="270";
 	var paramMachine="Pc";
+	
+	
+	setFont(paramMachine);
 /*######################################Define Config End############################################*/
 /*#################################*/
  /*
@@ -2209,6 +2212,43 @@ function addCommas(nStr)
 	}
 	return x1 + x2;
 }	
+
+
+var valueAxisFont="";
+var labelsRotation="";
+var legendFont="";
+var categoryAxisFont="";
+var seriesDefaultsFont="";
+var tooltipFont="";
+
+var cateFont="";
+var seriesFont="";
+
+function setFont(paramMachine){
+	//ConfigFont
+	
+	if(paramMachine=="Tablet"){
+		//alert("Tablet");
+		seriesDefaultsFont="16px Tahoma";
+		valueAxisFont="20px Tahoma";
+		legendFont="16px Tahoma";
+		categoryAxisFont="16px Tahoma";
+		titleFont="20px Tahoma";
+		labelsRotation=0;
+		tooltipFont="16px Tahoma";
+		
+	}else{
+		//alert("PC");
+		seriesDefaultsFont="13px Tahoma";
+		valueAxisFont="12px Tahoma";
+		legendFont="13px Tahoma";
+		categoryAxisFont="10px Tahoma";
+		titleFont="13px Tahoma";
+		labelsRotation=0;
+		tooltipFont="13px Tahoma";
+	}
+	
+}
 //###############################function using share other funciton start ####################################
 
 

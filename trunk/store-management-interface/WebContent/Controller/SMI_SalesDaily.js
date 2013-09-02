@@ -3,7 +3,13 @@
 //call SMI_SalePerDay (  '2012-01-01' , '2012-03-31' , '322000' )
 
 function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,paramMachine,titieText){
-	
+	/*
+		alert("areaSalePerDay="+graphName);
+		alert("graphSeries="+graphSeries);
+		alert("graphCategory="+graphCategory);
+		alert("arIndex="+arIndex);
+	*/
+	/*
 	var valueAxisFont="";
 	var labelsRotation="";
 	var legendFont="";
@@ -24,6 +30,7 @@ function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,ar
 		titleFont="13px Tahoma";
 		labelsRotation=0;
 	}
+	*/
 	//alert(cateFont);
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
@@ -210,7 +217,7 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 			}
 			
 		}else{
-			alert("Not select over the month");
+			alert("Not select over month");
 		}
 		
 		
@@ -249,9 +256,9 @@ var dialogSetParam_SMI_SalePerDayFn=function(paramTitleSetting){
 	 effect: "fold",
 	 duration: 1000
 	 },
-	 width: 500,
+	 width: 450,
 	 //width: 700,
-	 height:310,
+	 height:300,
 	 modal: true,
 	
 	
@@ -337,7 +344,9 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 	 alert("--1"+startDate);
 	 alert("--2"+endDate);
 	 alert("--3"+branchId);
+	 
 	 */
+	
 	 $.ajax({
 			url:"../Model/SMI_SalePerDay.jsp",
 			type:"POST",
@@ -415,7 +424,7 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 				 var selectDate = new Date(startDate);
 				 var selectYYYY = selectDate.getFullYear();
 				 var selectMM = selectDate.getMonth()+1; //January is 0!
-				 
+				 console.log(series);
 				 var titieText="ยอดขายหน้าร้านรายวัน  "+getMonthName(selectMM)+" "+selectYYYY+"";
 				createChart_salePerDay(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titieText);
 				
