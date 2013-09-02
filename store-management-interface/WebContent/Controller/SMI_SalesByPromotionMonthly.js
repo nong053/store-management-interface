@@ -846,8 +846,8 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 690,
-		 height:332,
+		 width: 870,//+200
+		 height:384,//+50
 		 modal: true,
 		 /*
 		 buttons: {

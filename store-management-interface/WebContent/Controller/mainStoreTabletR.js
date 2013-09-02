@@ -176,15 +176,24 @@
 			}
 		});
 	}
-	function getStartDateParameter(graphNameArea,paramDate){
+	function getStartDateParameter(graphNameArea,paramDate,paramMachine){
+		var $buttonImage="";
+		if(paramMachine=="Tablet"){
+			$buttonImage="../images/calendarBig.gif";
+			readonly="readonly='readonly'";
+		}else{
+			$buttonImage="../images/calendar.gif";
+			readonly="";
+		}
+		
 		//alert(graphNameArea+"ll"+paramDate);
-		var html="<input type=\"text\" name=\"paramStartDate"+graphNameArea+"\" id=\"paramStartDate"+graphNameArea+"\" class=\"date\">";
+		var html="<input type=\"text\" "+readonly+" name=\"paramStartDate"+graphNameArea+"\" id=\"paramStartDate"+graphNameArea+"\" class=\"date\">";
 		$("td#areaParamStartDate"+graphNameArea).html(html);
 		
 		
 		$("#paramStartDate"+graphNameArea).datepicker({
 			 showOn: "button",
-			 buttonImage: "../images/calendar.gif",
+			 buttonImage: $buttonImage,
 			 buttonImageOnly: true
 			 });
 		 $("#paramStartDate"+graphNameArea).datepicker("option", "dateFormat", "yy-mm-dd");
@@ -192,13 +201,19 @@
 		 
 			
 	}
-	function getEndDateParameter(graphNameArea,paramDate){
-		var html="<input type=\"text\" name=\"paramEndDate"+graphNameArea+"\" id=\"paramEndDate"+graphNameArea+"\" class=\"date\">";
+	function getEndDateParameter(graphNameArea,paramDate,paramMachine){
+		var $buttonImage="";
+		if(paramMachine=="Tablet"){
+			$buttonImage="../images/calendarBig.gif";
+		}else{
+			$buttonImage="../images/calendar.gif";
+		}
+		var html="<input type=\"text\" "+readonly+" name=\"paramEndDate"+graphNameArea+"\" id=\"paramEndDate"+graphNameArea+"\" class=\"date\">";
 		$("td#areaParamEndDate"+graphNameArea).html(html);
 
 		$("#paramEndDate"+graphNameArea).datepicker({
 			 showOn: "button",
-			 buttonImage: "../images/calendar.gif",
+			 buttonImage: $buttonImage,
 			 buttonImageOnly: true
 			 });
 		 $("#paramEndDate"+graphNameArea).datepicker("option", "dateFormat", "yy-mm-dd");
@@ -502,10 +517,11 @@ $(document).ready(function(){
 		$("#btHideShow").live("click",function(){
 			//get count new myview 
 			
+			
+			if($("#leftMenu").hasClass("expansion")){
 			countMyViewFn();
 			$("#cateView").remove();
 			$("#boxContent>ul").append("<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
-			if($("#leftMenu").hasClass("expansion")){
 			expansionFn();
 			}else{
 			withdrawFn();	
@@ -1004,13 +1020,18 @@ $(document).ready(function(){
 					dataType:"json",
 					data:{"paramGraphName":graphName},
 					success:function(data){
-						//alert(data);
-						//alert(data[0][0]);
-						var numIndex=1;
-						//send graphName,graphType,graphId,graphNameTitle
-						createLayoutGraphNotReturn(data[0][0],data[0][1],data[0][2],"0",data[0][3]);
-						//boxSubGraph
-						createGraphByGaraphName(data[0][0],data[0][1],data[0][2]);
+						//data=SalePerDay,line,1,ยอดขายรายวันของหน้าร้าน
+						if($("#categroryNameTitle").text()==":: Myview"){
+						//send parameter graphName,myViewId,slotPosition,graphNameTitle
+						//graphName,graphType,graphId,arIndex,graphNameThaiLanguage,arMyView,myViewId
+						createLayoutGraphNotReturn(data[0][0],data[0][1],data[0][2],0,data[0][3],"MyView",data[0][4]);
+						}else{
+						//get funciton graphName,graphType,graphId,arIndex,graphNameThaiLanguage,arMyView,myViewId
+						createLayoutGraphNotReturn(data[0][0],data[0][1],data[0][2],0,data[0][3]);
+						}
+						//send graphName,graphType,index
+						createGraphByGaraphName(data[0][0],data[0][1],0);
+						
 						numListTopButton(0);
 						//touchSlider();
 					}
@@ -1018,6 +1039,7 @@ $(document).ready(function(){
 					
 				});
 				//CaSMI_callGraphBySubMenu
+				$("#btnShowHideSubMenu").trigger("click");
 			});
 			/*################### click sub graph for get graphp by id end  #####################*/ 
 			
@@ -1634,11 +1656,11 @@ $(document).ready(function(){
 			//###################Click category Default######################
 			/*####################### config dialog start ###################*/ 
 			
-			var dialogSlotFn=function(arGraphName){
+			var dialogSlotFn=function(){
 			//config dialog here
 				
 			 $("#dialogSlot").dialog({
-				 title:arGraphName,
+				 //title:arGraphName,
 				 autoOpen: false,
 				 show: {
 				 effect: "fade",
@@ -1697,32 +1719,32 @@ $(document).ready(function(){
 							
 							if(indexEntry[3]==1){
 								
-								slotStatus1="<div class=\"statusFav ballRed\"></div>";
+								slotStatus1="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 								slotTxt1="Slot#1 :"+indexEntry[1];
 							}
 							
 							if(indexEntry[3]==2){
-								slotStatus2="<div class=\"statusFav ballRed\"></div>";
+								slotStatus2="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 								slotTxt2="Slot#2 :"+indexEntry[1];
 							}
 							
 							if(indexEntry[3]==3){
-								slotStatus3="<div class=\"statusFav ballRed\"></div>";
+								slotStatus3="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 								slotTxt3="Slot#3 :"+indexEntry[1];
 							}
 							
 							if(indexEntry[3]==4){
-								slotStatus4="<div class=\"statusFav ballRed\"></div>";
+								slotStatus4="<div id=slotMyViewId"+indexEntry[4]+" id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 								slotTxt4="Slot#4 :"+indexEntry[1];
 							}
 							
 							if(indexEntry[3]==5){
-								slotStatus5="<div class=\"statusFav ballRed\"></div>";
+								slotStatus5="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 								slotTxt5="Slot#5 :"+indexEntry[1];
 							}
 							
 							if(indexEntry[3]==6){
-								slotStatus6="<div class=\"statusFav ballRed\"></div>";
+								slotStatus6="<div id=slotMyViewId"+indexEntry[4]+" class=\"statusFav ballRed\"></div>";
 								slotTxt6="Slot#6 :"+indexEntry[1];
 							}
 							
@@ -1799,8 +1821,9 @@ $(document).ready(function(){
 						
 						$(".selectListSlot").html(htmlSlot);
 						
-						//$("#dialogSlot").attr("title",arGraphName);
-						dialogSlotFn(arGraphName);
+						//$("#dialogSlot").attr("title","Add to My View");
+						$("#dialogSlot").attr("title","Add to My View");
+						dialogSlotFn();
 						
 					}
 				 });
@@ -1858,15 +1881,77 @@ $(document).ready(function(){
 			
 			//###########delelte grahp from myview end################
 			 
+			//###########check grahp on myview start#################
+			 var checkMyviewFn = function(arUserLogin,arSlotView){
+				 var checkSlot="";
+				 
+				 $.ajax({
+					 url:"../Model/uiCheckSlot.jsp",
+					 type:"get",
+					 dataType:"json",
+					 async:false,
+					 data:{"paramUserLogin":arUserLogin,"paramSlotView":arSlotView},
+					 success:function(data){
+						 checkSlot =data["slot"];
+						// listSlotFn(arUserLogin,arGraphId);
+					 }
+				 });
+				 return checkSlot;
+				 
+			 };
+			 //###########check grahp on myview end#################
+			 //###########update grahp to myview start#################
+			 var updateMyviewFn = function(arUserLogin,arGraphId,arSlotView,arMyviewId){
+
+				 
+				 $.ajax({
+					 url:"../Model/uiUpdateSlot.jsp",
+					 type:"get",
+					 dataType:"json",
+					 async:false,
+					 data:{"paramSlotView":arSlotView,"paramGraphId":arGraphId,"paramMyviewId":arMyviewId},
+					 success:function(data){
+						
+						 listSlotFn(arUserLogin,arGraphId);
+					 }
+				 });
+				 
+			 };
+			 //###########update grahp to myview end#################
+			 
 			 //click list for add myview start
 			 $(".slot").die();
 			 $(".slot").live("click",function(){
-				
+				/*
 				var slotView=this.id.substring("4");
 				var userLogin=$("#embParamUserLogin").val();
 				var graphId=$("#embparamGraphId").val();
-			
 				insertToMyviewFn(userLogin,slotView,graphId);
+				*/
+				 
+				 var slotView=this.id.substring("4");
+					var userLogin=$("#embParamUserLogin").val();
+					var graphId=$("#embparamGraphId").val();
+					console.log("--------------------------------");
+				
+					var idMyView=$(this).parent().parent().children().attr("id");
+					//alert(checkMyviewFn(userLogin,slotView));
+					if(checkMyviewFn(userLogin,slotView)=="thisEmpty"){
+						insertToMyviewFn(userLogin,slotView,graphId);
+					}else{
+						
+						if(confirm("Do you want to replace this myview?")){
+							
+							var idMyViewNumber = idMyView.substring("12");
+							updateMyviewFn(userLogin,graphId,slotView,idMyViewNumber);
+							
+							//alert("ok replaced");
+							  
+						 }
+						
+					}
+					
+					
 			 });
 			 //click list for add myview end
 			 

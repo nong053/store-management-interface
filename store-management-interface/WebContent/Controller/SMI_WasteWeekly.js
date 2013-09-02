@@ -84,17 +84,21 @@ function createChart_SMI_WasteWeekly(graphName,graphType,graphSeries,graphCatego
 	     title: {
 	    	 text: titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	           position:"rigth"
+	           position:"rigth",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
-	         type: ""+graphType+""
+	         type: ""+graphType+"",
+	         
 	     },
 	     
 	     series:graphSeries,
@@ -118,7 +122,7 @@ function createChart_SMI_WasteWeekly(graphName,graphType,graphSeries,graphCatego
 	             visible: true
 	         },
 	         labels: {
-	        	 //font: "10px Tahoma",
+	        	 font:valueAxisFont,
 	             template: "#= kendo.format('{0:N0}', value ) # ",
 	             visible: true
 	        	
@@ -131,14 +135,15 @@ function createChart_SMI_WasteWeekly(graphName,graphType,graphSeries,graphCatego
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	        	 font: categoryAxisFont,
 	        	  rotation : 0
 	          }
 	          
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value) #"
+	         template: "#= series.name #: #= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 };
@@ -407,7 +412,7 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 	};
 	/*####################### config dialog for tablet start ###################*/ 
 	
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_WasteWeeklyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -420,8 +425,8 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 450,
+		 height:300,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -452,10 +457,11 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_WasteWeekly(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	 dialogSetParam_SMI_WasteWeeklyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_WasteWeekly(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -475,7 +481,7 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_WasteWeeklyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

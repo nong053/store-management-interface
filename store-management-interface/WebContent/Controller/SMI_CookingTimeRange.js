@@ -11,12 +11,15 @@ function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphC
 			  title: {
 			    	 text: titleText,
 			         visible:true,
-			         font:"13px Tahoma"
+			         font:titleFont
 			  },
 
 	     legend: {
 	         visible: true,
-	           position:"right"
+	           position:"right",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -25,6 +28,7 @@ function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphC
 	         labels: {
                 visible: true,
                template: " #=addCommas(value) #",
+               font:seriesDefaultsFont,
                 //template: "#= addCommas(value) #",
                 //font:seriesFont,
                 background: "transparent",
@@ -53,7 +57,7 @@ function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphC
 	             visible: true
 	         },
 	         labels: {
-	        	 font: "10px Tahoma",
+	        	 font:valueAxisFont,
 	             template: "#= kendo.format('{0:N0}', value ) # ",
 	             visible: false
 	        	
@@ -66,13 +70,14 @@ function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphC
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	        	 font: categoryAxisFont,
 	        	 // rotation : -50
 	          }
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value)#"
+	         template: "#= series.name #: #= addCommas(value)#",
+	         font: tooltipFont
 	         }
 	     });
 };
@@ -317,7 +322,7 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 	};
 	/*####################### config dialog for tablet start ###################*/ 
 	
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_CookingTimeRangeFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -330,8 +335,8 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 450,
+		 height:300,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -362,10 +367,11 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_CookingTimeRange(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	 dialogSetParam_SMI_CookingTimeRangeFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_CookingTimeRange(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -384,7 +390,7 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_CookingTimeRangeFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

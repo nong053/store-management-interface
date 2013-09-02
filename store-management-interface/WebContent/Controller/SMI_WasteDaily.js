@@ -12,13 +12,16 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 	     title: {
 	    	 text: titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
 	         visible: false,
-	           position:"rigth"
+	           position:"rigth",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -27,6 +30,7 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
     		 labels: {
                  visible: true,
                 template: "#= series.name #: #=addCommas(value) #",
+                font:seriesDefaultsFont,
                  //template: "#= addCommas(value) #",
                  //font:seriesFont,
                  background: "transparent",
@@ -46,7 +50,7 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 	             visible: true
 	         },
 	         labels: {
-	        	 font: "10px Tahoma",
+	        	 font:valueAxisFont,
 	             template: "#= kendo.format('{0:N0}', value ) # ",
 	             visible: false
 	        	
@@ -59,14 +63,15 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	        	 font: categoryAxisFont,
 	        	  rotation : 0
 	          }
 	          
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value) #"
+	         template: "#= series.name #: #= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 	 
@@ -326,7 +331,7 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 	};
 	/*####################### config dialog for tablet start ###################*/ 
 	
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_WasteDailyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -339,8 +344,8 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 450,
+		 height:300,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -371,10 +376,11 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_WasteDaily(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	 dialogSetParam_SMI_WasteDailyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_WasteDaily(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -394,7 +400,7 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_WasteDailyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

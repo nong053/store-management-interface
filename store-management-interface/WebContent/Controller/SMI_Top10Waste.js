@@ -21,13 +21,16 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 	     title: {
 	    	 text: titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	           position:"ritgth"
+	           position:"ritgth",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -37,6 +40,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 	         labels: {
                 visible: true,
                template: "#= series.name2 #: #=addCommas(value) #",
+               font:seriesDefaultsFont,
                 //template: "#= addCommas(value) #",
                 //font:seriesFont,
                 background: "transparent",
@@ -65,7 +69,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 	             visible: true
 	         },
 	         labels: {
-	        	// font: "10px Tahoma",
+	        	 font:valueAxisFont,
 	             template: "#= kendo.format('{0:N0}', value ) # ",
 	             visible: false
 	        	
@@ -78,14 +82,15 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	        	 font: categoryAxisFont,
 	        	  rotation : 0
 	          }
 	          
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value) #"
+	         template: "#= series.name #: #= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 	 
@@ -371,7 +376,7 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 	};
 	/*####################### config dialog for tablet start ###################*/ 
 	
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_Top10WasteFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -384,8 +389,8 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 450,
+		 height:300,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -420,7 +425,7 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_Top10Waste(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	 dialogSetParam_SMI_Top10WasteFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_Top10Waste(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -440,7 +445,7 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_Top10WasteFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

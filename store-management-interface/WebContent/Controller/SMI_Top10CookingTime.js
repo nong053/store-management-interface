@@ -19,13 +19,17 @@ function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphC
 		  title: {
 		    	 text: titleText,
 		         visible:true,
-		         font:"13px Tahoma"
+		         font:titleFont,
+		         
 		     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	           position:"rigth"
+	           position:"rigth",
+	           labels: {
+	        	      font:legendFont
+       	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -34,6 +38,7 @@ function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphC
 	         labels: {
                 visible: true,
                template: " #=addCommas(value) #",
+               font:seriesDefaultsFont,
                 //template: "#= addCommas(value) #",
                 //font:seriesFont,
                 background: "transparent",
@@ -62,7 +67,7 @@ function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphC
 	             visible: true
 	         },
 	         labels: {
-		        	// font: "10px Tahoma",
+	        	 	 font:valueAxisFont,
 		             template: "#= kendo.format('{0:N0}', value ) # ",
 		             visible: false
 		        	
@@ -75,14 +80,15 @@ function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphC
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	        	 font: categoryAxisFont,
 	        	 // rotation : -50
 	          }
 	          
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value) #"
+	         template: "#= series.name #: #= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 };
@@ -369,8 +375,8 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 450,
+		 height:300,
 		 modal: true,
 		 /*
 		 buttons: {
