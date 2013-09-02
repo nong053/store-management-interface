@@ -104,7 +104,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
     		if(objdataSeriesTop10WasteValueThisMonth[num1]!=0){
     			salesValue="="+objdataSeriesTop10WasteValueThisMonth[num1]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
     	}
     	if(labelValueAmount[0]=="lastMonth"){
@@ -113,7 +113,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
     		if(objdataSeriesTop10WasteValueLastMonth[num2]!=0){
     			salesValue="="+objdataSeriesTop10WasteValueLastMonth[num2]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
     	}
      });
@@ -416,7 +416,8 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_Top10Waste(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
 			 	 dialogSetParamFn(graphName);

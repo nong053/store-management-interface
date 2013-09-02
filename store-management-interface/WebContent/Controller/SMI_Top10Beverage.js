@@ -16,13 +16,16 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
 	     title: {
 	    	 text: titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
-	         visible: true,
-	           position:"rigth"
+	           visible: true,
+	           position:"rigth",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -33,7 +36,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
                 visible: true,
                template: "#= series.name2 #: #=addCommas(value) #",
                 //template: "#= addCommas(value) #",
-                font:seriesFont,
+                font:seriesDefaultsFont,
                 background: "transparent",
                 rotation : 0
             }
@@ -59,7 +62,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
 	             visible: true
 	         },
 	         labels: {
-	        	 font: "10px Tahoma",
+	        	 font:valueAxisFont,
 	             template: "#= kendo.format('{0:N0}', value ) # ",
 	             visible: false
 	        	
@@ -72,13 +75,14 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	             font: categoryAxisFont,
 	        	  rotation : 0
 	          }
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= addCommas(value) #"
+	         template: "#= series.name #: #= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 	 
@@ -98,7 +102,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
     		if(objDataSeriesSaleValue[num1]!=0){
     			salesValue="="+objDataSeriesSaleValue[num1]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
     	}
     	if(labelValueAmount[0]=="lastMonth"){
@@ -107,7 +111,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
     		if(objDataSeriesSaleValueLastMonth[num2]!=0){
     			salesValue="="+objDataSeriesSaleValueLastMonth[num2]+"";
     		}
-    		$(this).html(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
+    		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
     	}
      });
@@ -225,7 +229,7 @@ var submit_SMI_Top10Beverage=function(graphNameArea,graphName,graphType,arIndex,
 	
 };
 /*####################### config dialog for tablet start ###################*/ 
-var dialogSetParamFn=function(paramTitleSetting){
+var dialogSetParam_SMI_Top10BeverageFn=function(paramTitleSetting){
 //config dialog here
  $(".areaSettingExternal").dialog({
 	 title:paramTitleSetting+"-Setting",
@@ -284,10 +288,11 @@ function manageParamtop10BeverageFn(graphNameArea,graphWidth,graphHeight,paramMa
 		 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 		 
 		 if(paramMachine=="Tablet"){
-			 $(".areaSettingExternal").empty();
+			 $(".areaSettingExternal").remove();
+			 $("body").append("<div class=\"areaSettingExternal\"></div>");
 		 	 $(".areaSettingExternal").prepend(htmlParam_SMI_Top10Beverage(graphNameArea));
 		 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-		 	 dialogSetParamFn(graphName);
+		 	dialogSetParam_SMI_Top10BeverageFn(graphName);
 		 }else{
 			 $("#"+graphNameArea+"").prepend(htmlParam_SMI_Top10Beverage(graphNameArea));
 			 
@@ -312,7 +317,7 @@ function manageParamtop10BeverageFn(graphNameArea,graphWidth,graphHeight,paramMa
 		 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 		 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 		 if(paramMachine=="Tablet"){
-			 dialogSetParamFn(graphName);
+			 dialogSetParam_SMI_Top10BeverageFn(graphName);
 		 }else{
 		 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 				 $(this).remove();

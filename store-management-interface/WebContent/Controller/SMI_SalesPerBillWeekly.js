@@ -6,10 +6,13 @@ function createChart_SMI_SalesPerBillWeekly(graphName,graphType,graphSeries,grap
 	//alert(graphWidth);
 	//alert(graphHeight);
 	/*
-	alert(graphName);
-	alert(graphType);
-	alert(graphSeries);
-	alert(graphCategory);
+seriesDefaultsFont
+valueAxisFont
+legendFont
+categoryAxisFont
+titleFont
+labelsRotation
+tooltipFont
 	*/
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
@@ -20,13 +23,16 @@ function createChart_SMI_SalesPerBillWeekly(graphName,graphType,graphSeries,grap
 	     title: {
 	         text: titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
 	     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	           position:"right"
+	           position:"right",
+	           labels: {
+	        	      font:legendFont
+	        	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -35,7 +41,7 @@ function createChart_SMI_SalesPerBillWeekly(graphName,graphType,graphSeries,grap
                  visible: true,
                  //template: "#=value#",
                  template: "#= addCommas(value) #",
-                 font:seriesFont,
+                 font:seriesDefaultsFont,
                  background: "transparent",
                  rotation : 0
              }
@@ -58,7 +64,7 @@ function createChart_SMI_SalesPerBillWeekly(graphName,graphType,graphSeries,grap
 	        // max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value)#",
-                // font:valueAxisFont
+                 font:valueAxisFont
              },
 	         line: {
 	             visible: false
@@ -74,14 +80,15 @@ function createChart_SMI_SalesPerBillWeekly(graphName,graphType,graphSeries,grap
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
+	             font: categoryAxisFont,
 	        	  rotation : 0
 	          }
 	          
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= value #"
+	         template: "#= series.name #: #= value #",
+	         font: tooltipFont
 	         }
 	     });
 };
@@ -501,7 +508,7 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 		
 	};
 	/*####################### config dialog for tablet start ###################*/ 
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_SalesPerBillWeeklyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -514,8 +521,8 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 480,
+		 height:350,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -545,10 +552,11 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_SalesPerBillWeekly(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	 dialogSetParam_SMI_SalesPerBillWeeklyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_SalesPerBillWeekly(graphNameArea));
 				 //call parameter start
@@ -582,7 +590,7 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_SalesPerBillWeeklyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

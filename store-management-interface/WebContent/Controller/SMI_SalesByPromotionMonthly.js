@@ -336,13 +336,17 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 	     title: {
 	         text: titleText,
 	         visible:true,
-	         font:"13px Tahoma"
+	         font:titleFont
+	         
 	     },
 	     
 	     
 	     legend: {
 	         visible: true,
-	         position:"right"
+	         position:"right",
+	         labels: {
+       	      font:legendFont
+       	    }
 	     },
 	     
 	     seriesDefaults: {
@@ -353,7 +357,7 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
                 visible: true,
                // template: "#= series.name #: #=value #",
                 template: "#= addCommas(value) #",
-                font:seriesFont,
+                font:seriesDefaultsFont,
                 background: "transparent",
                 rotation : 0
             }
@@ -375,7 +379,7 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 	        // max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value)#",
-                 //font:valueAxisFont
+                 font:valueAxisFont
              },
 	         line: {
 	             visible: false
@@ -391,8 +395,8 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 	             visible: true
 	         },
 	         labels: {
-	             font: "10px Tahoma",
-	        	  rotation : 0
+	        	 font: categoryAxisFont,
+	        	 rotation : 0
 	          }
 	          
 	     },
@@ -400,6 +404,7 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 	         visible: true,
 	         //template: "#= series.name #: #= value #"
 	         template: "#= series.name #:#= addCommas(value) #",
+	         font: tooltipFont
 	         }
 	     });
 };
@@ -828,10 +833,10 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 		
 	};
 	/*####################### config dialog for tablet start ###################*/ 
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_SalesByPromotionMonthlyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
-		 title:paramTitleSetting+"-Setting",
+		 title:"<b>"+paramTitleSetting+"-Setting</b>",
 		 autoOpen: false,
 		 show: {
 		 effect: "blind",
@@ -841,8 +846,8 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 690,
+		 height:332,
 		 modal: true,
 		 /*
 		 buttons: {
@@ -872,10 +877,11 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
 			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_SalesByPromotionMonthly(graphNameArea));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	dialogSetParam_SMI_SalesByPromotionMonthlyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_SalesByPromotionMonthly(graphNameArea));
 				 //call parameter start
@@ -920,7 +926,7 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_SalesByPromotionMonthlyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();

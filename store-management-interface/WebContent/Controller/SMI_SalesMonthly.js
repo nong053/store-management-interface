@@ -46,7 +46,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 			    //background: ""
 			  },
 	     title: {
-	         text: "(พัน) ยอดขาย"+currentMTD+"(MTD)",
+	         text: "(หน่วย:พันบาท) ยอดขาย"+currentMTD+"(MTD)",
 	         visible:true,
 	         font: titleFont
 	     },
@@ -136,7 +136,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     		if(objDataDiffSalesMonthlyMTD[num]!=0){
     			diffPercentage=","+objDataDiffSalesMonthlyMTD[num]+"%";
     		}
-    		$(this).html(""+addCommas(labelValueMTD[1])+"</br>"+diffPercentage+"");
+    		$(this).text(""+addCommas(labelValueMTD[1])+""+diffPercentage+"");
     		num++;
     	}
      });
@@ -186,7 +186,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 			    //background: ""
 			  },
 	     title: {
-	         text: "(พัน) ยอดขาย "+currentYTD+"(YTD)",
+	         text: "(หน่วย:พันบาท) ยอดขาย "+currentYTD+"(YTD)",
 	         visible:true,
 	         font: titleFont
 	     },
@@ -279,7 +279,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		if(objDataDiffSalesMonthlyYTD[num]!=0){
     			diffPercentage=","+objDataDiffSalesMonthlyYTD[num]+"%";
     		}
-    		$(this).html(""+addCommas(labelValueYTD[1])+"</br>"+diffPercentage+"");
+    		$(this).text(""+addCommas(labelValueYTD[1])+""+diffPercentage+"");
     		num++;
     	}
      });
@@ -397,7 +397,17 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 	
 	
 	//##################################### Set Parameter Here Start ###############################
-	var htmlParam_SMI_SalePerMonth = function(graphNameArea){
+	var htmlParam_SMI_SalePerMonth = function(graphNameArea,paramMachine){
+		
+		var readonly="";
+		if(paramMachine=="Tablet"){
+			//alert("tablet");
+			readonly="readonly='readonly'";
+			//readonly="";
+		}else{
+			readonly="";
+		}
+		
 		 var htmlParam ="";
 		 htmlParam+="<div id=\"setParamForm\" class=\"setParamForm"+graphNameArea+"\">";
 		 htmlParam+="<div class=\"setParamArea\">";
@@ -429,7 +439,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 						htmlParam+="<b>Date</b>";
 					htmlParam+="</td>";
 					htmlParam+="<td>";
-						htmlParam+="<input type=\"text\" name=\"paramDate"+graphNameArea+"\" id=\"paramDate"+graphNameArea+"\" class=\"date\">";
+						htmlParam+="<input type=\"text\"  "+readonly+" name=\"paramDate"+graphNameArea+"\" id=\"paramDate"+graphNameArea+"\" class=\"date\">";
 		 			htmlParam+="</td>";
 		 		htmlParam+="</tr>";
 
@@ -454,7 +464,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 
 	var submit_SMI_SalePerMonth=function(graphNameArea,graphName,graphType,arIndex,graphWidth,graphHeight,paramMachine){
 		//SalePerMonthSubmitareaSalePerMonth-0
-		//alert(graphNameArea);
+		
 		$("#SalePerMonthSubmit"+graphNameArea).die("click");
 		$("#SalePerMonthSubmit"+graphNameArea).live("click",function(){
 			/*
@@ -485,7 +495,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 			//call function create graph for gernarate new graph
 			//SalePerMonth
 			//graphName,graphType,arIndex,currentDate,brach
-			salePerMonthFn(graphName,graphType,arIndex,paramDate,paramBranch,graphWidth,graphHeight);
+			salePerMonthFn(graphName,graphType,arIndex,paramDate,paramBranch,paramMachine);
 			if(paramMachine=="Tablet"){
 				$(".ui-icon-closethick").trigger("click");
 
@@ -513,7 +523,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 		
 	};
 	/*####################### config dialog for tablet start ###################*/ 
-	var dialogSetParamFn=function(paramTitleSetting){
+	var dialogSetParam_SMI_SalesMonthlyFn=function(paramTitleSetting){
 	//config dialog here
 	 $(".areaSettingExternal").dialog({
 		 title:paramTitleSetting+"-Setting",
@@ -526,8 +536,8 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 		 effect: "explode",
 		 duration: 1000
 		 },
-		 width: 350,
-		 height:235,
+		 width: 440,//+90
+		 height:250,//+20
 		 modal: true,
 		 /*
 		 buttons: {
@@ -573,19 +583,27 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 	}	
 	
 	function manageParamSalePerMonthFn(graphNameArea,graphWidth,graphHeight,paramMachine){
+		var $buttonImage="";
+		if(paramMachine=="Tablet"){
+			$buttonImage="../images/calendarBig.gif";
+		}else{
+			$buttonImage="../images/calendar.gif";
+		}
+		
 		 var graphNameAreaIndexArray=graphNameArea.split("-");
 		 var graphName=graphNameAreaIndexArray[0].substring("4");
 		 var graphIndex=graphNameAreaIndexArray[1];
-		 
+		  
 		if($("#"+graphNameArea+"").attr("class")=="graphTop"){
 			 
 			 $("#"+graphNameArea+"").attr({"class":"graphTop clicked"});
 			 
 			 if(paramMachine=="Tablet"){
-				 $(".areaSettingExternal").empty();
-			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_SalePerMonth(graphNameArea));
+				 $(".areaSettingExternal").remove();
+				 $("body").append("<div class=\"areaSettingExternal\"></div>");
+			 	 $(".areaSettingExternal").prepend(htmlParam_SMI_SalePerMonth(graphNameArea,paramMachine));
 			 	 $(".setParamForm"+graphNameArea+" .setParamHeader").empty();
-			 	 dialogSetParamFn(graphName);
+			 	dialogSetParam_SMI_SalesMonthlyFn(graphName);
 			 }else{
 				 $("#"+graphNameArea+"").prepend(htmlParam_SMI_SalePerMonth(graphNameArea));
 				 $(".setParamForm"+graphNameArea).slideDown();
@@ -594,7 +612,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 			
 			 $(".date").datepicker({
 				 showOn: "button",
-				 buttonImage: "../images/calendar.gif",
+				 buttonImage: ""+$buttonImage+"",
 				 buttonImageOnly: true
 				 });
 			 
@@ -642,7 +660,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 			 $("#"+graphNameArea+"").attr({"class":"graphTop"});
 			 //$("#graph1").prepend("<div id=\"setParam\">Set Parameter</div>");
 			 if(paramMachine=="Tablet"){
-				 dialogSetParamFn(graphName);
+				 dialogSetParam_SMI_SalesMonthlyFn(graphName);
 			 }else{
 			 $(".setParamForm"+graphNameArea).slideUp("1000",function(){
 					 $(this).remove();
