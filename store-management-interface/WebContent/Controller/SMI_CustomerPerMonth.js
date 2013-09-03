@@ -112,7 +112,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 };
 
 //#######################Embed parameter Function start #################
-function embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval){
+function embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWeek,endWeek){
 	//alert("hello emped parameter");
 	////Embed Default Parameter start
 	var paramDefaultEmbedHtml="" +
@@ -121,8 +121,6 @@ function embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWee
 		"<li class=\"paramYear\">"+paramYear+"</li>" +
 		"<li class=\"paramStartWeek\">"+startWeek+"</li>" +
 		"<li class=\"paramEndWeek\">"+endWeek+"</li>" +
-		"<li class=\"paramStartWeekInterval\">"+startWeekInterval+"</li>" +
-		"<li class=\"paramEndWeekInterval\">"+endWeekInterval+"</li>" +
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -132,14 +130,11 @@ function embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWee
 //#######################Embed parameter Function end #################
 						  //graphName,graphType,arIndex,branchId,paramYear,startWeek,endWeek,graphWidth,graphHeight
 function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine){
-	
-	alert(startWeek);
-	alert(endWeek);
+
 	//Embed Default Parameter start
-	var startWeekInterval= getWeekInterval(startWeek);
-	var endWeekInterval=getWeekInterval(endWeek);
+
 	//alert(endWeekInterval);
-	embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval);
+	embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWeek,endWeek);
 	//Embed Default Parameter end
 
 	 $.ajax({
@@ -387,9 +382,8 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 			var startWeek=$("#paramStartWeek"+graphNameArea).val();
 			var endWeek=$("#paramEndWeek"+graphNameArea).val();
 			//Embed Default Parameter start
-			var startWeekInterval= getWeekInterval(startWeek);
-			var endWeekInterval=getWeekInterval(endWeek);
-			embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval);
+		
+			embedParameterCustomerPerMonth(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
 			

@@ -1,5 +1,21 @@
 
 	//###################function using share other funciton start##########################
+
+	//date Time start
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if (mm < 10) {
+		    mm = '0' + mm;
+		}
+
+		if (dd < 10) {
+		    dd = '0' + dd;
+		}
+	//date Time end
+		
 	var branchId="";
 	function getFirstBranch(userLogin){
 		 $.ajax({
@@ -12,6 +28,25 @@
 				}
 			 });
 	}
+	
+	 var currentWeekNumber="";
+	function getCurrentWeek(){
+	var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
+		$.ajax({
+			 url:"../Model/currentWeek.jsp",
+			 type:"get",
+			 dataType:"json",
+			 async :false,
+			 data:{"paramDate":currentDate},
+			 success:function(data){
+				//send branch,year,startWeek,endWeek
+				 currentWeekNumber=data[0][1].substring("1");
+
+			 }
+			 
+		 });
+	}
+	
 	
 	function getBranchParameter(graphNameArea,branchCode){
 		//alert("branchCode"+branchCode);
@@ -336,20 +371,6 @@
 	//Get return monthName end
 
 
-	//date Time start
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
-
-	if (mm < 10) {
-		    mm = '0' + mm;
-		}
-
-		if (dd < 10) {
-		    dd = '0' + dd;
-		}
-		 //date Time start	
 
 	function getYearONDate(date){
 		
@@ -438,6 +459,81 @@
 		}
 		
 	}
+	//function num amount graph in myview start
+	var countMyView="";
+	var countMyViewFn= function(userLogin){
+		
+	$.ajax({
+		url:"../Model/countGrMyView.jsp",
+		type:"get",
+		dataType:"json",
+		async:false,
+		data:{"paramUserLogin":userLogin},
+		success:function(data){
+			//console.log(data[0][0]);
+			if(data[0][0]){
+				countMyView= data[0][0];
+			}else{
+				countMyView= 0;
+			}
+			 //alert("countMyView"+countMyView);
+			
+		}
+		
+	});
+	
+	};
+	
+	//Left Menu Hide Show Start
+	var createMenuLeft = function(){
+		
+		var htmlMenuLeft="" +
+				"<div id=\"boxContent\">" +
+					"<ul>" +
+						"<li class=\"selected\" id=\"mainMenu\">Main Menu</li>";
+						
+						$.ajax({
+							url:"../Model/ui_SMI_ListAllCategory.jsp",
+							type:"get",
+							dataType:"json",
+							async:false,
+							cache:true,
+							success:function(data){
+								//alert(data);
+								$.each(data,function(index,EntryIndex){
+									
+									$.ajax({
+										url:"../Model/ui_SMI_ListGraphOfCategory.jsp",
+										type:"POST",
+										dataType:"json",
+										async:false,
+										cache:true,
+										data:{"paramCateId":EntryIndex[0]},
+										success:function(data){
+											//alert(EntryIndex[0]);
+											//alert(data.length);
+											htmlMenuLeft+="<li class=\"cateGraph\" id=\""+EntryIndex[0]+"\"><a href=\"#\">"+EntryIndex[1]+"("+data.length+")</a></li>";
+										}
+									});
+									
+								});
+							}
+						});
+						
+						htmlMenuLeft+="<li class=\"cateGraph cateView\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>" +
+					"</ul>" +
+				"</div>" +
+				"";
+		 
+		 //$("#leftMenu").html(htmlMenuLeft);
+		   //$("#leftMenu").html($("#areaLeftMenu").html());
+		   $("#areaLeftMenu").html(htmlMenuLeft);
+	};
+	//createMenuLeft();
+	//alert(createMenuLeft());
+	
+	//Left Menu Hide Show End
+	
 	//###############################function using share other funciton start ####################################
 $(document).ready(function(){
 	
@@ -451,6 +547,9 @@ $(document).ready(function(){
 	//call function top start
 	getFirstBranch(userLogin);
 	setFont(paramMachine);
+	countMyViewFn(userLogin);
+	getCurrentWeek();
+	createMenuLeft();
 	/*#########################Ajax start##########################*/
 	//ajax Start
 	$("#loading").ajaxStart(function(){
@@ -475,6 +574,7 @@ $(document).ready(function(){
 		$(".touchslider-demo").touchSlider({mouseTouch: true});
 		};
 		
+		/*
 		//function num amount graph in myview start
 		var countMyView="";
 		var countMyViewFn= function(){
@@ -500,6 +600,7 @@ $(document).ready(function(){
 		
 		};
 		countMyViewFn();
+		*/
 		//######################Function Expantion left menu start##########################
 		var expansionFn = function(){
 			
@@ -516,12 +617,16 @@ $(document).ready(function(){
 		//$("#btHideShow").die("click");
 		$("#btHideShow").live("click",function(){
 			//get count new myview 
+			//increse performance create function menu left create once.
 			
 			
 			if($("#leftMenu").hasClass("expansion")){
-			countMyViewFn();
-			$("#cateView").remove();
-			$("#boxContent>ul").append("<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
+			//countMyViewFn(userLogin);
+			//Pull html left menu get to leftMenu
+			$("#leftMenu").html($("#areaLeftMenu").html());
+			
+			$(".cateView").remove();
+			$("#boxContent>ul").append("<li class=\"cateGraph cateView\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
 			expansionFn();
 			}else{
 			withdrawFn();	
@@ -852,51 +957,7 @@ $(document).ready(function(){
 			
 			//createMainLayout();
 		
-		//Left Menu Hide Show Start
-			var createMenuLeft = function(){
-				
-				var htmlMenuLeft="" +
-						"<div id=\"boxContent\">" +
-							"<ul>" +
-								"<li class=\"selected\" id=\"mainMenu\">Main Menu</li>";
-								
-								$.ajax({
-									url:"../Model/ui_SMI_ListAllCategory.jsp",
-									type:"get",
-									dataType:"json",
-									async:false,
-									success:function(data){
-										//alert(data);
-										$.each(data,function(index,EntryIndex){
-											
-											$.ajax({
-												url:"../Model/ui_SMI_ListGraphOfCategory.jsp",
-												type:"POST",
-												dataType:"json",
-												async:false,
-												data:{"paramCateId":EntryIndex[0]},
-												success:function(data){
-													//alert(EntryIndex[0]);
-													//alert(data.length);
-													htmlMenuLeft+="<li class=\"cateGraph\" id=\""+EntryIndex[0]+"\"><a href=\"#\">"+EntryIndex[1]+"("+data.length+")</a></li>";
-												}
-											});
-											
-										});
-									}
-								});
-								
-								htmlMenuLeft+="<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>" +
-							"</ul>" +
-						"</div>" +
-						"";
-				 
-				 $("#leftMenu").html(htmlMenuLeft);
-			};
-			createMenuLeft();
-			//alert(createMenuLeft());
-			
-			//Left Menu Hide Show End
+		
 			
 			/*###################Create layout####################*/
 			
@@ -1014,8 +1075,14 @@ $(document).ready(function(){
 				var graphNameArray = this.id.split("-");
 				var graphName=graphNameArray[1];
 				//alert(graphId);
+				var typeCate="";
+				if($("#categroryNameTitle").text()==":: Myview"){
+					typeCateUrl="../Model/SMI_callGraphBySubMenuMyView.jsp";
+				}else{
+					typeCateUrl="../Model/SMI_callGraphBySubMenu.jsp";
+				}
 				$.ajax({
-					url:"../Model/SMI_callGraphBySubMenu.jsp",
+					url:typeCateUrl,
 					type:"get",
 					dataType:"json",
 					data:{"paramGraphName":graphName},
@@ -1091,20 +1158,7 @@ $(document).ready(function(){
 					//Defualt Parameter Start
 					
 						
-							 var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
 							 
-							 
-							
-							 $.ajax({
-								 url:"../Model/currentWeek.jsp",
-								 type:"get",
-								 dataType:"json",
-								 async :false,
-								 data:{"paramDate":currentDate},
-								 success:function(data){
-
-									//send branch,year,startWeek,endWeek
-									 var currentWeekNumber=data[0][1].substring("1");
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
@@ -1116,11 +1170,8 @@ $(document).ready(function(){
 											paramYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
 									 }
 									
-									 
 									 customerPerMonthFn(graphName,graphType,arIndex,branchId,paramYear,startWeek,endWeek,graphWidth,graphHeight);
-								 }
-								 
-							 });
+								
 							
 					//Defualt Parameter End
 
@@ -1129,23 +1180,7 @@ $(document).ready(function(){
 					//g4
 					//Defualt Parameter Start
 	
-							 var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
-	
-							 $.ajax({
-								 url:"../Model/currentWeek.jsp",
-								 type:"get",
-								 dataType:"json",
-								 async :false,
-								 data:{"paramDate":currentDate},
-								 success:function(data){
-									 /*
-									 alert(data[0][1]);
-									 alert(branchId);
-									 alert(yyyy);
-									 */
-									//send branch,year,startWeek,endWeek
-									//salePerMonthFn(graphName,graphType,arIndex,currentDate,branchId);
-									 var currentWeekNumber=data[0][1].substring("1");
+							 
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
@@ -1157,9 +1192,7 @@ $(document).ready(function(){
 											paramYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
 									 }
 									BillWeeklyFn(graphName,graphType,arIndex,branchId,paramYear,startWeek,endWeek,graphWidth,graphHeight);
-								 }
-								 
-							 });
+								
 							
 						
 					//Defualt Parameter End
@@ -1171,45 +1204,21 @@ $(document).ready(function(){
 					//Defualt Parameter Start
 					
 						
-							 var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
 							
-							 
-							
-							 $.ajax({
-								 url:"../Model/currentWeek.jsp",
-								 type:"get",
-								 dataType:"json",
-								 async :false,
-								 data:{"paramDate":currentDate},
-								 success:function(data){
-									 /*
-									 var currentWeekNumber=data[0][1].substring("1");
-									 					//graphName,graphType,arIndex,paramBrach,paramYear,startWeek,endWeek,graphWidth,graphHeight
-									 salesPerBillWeeklyFn(graphName,graphType,arIndex,branchId,yyyy,currentWeekNumber,currentWeekNumber,graphWidth,graphHeight);
-									 */
-									 var currentWeekNumber=data[0][1].substring("1");
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
-										 	
 										 	paramYear=yyyy;
 										}else{
 											startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
 											endWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeek").text();
 											branchId=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 											paramYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-											/*
-											alert("startWeek"+startWeek);
-											alert("endWeek"+endWeek);
-											alert("branchId"+branchId);
-											alert("paramYear"+paramYear);
-											*/
+										
 									 }
 									 salesPerBillWeeklyFn(graphName,graphType,arIndex,branchId,paramYear,startWeek,endWeek,graphWidth,graphHeight);
 									
-								 }
-								 
-							 });
+							
 							
 					
 					//Defualt Parameter End
@@ -1236,19 +1245,20 @@ $(document).ready(function(){
 					
 					//g7
 					//Defualt Parameter Start
+										var paramWeekNumber="";
+									
+										if($(".paramDefaultEmbed"+graphName).text()==""){
+											paramWeekNumber=currentWeekNumber; 
+											paramYear=yyyy;
+											
+										}else{
 					
-							 var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
-							 $.ajax({
-								 url:"../Model/currentWeek.jsp",
-								 type:"get",
-								 dataType:"json",
-								 async :false,
-								 data:{"paramDate":currentDate},
-								 success:function(data){
-									 	var paramWeekNumber=data[0][1].substring("1");
-										wasteWeeklyFn(graphName,graphType,arIndex,branchId,yyyy,paramWeekNumber,graphWidth,graphHeight);
-									}
-							 });
+											paramWeekNumber=$("ul.paramDefaultEmbed"+graphName+">li.paramWeek").text();
+											branchId=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
+											paramYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
+										
+										}
+										wasteWeeklyFn(graphName,graphType,arIndex,branchId,paramYear,paramWeekNumber,graphWidth,graphHeight);
 								
 					
 					//Defualt Parameter End
@@ -1258,23 +1268,6 @@ $(document).ready(function(){
 					//g8
 					//Defualt Parameter Start
 					
-							 var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
-							
-							 
-							
-							 $.ajax({
-								 url:"../Model/currentWeek.jsp",
-								 type:"get",
-								 dataType:"json",
-								 async :false,
-								 data:{"paramDate":currentDate},
-								 success:function(data){
-									 /*
-									 var currentWeekNumber=data[0][1].substring("1");
-									 					//graphName,graphType,arIndex,paramBrach,paramYear,startWeek,endWeek,graphWidth,graphHeight
-									 SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,branchId,yyyy,currentWeekNumber,currentWeekNumber,graphWidth,graphHeight);
-								 	*/
-									 var currentWeekNumber=data[0][1].substring("1");
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
@@ -1295,9 +1288,7 @@ $(document).ready(function(){
 									 SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,branchId,paramYear,startWeek,endWeek,graphWidth,graphHeight);
 									
 								 	
-								 }
-								 
-							 });
+						
 							
 						
 					//Defualt Parameter End
@@ -1568,7 +1559,7 @@ $(document).ready(function(){
 				withdrawFn();
 				//alert("cateGraph");
 				createMainLayout();
-				createMenuLeft();
+				//createMenuLeft();
 				
 				
 				//$("#boxR a.touchslider-nav-item").eq(0).click();
@@ -1755,7 +1746,7 @@ $(document).ready(function(){
 						htmlSlot+="<ul>";
 						
 							htmlSlot+="<li>";
-							htmlSlot+="<div>";
+							htmlSlot+="<div class=\"boxSlot\">";
 								htmlSlot+=slotStatus1;
 								htmlSlot+="<div class=\"slotFavName\">";
 									htmlSlot+="<a class=\"slot\" id=\"slot1\" href=\"#\">";
@@ -1766,7 +1757,7 @@ $(document).ready(function(){
 							htmlSlot+="</li>";
 							
 							htmlSlot+="<li>";
-							htmlSlot+="<div>";
+							htmlSlot+="<div class=\"boxSlot\">";
 							htmlSlot+=slotStatus2;
 							htmlSlot+="<div class=\"slotFavName\">";
 								htmlSlot+="<a class=\"slot\" id=\"slot2\" href=\"#\">";
@@ -1777,38 +1768,46 @@ $(document).ready(function(){
 							htmlSlot+="</li>";
 						
 							htmlSlot+="<li>";
-							htmlSlot+=slotStatus3;
-							htmlSlot+="<div class=\"slotFavName\">";
-								htmlSlot+="<a class=\"slot\" id=\"slot3\" href=\"#\">";
-									htmlSlot+=slotTxt3;
-								htmlSlot+="</a>";
+							htmlSlot+="<div class=\"boxSlot\">";
+								htmlSlot+=slotStatus3;
+								htmlSlot+="<div class=\"slotFavName\">";
+									htmlSlot+="<a class=\"slot\" id=\"slot3\" href=\"#\">";
+										htmlSlot+=slotTxt3;
+									htmlSlot+="</a>";
+								htmlSlot+="</div>";
 							htmlSlot+="</div>";
 							htmlSlot+="</li>";
 							
 							htmlSlot+="<li>";
-							htmlSlot+=slotStatus4;
-							htmlSlot+="<div class=\"slotFavName\">";
-								htmlSlot+="<a class=\"slot\" id=\"slot4\" href=\"#\">";
-									htmlSlot+=slotTxt4;
-								htmlSlot+="</a>";
+							htmlSlot+="<div class=\"boxSlot\">";
+								htmlSlot+=slotStatus4;
+								htmlSlot+="<div class=\"slotFavName\">";
+									htmlSlot+="<a class=\"slot\" id=\"slot4\" href=\"#\">";
+										htmlSlot+=slotTxt4;
+									htmlSlot+="</a>";
+								htmlSlot+="</div>";
 							htmlSlot+="</div>";
 							htmlSlot+="</li>";
 							
 							htmlSlot+="<li>";
-							htmlSlot+=slotStatus5;
-							htmlSlot+="<div class=\"slotFavName\">";
-								htmlSlot+="<a class=\"slot\" id=\"slot5\" href=\"#\">";
-									htmlSlot+=slotTxt5;
-								htmlSlot+="</a>";
+							htmlSlot+="<div class=\"boxSlot\">";
+								htmlSlot+=slotStatus5;
+								htmlSlot+="<div class=\"slotFavName\">";
+									htmlSlot+="<a class=\"slot\" id=\"slot5\" href=\"#\">";
+										htmlSlot+=slotTxt5;
+									htmlSlot+="</a>";
+								htmlSlot+="</div>";
 							htmlSlot+="</div>";
 							htmlSlot+="</li>";
 							
 							htmlSlot+="<li>";
-							htmlSlot+=slotStatus6;
-							htmlSlot+="<div class=\"slotFavName\">";
-								htmlSlot+="<a class=\"slot\" id=\"slot6\" href=\"#\">";
-									htmlSlot+=slotTxt6;
-								htmlSlot+="</a>";
+							htmlSlot+="<div class=\"boxSlot\">";
+								htmlSlot+=slotStatus6;
+								htmlSlot+="<div class=\"slotFavName\">";
+									htmlSlot+="<a class=\"slot\" id=\"slot6\" href=\"#\">";
+										htmlSlot+=slotTxt6;
+									htmlSlot+="</a>";
+								htmlSlot+="</div>";
 							htmlSlot+="</div>";
 							htmlSlot+="</li>";
 							htmlSlot+="<br style=\"clear:both\">";
@@ -1841,6 +1840,7 @@ $(document).ready(function(){
 					 success:function(data){
 						
 						 listSlotFn(arUserLogin,arGraphId);
+						 countMyViewFn(userLogin);
 					 }
 				 });
 				 
@@ -1865,6 +1865,7 @@ $(document).ready(function(){
 				 if(confirm("Do you want to remove form myview?")){
 					//alert(myviewId);
 					 deleteFromMyView(myviewId);
+					 countMyViewFn(userLogin);
 					  
 				 }
 			 });

@@ -121,7 +121,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
 
 //Embed parameter function start
-function embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval){
+function embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek,endWeek){
 	//Embed Default Parameter start
 	var paramDefaultEmbedHtml="" +
 	"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
@@ -129,8 +129,7 @@ function embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek
 		"<li class=\"paramYear\">"+paramYear+"</li>" +
 		"<li class=\"paramStartWeek\">"+startWeek+"</li>" +
 		"<li class=\"paramEndWeek\">"+endWeek+"</li>" +
-		"<li class=\"paramStartWeekInterval\">"+startWeekInterval+"</li>" +
-		"<li class=\"paramEndWeekInterval\">"+endWeekInterval+"</li>" +
+
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -142,9 +141,8 @@ function embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek
 function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight){
 	
 	//Embed Default Parameter start
-	var startWeekInterval= getWeekInterval(startWeek);
-	var endWeekInterval=getWeekInterval(endWeek);
-	embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval);
+	
+	embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek,endWeek);
 	//Embed Default Parameter end
 	
 	 $.ajax({
@@ -464,9 +462,8 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 			var startWeek=$("#paramStartWeek"+graphNameArea).val();
 			var endWeek=$("#paramEndWeek"+graphNameArea).val();
 			//Embed Default Parameter start
-			var startWeekInterval= getWeekInterval(startWeek);
-			var endWeekInterval=getWeekInterval(endWeek);
-			embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval);
+		
+			embedParameter_SMI_BillWeekly(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
 			

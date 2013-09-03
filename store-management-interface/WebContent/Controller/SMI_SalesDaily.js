@@ -97,7 +97,7 @@ function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,ar
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= value #"
+	         template: "#= series.name #: #= addCommas(value) #",
 	         }
 	     });
 };
