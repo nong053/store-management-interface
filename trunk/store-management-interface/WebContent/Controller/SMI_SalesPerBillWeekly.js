@@ -99,7 +99,7 @@ tooltipFont
 
 
 //#######################Embed parameter Function start #################
-function embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval){
+function embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek){
 	//Embed Default Parameter start
 	var paramDefaultEmbedHtml="" +
 	"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
@@ -107,8 +107,7 @@ function embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear
 		"<li class=\"paramYear\">"+paramYear+"</li>" +
 		"<li class=\"paramStartWeek\">"+startWeek+"</li>" +
 		"<li class=\"paramEndWeek\">"+endWeek+"</li>" +
-		"<li class=\"paramStartWeekInterval\">"+startWeekInterval+"</li>" +
-		"<li class=\"paramEndWeekInterval\">"+endWeekInterval+"</li>" +
+
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -120,9 +119,8 @@ function embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear
 function salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight){
 	
 	//Embed Default Parameter start
-	var startWeekInterval= getWeekInterval(startWeek);
-	var endWeekInterval=getWeekInterval(endWeek);
-	embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval);
+
+	embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek);
 	//Embed Default Parameter end
 	
 	 $.ajax({
@@ -472,10 +470,9 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 			var paramYear=$("#paramYear"+graphNameArea).val();
 			var startWeek=$("#paramStartWeek"+graphNameArea).val();
 			var endWeek=$("#paramEndWeek"+graphNameArea).val();
-			var startWeekInterval= getWeekInterval(startWeek);
-			var endWeekInterval=getWeekInterval(endWeek);
+	
 			//Embed Default Parameter start
-			embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek,startWeekInterval,endWeekInterval);
+			embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
 			

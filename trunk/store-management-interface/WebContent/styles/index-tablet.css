@@ -411,6 +411,10 @@ div#selectFav ul li{
 	
 	
 }
+div#selectFav ul li .boxSlot{
+	width:380px;
+	
+}
 #selectFav ul li .slotFavName a{
     display:block;
 	border-bottom:1px solid white;
@@ -491,7 +495,7 @@ div#selectFav ul li{
 	width:370px;
 	height:445px;
 	background:black;
-	opacity:0.85;
+	opacity:0.80;
 	
 }
 #contentArea .subGraph #boxSubGraph #areaBtnShowHideSubMenu{
@@ -602,6 +606,7 @@ div#selectFav ul li{
 }
 .chartYTD{
 	float:left;
+	margin-left:5px;
 }
 
 /* GRAPH2 END*/
