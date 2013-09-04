@@ -39,14 +39,14 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	}
 	//alert(graphName);
 	 $("#chartMTD"+graphName+"-"+arIndex).kendoChart({
-		  
+		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: chartWidth,
 			    height:chartHeight,
-			    //background: ""
+			    background: ""
 			  },
 	     title: {
-	         text: "(หน่วย:พันบาท) ยอดขาย"+currentMTD+"(MTD)",
+	         text: currentMTD,
 	         visible:true,
 	         font: titleFont
 	     },
@@ -134,12 +134,21 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     		//alert("Num"+num);
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyMTD[num]!=0){
-    			diffPercentage=","+objDataDiffSalesMonthlyMTD[num]+"%";
+    			diffPercentage=" : "+objDataDiffSalesMonthlyMTD[num]+"%";
     		}
     		$(this).text(""+addCommas(labelValueMTD[1])+""+diffPercentage+"");
     		num++;
     	}
      });
+     console.log("-----------------------------");
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr("fill","orange");
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr("fill","#007bc3");
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr("fill","gray");
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr("fill","#cccccc");
+     
+     
+    
+
 
 };
 
@@ -180,10 +189,11 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	
 	 
 	 $("#chartYTD"+graphName+"-"+arIndex).kendoChart({
+		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: chartWidth,
 			    height:chartHeight,
-			    //background: ""
+			    background: ""
 			  },
 	     title: {
 	         text: "(หน่วย:พันบาท) ยอดขาย "+currentYTD+"(YTD)",
@@ -277,12 +287,17 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		//alert("Num"+num);
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyYTD[num]!=0){
-    			diffPercentage=","+objDataDiffSalesMonthlyYTD[num]+"%";
+    			diffPercentage=" : "+objDataDiffSalesMonthlyYTD[num]+"%";
     		}
     		$(this).text(""+addCommas(labelValueYTD[1])+""+diffPercentage+"");
     		num++;
     	}
      });
+     
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr("fill","orange");
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr("fill","#007bc3");
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr("fill","gray");
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr("fill","#cccccc");
 };
 
 
@@ -305,9 +320,11 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 				var series="";
 
 				var today = new Date(currentDate);
+				var dd = today.getDate();
 				var mm = today.getMonth()+1; //January is 0!
 				var yyyy = today.getFullYear()+"";
 				var yy=yyyy.substring("2");
+				
 				
 				//alert(mm);
 				//alert(getMonthName(mm));
@@ -332,11 +349,10 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 			         	 
 				     }];
 				 
-				
-				//var objSeries=eval("("+series+")");
-				//console.log(objCategories);
-				//console.log(series);
-				 createChartSMI_SalePerMonthMTD(graphName,graphType,series,objCategories,arIndex,getMonthFullName(mm)+" "+yyyy,paramMachine,objDataDiffSalesMonthlyMTD);
+		
+				 //เป็น ยอดขาย 1-18 Aug 2013
+				 var titieText="(หน่วย:พันบาท)ยอดขาย 1-"+dd+" "+getMonthName(mm)+" "+yyyy;
+				 createChartSMI_SalePerMonthMTD(graphName,graphType,series,objCategories,arIndex,titieText,paramMachine,objDataDiffSalesMonthlyMTD);
 				
 			}
 			
@@ -368,7 +384,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 				 var targetFullYTD=(parseInt(data[0][3]/1000));	
 	
 				 
-				categories+="[\"Jan-"+getMonthName(mm)+" "+(yy-1)+"\",\"Jan-"+getMonthName(mm)+" "+yyyy+"\",\"Target Jan-"+getMonthName(mm)+" "+yy+"(YTD)\",\"Target Jan-"+getMonthName(mm)+" (Full)"+yy+"\"]";			
+				categories+="[\"Jan-"+getMonthName(mm)+" "+(yy-1)+"\",\"Jan-"+getMonthName(mm)+" "+yy+"\",\"Target Jan-"+getMonthName(mm)+" "+yy+"(YTD)\",\"Target Yearly\"]";			
 				dataSeriesSalesMonthlyYTD+="["+lastPeriod+","+current+","+targetYTD+","+targetFullYTD+"]";
 				dataDiffSalesMonthlyYTD+="[0,"+data[0][4]+","+data[0][5]+","+data[0][6]+"]";
 				var objCategories=eval("("+categories+")");

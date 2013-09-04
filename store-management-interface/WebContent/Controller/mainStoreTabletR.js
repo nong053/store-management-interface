@@ -1297,7 +1297,7 @@ $(document).ready(function(){
 				}else if(graphName=="SalesByPromotionMonthly"){
 					//g9
 					//Defualt Parameter Start
-					
+					/*
 
 							 var vYearDefault=""+yyyy+"";
 							 var vMonthDefault=""+mm+"";
@@ -1343,25 +1343,10 @@ $(document).ready(function(){
 											 vPromotionCode4=$("ul.paramEmbed"+graphName+">li.paramPromotion4").text();
 											 vPromotionCode5=$("ul.paramEmbed"+graphName+">li.paramPromotion5").text();
 											 vPromotionCode6=$("ul.paramEmbed"+graphName+">li.paramPromotion6").text();
-											/*
-											alert("startWeek"+startWeek);
-											alert("endWeek"+endWeek);
-											alert("branchId"+branchId);
-											alert("paramYear"+paramYear);
-											*/
+											
 											
 									 }
-									 /*
-									 alert(vBranch);
-									 alert(vYear);
-									 alert(vMonth);
-									 alert(vPromotionCode1);
-									 alert(vPromotionCode2);
-									 alert(vPromotionCode3);
-									 alert(vPromotionCode4);
-									 alert(vPromotionCode5);
-									 alert(vPromotionCode6);
-									 */
+									
 									 SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,vPromotionCode1,
 											 vPromotionCode2,vPromotionCode3 ,vPromotionCode4,vPromotionCode5,
 											 vPromotionCode6,graphWidth,graphHeight);
@@ -1374,7 +1359,7 @@ $(document).ready(function(){
 					
 					//Defualt Parameter End
 				
-					
+					*/
 				}else if(graphName=="Top10Food"){
 					//alert("g10");
 					//g10
@@ -1643,6 +1628,17 @@ $(document).ready(function(){
 				//touchSlider();
 				
 			});
+			//when click area orther define left menu hide the right.
+			
+			$("#contentArea").click(function(){
+				withdrawFn();
+			});
+			/*
+			$(".touchslider-nav").die("click");
+			$(".touchslider-nav").live("click",function(){
+				withdrawFn();
+			});
+			*/
 			
 			//###################Click category Default######################
 			/*####################### config dialog start ###################*/ 

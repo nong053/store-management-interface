@@ -16,9 +16,11 @@ tooltipFont
 	*/
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
+		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 	     title: {
 	         text: titleText,
@@ -225,16 +227,20 @@ function salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,
 				
 				 //Target,Current,Last Year
 				 series=[{
-			         	 name: "Target",
-			         	 data: objdataSeriesSalesPerBillWeeklyTarget
+						 name: "Last Year",
+				         //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
+				         data: objdataSeriesSalesPerBillWeeklyLastYear ,
+				         color: 'orange'
 				     }, {
 				    	 name: "Current",
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
-				         data: objdataSeriesSalesPerBillWeeklyThisYear
+				         data: objdataSeriesSalesPerBillWeeklyThisYear,
+				         color: '#007bc3'
 				     }, {
-				    	 name: "Last Year",
-				         //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
-				         data: objdataSeriesSalesPerBillWeeklyLastYear
+				    	 
+				         name: "Target",
+			         	 data: objdataSeriesSalesPerBillWeeklyTarget,
+			         	 color: 'gray'
 				     }];
 				// alert(series);
 				/*

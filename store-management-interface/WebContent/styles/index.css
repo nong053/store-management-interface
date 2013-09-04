@@ -211,7 +211,7 @@ body{
 	border-radius:100%;
 	width:20px;
 	height:20px;
-	background:green;
+	background:#FEEEBD;
 }
 .ballGreen{
 	border-radius:100%;
@@ -370,3 +370,19 @@ div#selectFav ul li{
 }
 
 /* GRAPH2 END*/
+
+/*Tootip*/
+.tooltipContent{
+	max-width:250px;
+	height:auto;
+	position:absolute;
+	z-index:10;
+	background:white;
+	display:none;
+	border-radius:0px;
+	border:1px solid #cccccc;
+	cursor:pointer;
+	padding:5px;
+	font-weight:bold;
+	display:hidden;
+}

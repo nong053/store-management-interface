@@ -4,6 +4,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 	
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
+		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: parseInt(graphWidth),
 			    height:parseInt(graphHeight),
@@ -84,7 +85,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
     		//alert(labelValueAmount[1]);
     		var salesValue="";
     		if(objDataSeriesCustomerValueMonthThisYear[num1]!=0){
-    			salesValue="="+objDataSeriesCustomerValueMonthThisYear[num1]+"";
+    			salesValue=" : "+objDataSeriesCustomerValueMonthThisYear[num1]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -93,7 +94,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 
     		var salesValue="";
     		if(objDataSeriesCustomerValueMonthLastYear[num2]!=0){
-    			salesValue="="+objDataSeriesCustomerValueMonthLastYear[num2]+"";
+    			salesValue=" : "+objDataSeriesCustomerValueMonthLastYear[num2]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -103,7 +104,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 
     		var salesValue="";
     		if(objDataSeriesCustomerValueTarget[num3]!=0){
-    			salesValue="="+objDataSeriesCustomerValueTarget[num3]+"";
+    			salesValue=" : "+objDataSeriesCustomerValueTarget[num3]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num3++;
@@ -272,20 +273,23 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 
 				
 				 series=[{
-			         	 name: "Target",
-			         	 name2:"target",
-			         	 data: objDataSeriesCustomerTarget
+						 name: "Last Year",
+				         name2:"lastYear",
+				         data: objDataSeriesCustomerMonthLastYear,
+				         color: 'orange'
 				     }, {
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
 				    	 name: "Current",
 				         name2:"thisYear",
-				         data: objDataSeriesCustomerMonthThisYear
+				         data: objDataSeriesCustomerMonthThisYear,
+				         color: '#007bc3'
 				     }, {
 				    	 
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
-				    	 name: "Last Year",
-				         name2:"lastYear",
-				         data: objDataSeriesCustomerMonthLastYear
+				         name: "Target",
+			         	 name2:"target",
+			         	 data: objDataSeriesCustomerTarget,
+			         	color: 'gray'
 				     }];
 				 /*
 				 var startWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeekInterval").text();
