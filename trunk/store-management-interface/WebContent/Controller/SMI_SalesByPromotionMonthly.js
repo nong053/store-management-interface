@@ -134,20 +134,21 @@ function getParamPromotion1(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			
-			htmlParam+="<select class=\"list\" id=\"paramPromotion1"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
+			if(data!=null){
+				htmlParam+="<select class=\"list\" id=\"paramPromotion1"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					
+					if(proSelected==indexEntry[0]){
+					htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
+					}else{
+					htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
+					}
+				});
+				htmlParam+="</select>";
 				
-				if(proSelected==indexEntry[0]){
-				htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
-				}else{
-				htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
-				}
-			});
-			htmlParam+="</select>";
-			
-			$("td#areaParamPromotion1"+graphNameArea).html(htmlParam);
-			$("select#paramPromotion1"+graphNameArea).kendoDropDownList();
+				$("td#areaParamPromotion1"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion1"+graphNameArea).kendoDropDownList();
+			}
 		}
 	});
 }
@@ -163,20 +164,21 @@ function getParamPromotion2(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			
-			htmlParam+="<select class=\"list\" id=\"paramPromotion2"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
+			if(data!=null){
+				htmlParam+="<select class=\"list\" id=\"paramPromotion2"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					
+					if(proSelected==indexEntry[0]){
+					htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
+					}else{
+					htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
+					}
+				});
+				htmlParam+="</select>";
 				
-				if(proSelected==indexEntry[0]){
-				htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
-				}else{
-				htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
-				}
-			});
-			htmlParam+="</select>";
-			
-			$("td#areaParamPromotion2"+graphNameArea).html(htmlParam);
-			$("select#paramPromotion2"+graphNameArea).kendoDropDownList();
+				$("td#areaParamPromotion2"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion2"+graphNameArea).kendoDropDownList();
+			}
 		}
 	});
 }
@@ -192,20 +194,21 @@ function getParamPromotion3(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			
-			htmlParam+="<select class=\"list\" id=\"paramPromotion3"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
+			if(data!=null){
+				htmlParam+="<select class=\"list\" id=\"paramPromotion3"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					
+					if(proSelected==indexEntry[0]){
+					htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
+					}else{
+					htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
+					}
+				});
+				htmlParam+="</select>";
 				
-				if(proSelected==indexEntry[0]){
-				htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
-				}else{
-				htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
-				}
-			});
-			htmlParam+="</select>";
-			
-			$("td#areaParamPromotion3"+graphNameArea).html(htmlParam);
-			$("select#paramPromotion3"+graphNameArea).kendoDropDownList();
+				$("td#areaParamPromotion3"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion3"+graphNameArea).kendoDropDownList();
+			}
 		}
 	});
 }
@@ -221,20 +224,21 @@ function getParamPromotion4(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			
-			htmlParam+="<select class=\"list\" id=\"paramPromotion4"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
+			if(data!=null){
+				htmlParam+="<select class=\"list\" id=\"paramPromotion4"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					
+					if(proSelected==indexEntry[0]){
+					htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
+					}else{
+					htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
+					}
+				});
+				htmlParam+="</select>";
 				
-				if(proSelected==indexEntry[0]){
-				htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
-				}else{
-				htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
-				}
-			});
-			htmlParam+="</select>";
-			
-			$("td#areaParamPromotion4"+graphNameArea).html(htmlParam);
-			$("select#paramPromotion4"+graphNameArea).kendoDropDownList();
+				$("td#areaParamPromotion4"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion4"+graphNameArea).kendoDropDownList();
+			}
 		}
 	});
 }
@@ -250,20 +254,21 @@ function getParamPromotion5(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			
-			htmlParam+="<select class=\"list\" id=\"paramPromotion5"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
+			if(data!=null){
+				htmlParam+="<select class=\"list\" id=\"paramPromotion5"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					
+					if(proSelected==indexEntry[0]){
+					htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
+					}else{
+					htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
+					}
+				});
+				htmlParam+="</select>";
 				
-				if(proSelected==indexEntry[0]){
-				htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
-				}else{
-				htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
-				}
-			});
-			htmlParam+="</select>";
-			
-			$("td#areaParamPromotion5"+graphNameArea).html(htmlParam);
-			$("select#paramPromotion5"+graphNameArea).kendoDropDownList();
+				$("td#areaParamPromotion5"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion5"+graphNameArea).kendoDropDownList();
+			}
 		}
 	});
 }
@@ -278,20 +283,21 @@ function getParamPromotion6(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			
-			htmlParam+="<select class=\"list\" id=\"paramPromotion6"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
+			if(data!=null){
+				htmlParam+="<select class=\"list\" id=\"paramPromotion6"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					
+					if(proSelected==indexEntry[0]){
+					htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
+					}else{
+					htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
+					}
+				});
+				htmlParam+="</select>";
 				
-				if(proSelected==indexEntry[0]){
-				htmlParam+="<option selected value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 
-				}else{
-				htmlParam+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>"; 	
-				}
-			});
-			htmlParam+="</select>";
-			
-			$("td#areaParamPromotion6"+graphNameArea).html(htmlParam);
-			$("select#paramPromotion6"+graphNameArea).kendoDropDownList();
+				$("td#areaParamPromotion6"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion6"+graphNameArea).kendoDropDownList();
+			}
 		}
 	});
 }

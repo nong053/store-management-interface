@@ -12,9 +12,11 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 	*/
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
+		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 	     title: {
 	         text:titleText,
@@ -90,7 +92,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesBillWeeklyValueThisYear[num1]!=0){
-    			salesValue="="+objdataSeriesBillWeeklyValueThisYear[num1]+"";
+    			salesValue=" : "+objdataSeriesBillWeeklyValueThisYear[num1]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -99,7 +101,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objDataSeriesBillWeeklyValueLastYear[num2]!=0){
-    			salesValue="="+objDataSeriesBillWeeklyValueLastYear[num2]+"";
+    			salesValue=" : "+objDataSeriesBillWeeklyValueLastYear[num2]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -109,7 +111,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objDataSeriesBillWeeklyValueTarget[num3]!=0){
-    			salesValue="="+objDataSeriesBillWeeklyValueTarget[num3]+"";
+    			salesValue=" : "+objDataSeriesBillWeeklyValueTarget[num3]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num3++;
@@ -297,20 +299,24 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 				
 				
 				 series=[{
-					 //Target,Current,Last Year
-			         	 name: "Target",
-			         	 name2: "target",
-			         	 data: objDataSeriesBillWeeklyTarget
+						 //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
+				    	 name: "Last Year",
+				         name2: "lastYear",
+				         data: objDataSeriesBillWeeklyLastYear,
+				         color: 'orange'
 				     }, {
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
 				    	 name: "Current",
 				         name2: "thisYear",
-				         data: objdataSeriesBillWeeklyThisYear
+				         data: objdataSeriesBillWeeklyThisYear,
+				         color: '#007bc3'
 				     }, {
-				         //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
-				    	 name: "Last Year",
-				         name2: "lastYear",
-				         data: objDataSeriesBillWeeklyLastYear
+				        
+				       //Target,Current,Last Year
+			         	 name: "Target",
+			         	 name2: "target",
+			         	 data: objDataSeriesBillWeeklyTarget,
+			         	 color: 'gray'
 				     }];
 				// alert(series);
 				
@@ -321,7 +327,7 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 				 var startWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeekInterval").text();
 				 var endWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeekInterval").text();
 				 */
-				 var titleText="จำนวนบิลต่อเดือนตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
+				 var titleText="จำนวนบิลตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
 				 createChart_SMI_BillWeekly(graphName,graphType,series,objcategoriesBillWeekly,arIndex,graphWidth,graphHeight,titleText,
 						 objdataSeriesBillWeeklyValueThisYear,objDataSeriesBillWeeklyValueLastYear,objDataSeriesBillWeeklyValueTarget);
 			

@@ -34,6 +34,7 @@ function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,ar
 	//alert(cateFont);
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
+		  theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width:parseInt(paramGraphWidth), 
 			    height:parseInt(paramGraphHeight),
@@ -204,7 +205,7 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 		//condition check can't select over month
 		var startDate = paramStartDate.split("-");
 		var endDate = paramEndDate.split("-");
-		if((startDate[0]==endDate[0])&&((startDate[1])==endDate[1])){
+		if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){
 			
 			
 			
@@ -217,7 +218,7 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 			}
 			
 		}else{
-			alert("Not select over month");
+			alert("Unable to select over month");
 		}
 		
 		
@@ -312,8 +313,10 @@ function manageParamSalePerDayFn(graphNameArea,graphWidth,graphHeight,paramMachi
 		 
 
 		if($(".paramEmbed"+graphName).text()==""){
-			 $("#paramStartDate"+graphNameArea).val(""+yyyy+"-"+mm+"-01");
-			 $("#paramEndDate"+graphNameArea).val(""+yyyy+"-"+mm+"-"+dd+"");
+			//startDate=ParamFirstDayOfMonthDel2Day;
+			//endDate=ParamCurrentDateDel2Day;
+			 $("#paramStartDate"+graphNameArea).val(ParamFirstDayOfMonthDel2Day);
+			 $("#paramEndDate"+graphNameArea).val(ParamCurrentDateDel2Day);
 		}else{
 			$("#paramStartDate"+graphNameArea).val($("ul.paramEmbed"+graphName+">li.paramStartDate"+graphName).text());
 			$("#paramEndDate"+graphNameArea).val($("ul.paramEmbed"+graphName+">li.paramEndDate"+graphName).text());	
@@ -408,23 +411,33 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 				var objDataSeriesSaleTarget=eval("("+dataSeriesSaleTarget+")");
 				
 				 series=[{
-			         	 name: "Current",
-			         	 data: objDataSeriesSaleAmount
+						 name: "Last Year",
+				         data: objDataSeriesSaleAmountLastYear,
+				         color: 'orange'
 				     }, {
-				         name: "Last Year",
-				         data: objDataSeriesSaleAmountLastYear
+				         
+				         name: "Current",
+			         	 data: objDataSeriesSaleAmount,
+			         	 color: '#007bc3'
 				     }, {
 				         name: "Target",
-				         data: objDataSeriesSaleTarget
+				         data: objDataSeriesSaleTarget,
+				         color: 'gray'
 				     }];
 				 
 				
 				// var Numbermm=parseInt(mm);
-				 var selectDate = new Date(startDate);
-				 var selectYYYY = selectDate.getFullYear();
-				 var selectMM = selectDate.getMonth()+1; //January is 0!
+				 var selectStartDate = new Date(startDate);
+				 var selectStartYYYY = selectStartDate.getFullYear();
+				 var selectStartMM = selectStartDate.getMonth()+1; //January is 0!
+				 var selectStartDD = selectStartDate.getDate();
+				 
+				 var selectEndDate = new Date(endDate);
+				 var selectEndYYYY = selectEndDate.getFullYear();
+				 var selectEndMM = selectEndDate.getMonth()+1; //January is 0!
+				 var selectEndDD = selectEndDate.getDate();
 				 console.log(series);
-				 var titieText="ยอดขายหน้าร้านรายวัน  "+getMonthName(selectMM)+" "+selectYYYY+"";
+				 var titieText="ยอดขายรายวันตั้งแต่  "+selectStartDD+" "+getMonthName(selectStartMM)+" "+selectStartYYYY+" ถึง "+selectEndDD+" "+getMonthName(selectEndMM)+" "+selectEndYYYY+"";
 				createChart_salePerDay(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titieText);
 				
 			}

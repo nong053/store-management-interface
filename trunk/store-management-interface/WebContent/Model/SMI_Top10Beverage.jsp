@@ -13,7 +13,7 @@ sum(SalesAmount)as totalSaleAmount,sum(SalesQtyLastMonth)as totalSalesQtyLastMon
 */
 
 String columns="1,2,3,4,5";
-String query="CALL SMI_Top10Food ('"+paramBranch+"','"+paramStartDate+"','"+paramEndDate+"')";
+String query="CALL SMI_Top10Beverage ('"+paramBranch+"','"+paramStartDate+"','"+paramEndDate+"')";
 jndi.selectByIndexDwh(query,columns);
 out.println(jndi.getData());
 %>
