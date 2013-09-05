@@ -128,7 +128,7 @@ var htmlParam_SMI_SalePerDay = function(graphNameArea,paramMachine){
 			htmlParam+="</td>";
 			htmlParam+="<td id=\"areaParamBranch"+graphNameArea+"\">";
 				htmlParam+="<select class=\"list\" id=\"paramBrach"+graphNameArea+"\">";
-					htmlParam+="<option value=\"311\">311-branchName1</option>";
+					htmlParam+="<option value=\"311\">311-ทองหล่อ</option>";
 					htmlParam+="<option value=\"312\">312-branchName2</option>";
 					htmlParam+="<option value=\"313\">313-branchName3</option>";
 					htmlParam+="<option value=\"314\">314-branchName4</option>";
@@ -205,16 +205,20 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 		//condition check can't select over month
 		var startDate = paramStartDate.split("-");
 		var endDate = paramEndDate.split("-");
+		
 		if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){
 			
+			if(parseInt(startDate[2]) < parseInt(endDate[2])){
 			
-			
-			salePerDayFn(graphName,graphType,arIndex,paramStartDate,paramEndDate,paramBrach,graphWidth,graphHeight,paramMachine);
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
-				$(".contentGraph").shadow();
+					salePerDayFn(graphName,graphType,arIndex,paramStartDate,paramEndDate,paramBrach,graphWidth,graphHeight,paramMachine);
+					if(paramMachine=="Tablet"){
+						$(".ui-icon-closethick").trigger("click");
+						$(".contentGraph").shadow();
+					}else{
+						$("#setting"+graphNameArea).trigger("click");
+					}
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("Unable to select start date less than end date");
 			}
 			
 		}else{

@@ -9,7 +9,7 @@ String paramBranch = request.getParameter("paramBranch");
 
 connectionJNDI jndi = new connectionJNDI();
 String columns="1,2";
-String query="CALL SMI_ParamPromotion('311',2013,04)";
+String query="CALL SMI_ParamPromotion('"+paramBranch+"',"+paramYear+","+paramMonth+")";
 jndi.selectByIndexDwh(query, columns);
 out.println(jndi.getData());
 

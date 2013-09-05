@@ -5,9 +5,11 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
+		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 	     title: {
 	    	 text: titleText,
@@ -77,7 +79,7 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 	 
 	 
 	 var num1=0;
-	 var num2=0;
+
 
      //console.log($("#chartMTDSalePerMonth-1 svg text"));
      $(""+"#chart"+graphName+"-"+arIndex+">svg>text").each(function(){
@@ -89,7 +91,14 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesWasteDailyPercentage[num1]!=0){
-    			salesValue="="+objdataSeriesWasteDailyPercentage[num1]+"%";
+    			if(objdataSeriesWasteDailyPercentage[num1]>=1.5){
+    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr("fill","orange");
+    			}
+    			
+    			if(objdataSeriesWasteDailyPercentage[num1]>=2){
+    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr("fill","red");
+    			}
+    			salesValue=":"+objdataSeriesWasteDailyPercentage[num1]+"%";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -300,14 +309,27 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 			var paramEndDate=$("#paramEndDate"+graphNameArea).val();
 			embedParameterTop10Food(graphName,paramBranch,paramStartDate,paramEndDate);
 			//###################Embead parameter to call embed parameter function start##############
+			var startDate = paramStartDate.split("-");
+			var endDate = paramEndDate.split("-");
+			if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){
+					if(parseInt(startDate[1]) <= parseInt(endDate[1])){
+						
+						wateDailyFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
+						
+						if(paramMachine=="Tablet"){
+							$(".ui-icon-closethick").trigger("click");
 			
-			wateDailyFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
-			
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
-
+						}else{
+							$("#setting"+graphNameArea).trigger("click");
+						}
+						
+					}else{
+						alert("Unable to select start date less than end date");
+					}
+				
+					
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("Unable to select over month");
 			}
 			
 		});
@@ -367,6 +389,7 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 	 /*####################### config dialog for tablet end ###################*/ 
 			 
 	function manageParamWasteDailyFn(graphNameArea,graphWidth,graphHeight,paramMachine){
+		
 		 var graphNameAreaIndexArray=graphNameArea.split("-");
 		 var graphName=graphNameAreaIndexArray[0].substring("4");
 		 var graphIndex=graphNameAreaIndexArray[1];
@@ -388,8 +411,8 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 
 			 //#####################check parameter is selected start#########################
 			getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
-			getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text());
-			getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text());
+			getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
+			getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text(),paramMachine);
 			//######################check parameter is selected end###########################
 			 //create button submit
 			 submit_SMI_WasteDaily(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);

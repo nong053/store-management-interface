@@ -2,16 +2,23 @@
 //$(document).on("click",".setting",function(){
 //call SMI_Top10Beverage (  '2012-01-01' , '2012-03-31' , '322000' )
 
-function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,titleText,
+function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,paramMachine,titleText,
 		objDataSeriesSaleValue,objDataSeriesSaleValueLastMonth){
-
-
 	
 	
+	var seriesDefaultsFont="";
+	if(paramMachine=="Tablet"){
+		seriesDefaultsFont="16px Tahoma";
+	}else{
+		seriesDefaultsFont="10px Tahoma";
+	}
+	
+
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
 			    width:parseInt(paramGraphWidth), 
 			    height:parseInt(paramGraphHeight),
+			    background: ""
 			  },
 	     title: {
 	    	 text: titleText,
@@ -100,7 +107,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
 
     		var salesValue="";
     		if(objDataSeriesSaleValue[num1]!=0){
-    			salesValue="="+objDataSeriesSaleValue[num1]+"";
+    			salesValue=":"+objDataSeriesSaleValue[num1]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -109,7 +116,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
 
     		var salesValue="";
     		if(objDataSeriesSaleValueLastMonth[num2]!=0){
-    			salesValue="="+objDataSeriesSaleValueLastMonth[num2]+"";
+    			salesValue=":"+objDataSeriesSaleValueLastMonth[num2]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -201,13 +208,17 @@ var submit_SMI_Top10Beverage=function(graphNameArea,graphName,graphType,arIndex,
 
 		//call function create graph for gernarate new graph
 		//top10BeverageFn
-		top10BeverageFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
-		if(paramMachine=="Tablet"){
-			$(".ui-icon-closethick").trigger("click");
-			
-			
+		var startDate = paramStartDate.split("-");
+		var endDate = paramEndDate.split("-");
+		if(parseInt(startDate[1]) <= parseInt(endDate[1])){
+				top10BeverageFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
+				if(paramMachine=="Tablet"){
+					$(".ui-icon-closethick").trigger("click");
+				}else{
+					$("#setting"+graphNameArea).trigger("click");
+				}
 		}else{
-			$("#setting"+graphNameArea).trigger("click");
+			alert("Unable to select start date less than end date");
 		}
 		
 	});
@@ -328,7 +339,7 @@ function manageParamtop10BeverageFn(graphNameArea,graphWidth,graphHeight,paramMa
 }
 
 
-function top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight){
+function top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine){
 	//graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
 	
 	//#########################set embed parameter for embed default parameter start######################
@@ -405,18 +416,21 @@ function top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graph
 				
 				
 				 series=[{
-			         	 name: "Current",
-			         	 name2:"current",
-			         	 data: objDataSeriesSaleAmount
-				     }, {
-				         name: "Last Month",
+						 name: "Last Month",
 				         name2:"lastMonth",
-				         data: objDataSeriesSaleAmountLastMonth
+				         data: objDataSeriesSaleAmountLastMonth,
+				         color: 'orange'
+				     }, {
+				         
+				         name: "Current",
+			         	 name2:"current",
+			         	 data: objDataSeriesSaleAmount,
+			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="Top10-Beverage:ตั้งแต่วันที่  "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vSDate)+"";
+				 var titleText="Top10-Beverage:ตั้งแต่วันที่  "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+"-"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
 				 
-				 createChart_SMI_Top10Beverage(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,titleText,
+				 createChart_SMI_Top10Beverage(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 						 objDataSeriesSaleValue,objDataSeriesSaleValueLastMonth);
 				
 			}

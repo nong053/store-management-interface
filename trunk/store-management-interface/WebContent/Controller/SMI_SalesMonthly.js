@@ -134,6 +134,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     		//alert("Num"+num);
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyMTD[num]!=0){
+    			if(objDataDiffSalesMonthlyMTD[num]){}
     			diffPercentage=" : "+objDataDiffSalesMonthlyMTD[num]+"%";
     		}
     		$(this).text(""+addCommas(labelValueMTD[1])+""+diffPercentage+"");
@@ -145,6 +146,8 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr("fill","#007bc3");
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr("fill","gray");
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr("fill","#cccccc");
+     
+     
      
      
     

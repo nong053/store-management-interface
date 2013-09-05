@@ -1,12 +1,21 @@
 //g15
 
 
-function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText) {
+function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,paramMachine,titleText) {
 
+	
+	var seriesDefaultsFont="";
+	if(paramMachine=="Tablet"){
+		seriesDefaultsFont="16px Tahoma";
+	}else{
+		seriesDefaultsFont="10px Tahoma";
+	}
+	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 			  title: {
 			    	 text: titleText,
@@ -105,7 +114,7 @@ function embedParameterCookingTimeRange(graphName,paramBranch,paramYear,paramMon
 }
 //#######################Embed parameter Function end #################
 
-function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight){
+function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine){
 	//#########################set embed parameter for embed default parameter start######################
 	embedParameterCookingTimeRange(graphName,vBranch,vYear,vMonth);
 	//#########################set embed parameter for embed default parameter end########################
@@ -171,15 +180,19 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 
 				
 				 series=[{
-			         	 name: "This Month",
-			         	 data: objdataSeriescookingTimeRangeThisMonth
+						 name: "Last Month",
+			         	 data: objdataSeriescookingTimeRangeLastMonth,
+			         	color: 'orange'
 				     },{
-			         	 name: "Last Month",
-			         	 data: objdataSeriescookingTimeRangeLastMonth
+			         	 
+			         	 
+			         	 name: "This Month",
+			         	 data: objdataSeriescookingTimeRangeThisMonth,
+			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="สรุปจำนวนจานตามเวลาที่ใช้ในการทำอาหารของเดือน "+getMonthFullName(vMonth)+" ปี "+vYear+"";
-				 createChart_SMI_CookingTimeRange(graphName,graphType,series,objcategoriescookingTimeRange,arIndex,graphWidth,graphHeight,titleText);
+				 var titleText="สรุปจำนวนจานตามเวลาที่ใช้ในการทำอาหารของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
+				 createChart_SMI_CookingTimeRange(graphName,graphType,series,objcategoriescookingTimeRange,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
 			}
 		});

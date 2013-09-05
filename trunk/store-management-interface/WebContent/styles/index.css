@@ -386,3 +386,18 @@ div#selectFav ul li{
 	font-weight:bold;
 	display:hidden;
 }
+.subMenu{
+	display:none;
+	position:absolute;
+	left:202px;
+	z-index:50;
+	/*top:100px;*/
+}
+.subMenu ul{
+	padding:0px;
+	margin:0px;
+}
+.subMenu ul li{
+	display:block;
+	padding:5px;
+}

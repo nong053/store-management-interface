@@ -392,12 +392,15 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 			//###################Embead parameter to call embed parameter function start##############
 			
 			//call function create graph for gernarate new graph
-			
-			customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine);
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
+			if(startWeek < endWeek){
+				customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine);
+				if(paramMachine=="Tablet"){
+					$(".ui-icon-closethick").trigger("click");
+				}else{
+					$("#setting"+graphNameArea).trigger("click");
+				}
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("Unable to select start week less than end week");
 			}
 		});	
 		if(paramMachine=="Tablet"){
