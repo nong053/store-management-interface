@@ -473,16 +473,18 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
 			
-			
-						//graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight
-			BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
-
+			if(startWeek < endWeek){
+							//graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight
+				BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
+				if(paramMachine=="Tablet"){
+					$(".ui-icon-closethick").trigger("click");
+	
+				}else{
+					$("#setting"+graphNameArea).trigger("click");
+				}
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("Unable to select start week less than end week");
 			}
-			
 		});
 		
 		if(paramMachine=="Tablet"){

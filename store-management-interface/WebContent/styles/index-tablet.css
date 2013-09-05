@@ -261,7 +261,7 @@ Store Management
 	margin-bottom: 2px;
 	padding:2px;
 	padding-left:5px;
-	background:url("images/world-map_h400w729.png") repeat-x;
+	/*background:url("images/world-map_h400w729.png") repeat-x;*/
 }
 .contentGraph .graphBottom{
 	margin-top:2px;

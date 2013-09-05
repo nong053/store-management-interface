@@ -1,7 +1,7 @@
 //click seting
 //$(document).on("click",".setting",function(){
 
-function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText) {
+function createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,paramMachine,titleText) {
 /*
 seriesDefaultsFont
 valueAxisFont
@@ -11,11 +11,20 @@ titleFont
 labelsRotation
 tooltipFont
  */
+	var seriesDefaultsFont="";
+	if(paramMachine=="Tablet"){
+		seriesDefaultsFont="16px Tahoma";
+	}else{
+		seriesDefaultsFont="";
+	}
+	
+	
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 	     title: {
 	         text:titleText,
@@ -26,7 +35,7 @@ tooltipFont
 	     
 	     legend: {
 	         visible: true,
-	           position:"bottom",
+	           position:"rigth",
 	           labels: {
 	        	      font:legendFont
 	        	    }
@@ -52,7 +61,10 @@ tooltipFont
 	        // max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value)#",
-                 font:valueAxisFont
+                 font:valueAxisFont,
+                 visible: false
+                 
+                 
              },
 	         line: {
 	             visible: false
@@ -100,7 +112,7 @@ function embedParameter_SMI_SalesByProductCategoryWeekly(graphName,paramBranch,p
 }
 //#######################Embed parameter Function end #################
 
-function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight){
+function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine){
 	
 	//Embed Default Parameter start
 	embedParameter_SMI_SalesByProductCategoryWeekly(graphName,paramBranch,paramYear,startWeek,endWeek);
@@ -205,16 +217,21 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 				//var yy=yyyy.substring("2");
 				
 				 series=[{
-			         	 name: "Target",
-			         	 data: objdataSeriesSalesByProductCategoryWeeklyTarget
+					 //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
+				    	 name: "Last Year",
+				         data: objdataSeriesSalesByProductCategoryWeeklyLastYear,
+				         color: 'orange'
+			         
 				     }, {
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
 				    	 name: "Current",
-				         data: objdataSeriesSalesByProductCategoryWeeklyThisYear
+				         data: objdataSeriesSalesByProductCategoryWeeklyThisYear,
+				         color: '#007bc3'
 				     }, {
-				         //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
-				    	 name: "Last Year",
-				         data: objdataSeriesSalesByProductCategoryWeeklyLastYear
+
+			         	 name: "Target",
+			         	 data: objdataSeriesSalesByProductCategoryWeeklyTarget,
+			         	 color: 'gray'
 				     }];
 				// alert(series);
 				
@@ -225,7 +242,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 				 
 				 
 				 var titleText="(หน่วย:พันบาท)ยอดขายตามประเภทอาหาร ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+yyyy+"";
-				 createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,series,objcategoriesSalesByProductCategoryWeekly,arIndex,graphWidth,graphHeight,titleText);
+				 createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,series,objcategoriesSalesByProductCategoryWeekly,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
 			}
 		});
@@ -373,36 +390,20 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 			//Embed Default Parameter start
 			embedParameter_SMI_SalesByProductCategoryWeekly(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
-			/*
-			paramBranch=$("ul.paramEmbed"+graphName+">li.paramBranch").text();
-			paramYear=$("ul.paramEmbed"+graphName+">li.paramYear").text();
-			startWeek=$("ul.paramEmbed"+graphName+">li.paramStartWeek").text();
-			endWeek=$("ul.paramEmbed"+graphName+">li.paramEndWeek").text();
-			*/
-			//alert(paramBranch);
-			//alert(paramYear);
-			//alert(startWeek);
-			//Embed Parameter for reuse again end
-			
-			/*
-			alert("paramBranch="+paramBranch);
-			alert("paramYear="+paramYear);
-			alert("paramStartWeek="+startWeek);
-			alert("paramEndWeek="+endWeek);
-			*/
-			
-			//call function create graph for gernarate new graph
-			//graphName,graphType,arIndex,currentDate,Branch
-			//graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight
-			
-			SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
-
+				
+			if(startWeek < endWeek){
+				
+				SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
+				
+				if(paramMachine=="Tablet"){
+					$(".ui-icon-closethick").trigger("click");
+	
+				}else{
+					$("#setting"+graphNameArea).trigger("click");
+				}
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("Unable to select start week less than end week");
 			}
-			
 		});
 		
 		if(paramMachine=="Tablet"){

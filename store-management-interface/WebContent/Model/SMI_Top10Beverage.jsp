@@ -12,7 +12,7 @@ BranchCode,date,PLU_Code,BranchName,PLU_Name,SalesQty,SalesQtyLastMonth,
 sum(SalesAmount)as totalSaleAmount,sum(SalesQtyLastMonth)as totalSalesQtyLastMonth
 */
 
-String columns="1,2,3,4,5";
+String columns="5,6,7,8,9";
 String query="CALL SMI_Top10Beverage ('"+paramBranch+"','"+paramStartDate+"','"+paramEndDate+"')";
 jndi.selectByIndexDwh(query,columns);
 out.println(jndi.getData());

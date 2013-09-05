@@ -174,7 +174,6 @@ function embedParameterWasteWeekly(graphName,paramBranch,paramYear,paramWeek){
 		"<li class=\"paramBranch\">"+paramBranch+"</li>" +
 		"<li class=\"paramYear\">"+paramYear+"</li>" +
 		"<li class=\"paramWeek\">"+paramWeek+"</li>" +
-		
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -254,15 +253,20 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 				 series=[{
 					 
 			         	 name: "UpperLine",
-			         	 data: objdataSerieswasteUpperLine
+			         	 data: objdataSerieswasteUpperLine,
+			         	 color: "red",
+			         	 dashType: "dot"
 				     },{
 					 
 			         	 name: "LowerLine",
-			         	 data: objdataSerieswasteLowerLine
+			         	 data: objdataSerieswasteLowerLine,
+			         	 color: "green",
+			         	 dashType: "dot"
 				     },{
 					 
 			         	 name: "Waste",
-			         	 data: objdataSerieswasteWeekly
+			         	 data: objdataSerieswasteWeekly,
+			         	 color: "#007bc3"
 				     }];
 				 var vWeekDel12="";
 				 if((vWeek-12)<=0){

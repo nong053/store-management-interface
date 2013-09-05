@@ -15,7 +15,35 @@
 		    dd = '0' + dd;
 		}
 	//date Time end
+		var CurrentDate=""+yyyy+"-"+mm+"-"+dd+"";
+		 //date Time start
+
+	var ParamFirstDayOfMonthDel2Day="";
+	var ParamCurrentDateDel2Day="";
+
+	function currentDateDel2Day(CurrentDate){
 		
+		$.ajax({
+			url:"../Model/paramCurrentDateDel2Day.jsp",
+			type:"get",
+			dataType:"json",
+			async:false,
+			data:{"paramCurrentDate":CurrentDate},
+			success:function(data){
+				
+				ParamCurrentDateDel2Day=data[0][0];
+				var dateDel2Day=new Date(data[0][0]);
+				var mmDel2Day=dateDel2Day.getMonth()+1;
+				var yyyDel2Day=dateDel2Day.getFullYear();
+				 if (mmDel2Day < 10) {
+					 mmDel2Day = '0' + mmDel2Day;
+					}
+				ParamFirstDayOfMonthDel2Day=yyyDel2Day+"-"+mmDel2Day+"-01";
+			}
+		});
+	}
+
+	
 	var branchId="";
 	function getFirstBranch(userLogin){
 		 $.ajax({
@@ -31,7 +59,7 @@
 	
 	 var currentWeekNumber="";
 	function getCurrentWeek(){
-	var currentDate=""+yyyy+"-"+mm+"-"+dd+"";
+	var currentDate=ParamCurrentDateDel2Day;
 		$.ajax({
 			 url:"../Model/currentWeek.jsp",
 			 type:"get",
@@ -546,10 +574,12 @@ $(document).ready(function(){
 	/*######################################Define Config End############################################*/
 	//call function top start
 	getFirstBranch(userLogin);
+	currentDateDel2Day(CurrentDate);
 	setFont(paramMachine);
 	countMyViewFn(userLogin);
 	getCurrentWeek();
 	createMenuLeft();
+	
 	/*#########################Ajax start##########################*/
 	//ajax Start
 	$("#loading").ajaxStart(function(){
@@ -1071,7 +1101,8 @@ $(document).ready(function(){
 			/*################### click sub graph for get graphp by id start#####################*/ 
 			$(".listSubGraph").die("click");
 			$(".listSubGraph").live("click",function(){
-				$("#contentGraph").empty();
+				$("#contentGraph").remove();
+				$(".touchslider-viewport").append("<div id=\"contentGraph\"></div>");
 				var graphNameArray = this.id.split("-");
 				var graphName=graphNameArray[1];
 				//alert(graphId);
@@ -1092,15 +1123,17 @@ $(document).ready(function(){
 						//send parameter graphName,myViewId,slotPosition,graphNameTitle
 						//graphName,graphType,graphId,arIndex,graphNameThaiLanguage,arMyView,myViewId
 						createLayoutGraphNotReturn(data[0][0],data[0][1],data[0][2],0,data[0][3],"MyView",data[0][4]);
+						createGraphByGaraphName(data[0][0],data[0][1],0);
 						}else{
 						//get funciton graphName,graphType,graphId,arIndex,graphNameThaiLanguage,arMyView,myViewId
 						createLayoutGraphNotReturn(data[0][0],data[0][1],data[0][2],0,data[0][3]);
+						createGraphByGaraphName(data[0][0],data[0][1],0);
 						}
 						//send graphName,graphType,index
-						createGraphByGaraphName(data[0][0],data[0][1],0);
+						
 						
 						numListTopButton(0);
-						//touchSlider();
+						touchSlider();
 					}
 					
 					
@@ -1139,7 +1172,7 @@ $(document).ready(function(){
 					
 							 
 							 if($(".paramEmbed"+graphName).text()==""){
-									currentDate=""+yyyy+"-"+mm+"-"+dd+"";
+									currentDate=ParamCurrentDateDel2Day;
 								}else{
 									currentDate=""+$("ul.paramEmbed"+graphName+">li.paramDate").text()+"";
 									branchId=""+$("ul.paramEmbed"+graphName+">li.paramBranchCode").text()+"";
@@ -1379,7 +1412,7 @@ $(document).ready(function(){
 								vEDate=$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text();
 							}
 									 //graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
-							 top10FoodFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight);
+							 top10FoodFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine);
 							
 					
 					//Defualt Parameter End
@@ -1404,7 +1437,7 @@ $(document).ready(function(){
 								}
 
 									     //graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
-							 top10BakeryFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight);
+							 top10BakeryFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine);
 							
 					
 					//Defualt Parameter End
@@ -1429,7 +1462,7 @@ $(document).ready(function(){
 								}
 
 									     //graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
-							 top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight);
+							 top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine);
 							
 					
 					//Defualt Parameter End
@@ -1457,7 +1490,7 @@ $(document).ready(function(){
 
 								
 									     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-							 top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight);
+							 top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine);
 							
 					
 					//Defualt Parameter End
@@ -1484,7 +1517,7 @@ $(document).ready(function(){
 								}
 
 									     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-							 top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight);
+							 top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine);
 							
 					
 					//Defualt Parameter End
@@ -1512,7 +1545,7 @@ $(document).ready(function(){
 
 
 									     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-							 cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight);
+							 cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine);
 							
 						
 					//Defualt Parameter End

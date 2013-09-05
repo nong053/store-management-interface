@@ -123,7 +123,7 @@ $("select#paramMonth"+graphNameArea).live("change",function(){
 }
 
 
-function getParamPromotion1(graphNameArea,vYear,vMonth,vBranch,proSelected){
+function getParamPromotion1(graphNameArea,vBranch,vYear,vMonth,proSelected){
 	
 	
 	var htmlParam="";
@@ -134,7 +134,8 @@ function getParamPromotion1(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			if(data!=null){
+			if(data!=""){
+				
 				htmlParam+="<select class=\"list\" id=\"paramPromotion1"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					
@@ -148,12 +149,19 @@ function getParamPromotion1(graphNameArea,vYear,vMonth,vBranch,proSelected){
 				
 				$("td#areaParamPromotion1"+graphNameArea).html(htmlParam);
 				$("select#paramPromotion1"+graphNameArea).kendoDropDownList();
+			}else{
+				htmlParam+="<select class=\"list\" id=\"paramPromotion1"+graphNameArea+"\">";
+				htmlParam+="<option selected value=''></option>"; 
+				htmlParam+="</select>";
+				$("td#areaParamPromotion1"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion1"+graphNameArea).kendoDropDownList();
+				
 			}
 		}
 	});
 }
 
-function getParamPromotion2(graphNameArea,vYear,vMonth,vBranch,proSelected){
+function getParamPromotion2(graphNameArea,vBranch,vYear,vMonth,proSelected){
 	
 	
 	var htmlParam="";
@@ -164,7 +172,7 @@ function getParamPromotion2(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			if(data!=null){
+			if(data!=""){
 				htmlParam+="<select class=\"list\" id=\"paramPromotion2"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					
@@ -178,12 +186,19 @@ function getParamPromotion2(graphNameArea,vYear,vMonth,vBranch,proSelected){
 				
 				$("td#areaParamPromotion2"+graphNameArea).html(htmlParam);
 				$("select#paramPromotion2"+graphNameArea).kendoDropDownList();
+			}else{
+				htmlParam+="<select class=\"list\" id=\"paramPromotion2"+graphNameArea+"\">";
+				htmlParam+="<option selected value=''></option>"; 
+				htmlParam+="</select>";
+				$("td#areaParamPromotion2"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion2"+graphNameArea).kendoDropDownList();
+				
 			}
 		}
 	});
 }
 
-function getParamPromotion3(graphNameArea,vYear,vMonth,vBranch,proSelected){
+function getParamPromotion3(graphNameArea,vBranch,vYear,vMonth,proSelected){
 	
 	
 	var htmlParam="";
@@ -194,7 +209,7 @@ function getParamPromotion3(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			if(data!=null){
+			if(data!=""){
 				htmlParam+="<select class=\"list\" id=\"paramPromotion3"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					
@@ -208,12 +223,19 @@ function getParamPromotion3(graphNameArea,vYear,vMonth,vBranch,proSelected){
 				
 				$("td#areaParamPromotion3"+graphNameArea).html(htmlParam);
 				$("select#paramPromotion3"+graphNameArea).kendoDropDownList();
+			}else{
+				htmlParam+="<select class=\"list\" id=\"paramPromotion3"+graphNameArea+"\">";
+				htmlParam+="<option selected value=''></option>"; 
+				htmlParam+="</select>";
+				$("td#areaParamPromotion3"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion3"+graphNameArea).kendoDropDownList();
+				
 			}
 		}
 	});
 }
 
-function getParamPromotion4(graphNameArea,vYear,vMonth,vBranch,proSelected){
+function getParamPromotion4(graphNameArea,vBranch,vYear,vMonth,proSelected){
 	
 	
 	var htmlParam="";
@@ -224,7 +246,7 @@ function getParamPromotion4(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			if(data!=null){
+			if(data!=""){
 				htmlParam+="<select class=\"list\" id=\"paramPromotion4"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					
@@ -238,12 +260,19 @@ function getParamPromotion4(graphNameArea,vYear,vMonth,vBranch,proSelected){
 				
 				$("td#areaParamPromotion4"+graphNameArea).html(htmlParam);
 				$("select#paramPromotion4"+graphNameArea).kendoDropDownList();
+			}else{
+				htmlParam+="<select class=\"list\" id=\"paramPromotion4"+graphNameArea+"\">";
+				htmlParam+="<option selected value=''></option>"; 
+				htmlParam+="</select>";
+				$("td#areaParamPromotion4"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion4"+graphNameArea).kendoDropDownList();
+				
 			}
 		}
 	});
 }
 
-function getParamPromotion5(graphNameArea,vYear,vMonth,vBranch,proSelected){
+function getParamPromotion5(graphNameArea,vBranch,vYear,vMonth,proSelected){
 	
 	
 	var htmlParam="";
@@ -254,7 +283,7 @@ function getParamPromotion5(graphNameArea,vYear,vMonth,vBranch,proSelected){
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			if(data!=null){
+			if(data!=""){
 				htmlParam+="<select class=\"list\" id=\"paramPromotion5"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					
@@ -268,22 +297,28 @@ function getParamPromotion5(graphNameArea,vYear,vMonth,vBranch,proSelected){
 				
 				$("td#areaParamPromotion5"+graphNameArea).html(htmlParam);
 				$("select#paramPromotion5"+graphNameArea).kendoDropDownList();
+			}else{
+				htmlParam+="<select class=\"list\" id=\"paramPromotion5"+graphNameArea+"\">";
+				htmlParam+="<option selected value=''></option>"; 
+				htmlParam+="</select>";
+				$("td#areaParamPromotion5"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion5"+graphNameArea).kendoDropDownList();
+				
 			}
 		}
 	});
 }
-function getParamPromotion6(graphNameArea,vYear,vMonth,vBranch,proSelected){
+function getParamPromotion6(graphNameArea,vBranch,vYear,vMonth,proSelected){
 	
 	
-	var htmlParam="";
-	$.ajax({
+	var htmlParam="";	$.ajax({
 		url:"../Model/SMI_ParamPromotion.jsp",
 		type:"get",
 		dataType:"json",
 		async:false,
 		 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
 		success:function(data){
-			if(data!=null){
+			if(data!=""){
 				htmlParam+="<select class=\"list\" id=\"paramPromotion6"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					
@@ -297,6 +332,13 @@ function getParamPromotion6(graphNameArea,vYear,vMonth,vBranch,proSelected){
 				
 				$("td#areaParamPromotion6"+graphNameArea).html(htmlParam);
 				$("select#paramPromotion6"+graphNameArea).kendoDropDownList();
+			}else{
+				htmlParam+="<select class=\"list\" id=\"paramPromotion6"+graphNameArea+"\">";
+				htmlParam+="<option selected value=''></option>"; 
+				htmlParam+="</select>";
+				$("td#areaParamPromotion6"+graphNameArea).html(htmlParam);
+				$("select#paramPromotion6"+graphNameArea).kendoDropDownList();
+				
 			}
 		}
 	});
@@ -330,9 +372,14 @@ function embedParameter_SMI_SalesByPromotionMonthly(graphName,paramBranch,paramY
 
 //###############################create embed parameter function end############################################################
 
-function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText) {
+function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,paramMachine,titleText) {
 	
-
+	var seriesDefaultsFont="";
+	if(paramMachine=="Tablet"){
+		seriesDefaultsFont="16px Tahoma";
+	}else{
+		seriesDefaultsFont="";
+	}
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
@@ -385,7 +432,8 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 	        // max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value)#",
-                 font:valueAxisFont
+                 font:valueAxisFont,
+                 visible: false
              },
 	         line: {
 	             visible: false
@@ -421,7 +469,7 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 //graphName,graphType,arIndex,branchId,yyyy,data[0][1]
 function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 		vMonth,vPromotionCode1,vPromotionCode2,vPromotionCode3 ,vPromotionCode4,
-		vPromotionCode5,vPromotionCode6,graphWidth,graphHeight){
+		vPromotionCode5,vPromotionCode6,graphWidth,graphHeight,paramMachine){
 	
 	
 	//##################################Embed Default Parameter start #####################
@@ -543,14 +591,18 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 				//var yy=yyyy.substring("2");
 				
 				 series=[{
-			         	 name: "Target",
-			         	 data: objdataSeriesSalesByPromotionMonthlyTarget
+			         	 
+			         	name: "Last Year",
+				         data: objdataSeriesSalesByPromotionMonthlyLastYear,
+				         color: 'orange'
 				     }, {
 				         name: "Current",
-				         data: objdataSeriesSalesByPromotionMonthlyThisYear
+				         data: objdataSeriesSalesByPromotionMonthlyThisYear,
+				         color: '#007bc3'
 				     }, {
-				         name: "Last Year",
-				         data: objdataSeriesSalesByPromotionMonthlyLastYear
+				    	 name: "Target",
+			         	 data: objdataSeriesSalesByPromotionMonthlyTarget,
+			         	 color: 'gray'
 				     }];
 				// alert(series);
 				
@@ -558,7 +610,7 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 				//console.log(objCategories);
 				//console.log(series);
 				 var titleText="ยอดขายสะสมถึงเดือน  "+getMonthName(vMonth)+" "+vYear+"(YTD)";
-				 createChart_SMI_SalesByPromotionMonthly(graphName,graphType,series,objcategoriesSalesByPromotionMonthly,arIndex,graphWidth,graphHeight,titleText);
+				 createChart_SMI_SalesByPromotionMonthly(graphName,graphType,series,objcategoriesSalesByPromotionMonthly,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
 			
 			}

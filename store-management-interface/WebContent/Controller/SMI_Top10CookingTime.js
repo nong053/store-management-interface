@@ -1,20 +1,19 @@
 //g14
 
-function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText) {
-	//alert(graphName);
-	//alert(graphWidth);
-	//alert(graphHeight);
-	/*
-	alert(graphName);
-	alert(graphType);
-	alert(graphSeries);
-	alert(graphCategory);
-	*/
+function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,paramMachine,titleText) {
+	var seriesDefaultsFont="";
+	if(paramMachine=="Tablet"){
+		seriesDefaultsFont="16px Tahoma";
+	}else{
+		seriesDefaultsFont="10px Tahoma";
+	}
+	
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 		  title: {
 		    	 text: titleText,
@@ -154,7 +153,7 @@ function embedParameterTop10CookingTime(graphName,paramBranch,paramYear,paramMon
 	//Embed Default Parameter end
 }
 //#######################Embed parameter Function end #################
-function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight){
+function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine){
 	
 	//#########################set embed parameter for embed default parameter start######################
 	embedParameterTop10CookingTime(graphName,vBranch,vYear,vMonth);
@@ -209,16 +208,19 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 
 				
 				 series=[{
-			         	 name: "This Month",
-			         	 data: objdataSeriestop10CookingTimeThisMonth
+						 name: "Last Month",
+			         	 data: objdataSeriestop10CookingTimeLastMonth,
+			         	color: 'orange'
 				     },{
-			         	 name: "Last Month",
-			         	 data: objdataSeriestop10CookingTimeLastMonth
+			         	 
+			         	name: "This Month",
+			         	 data: objdataSeriestop10CookingTimeThisMonth,
+			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="Top10-เวลาปรุงอาหาร(นาที):ของเดือน "+getMonthFullName(vMonth)+" ปี "+vYear+"";
+				 var titleText="Top10-เวลาปรุงอาหาร(นาที) ของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
 				 
-				 createChart_SMI_Top10CookingTime(graphName,graphType,series,objcategoriestop10CookingTime,arIndex,graphWidth,graphHeight,titleText);
+				 createChart_SMI_Top10CookingTime(graphName,graphType,series,objcategoriestop10CookingTime,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
 			}
 		});

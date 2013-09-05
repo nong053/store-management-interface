@@ -481,16 +481,18 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 			embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
-			
-			//call function create graph for gernarate new graph
-			salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
-
+			if(startWeek < endWeek){
+					//call function create graph for gernarate new graph
+					salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
+					if(paramMachine=="Tablet"){
+						$(".ui-icon-closethick").trigger("click");
+		
+					}else{
+						$("#setting"+graphNameArea).trigger("click");
+					}
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("Unable to select start week less than end week");
 			}
-			
 		});
 		
 		if(paramMachine=="Tablet"){

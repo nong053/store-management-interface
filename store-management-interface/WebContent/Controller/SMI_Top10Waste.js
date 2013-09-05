@@ -1,17 +1,15 @@
 //click seting
 //$(document).on("click",".setting",function(){
 
-function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText,
+function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 		objdataSeriesTop10WasteValueThisMonth,objdataSeriesTop10WasteValueLastMonth) {
-	//alert(graphName);
-	//alert(graphWidth);
-	//alert(graphHeight);
-	/*
-	alert(graphName);
-	alert(graphType);
-	alert(graphSeries);
-	alert(graphCategory);
-	*/
+	
+	var seriesDefaultsFont="";
+	if(paramMachine=="Tablet"){
+		seriesDefaultsFont="16px Tahoma";
+	}else{
+		seriesDefaultsFont="10px Tahoma";
+	}
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
@@ -107,7 +105,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesTop10WasteValueThisMonth[num1]!=0){
-    			salesValue="="+objdataSeriesTop10WasteValueThisMonth[num1]+"";
+    			salesValue=":"+objdataSeriesTop10WasteValueThisMonth[num1]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -116,17 +114,13 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesTop10WasteValueLastMonth[num2]!=0){
-    			salesValue="="+objdataSeriesTop10WasteValueLastMonth[num2]+"";
+    			salesValue=":"+objdataSeriesTop10WasteValueLastMonth[num2]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
     	}
      });
 };
-
-
-
-
 
 
 
@@ -147,7 +141,7 @@ function embedParameterTop10Waste(graphName,paramBranch,paramYear,paramMonth){
 }
 //#######################Embed parameter Function end #################
 
-function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight){
+function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine){
 	
 	//#########################set embed parameter for embed default parameter start######################
 	embedParameterTop10Waste(graphName,vBranch,vYear,vMonth);
@@ -219,18 +213,21 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 
 				
 				 series=[{
-			         	 name: "This Month",
-			         	 name2:"current",
-			         	 data: objdataSeriesTop10WasteThisMonth
-				     },{
+			         	 
 			         	 name: "Last Month",
 			         	 name2:"lastMonth",
-			         	 data: objdataSeriesTop10WasteLastMonth
+			         	 data: objdataSeriesTop10WasteLastMonth,
+			         	color: 'orange'
+				     },{
+				    	 name: "This Month",
+			         	 name2:"current",
+			         	 data: objdataSeriesTop10WasteThisMonth,
+			         	color: '#007bc3'
 				     }];
 				 
 				 var titleText="Top10-ของเสีย(ชิ้น):ของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
 				 
-				 createChart_SMI_Top10Waste(graphName,graphType,series,objcategoriesTop10Waste,arIndex,graphWidth,graphHeight,titleText,
+				 createChart_SMI_Top10Waste(graphName,graphType,series,objcategoriesTop10Waste,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 						 objdataSeriesTop10WasteValueThisMonth,objdataSeriesTop10WasteValueLastMonth);
 			
 			}
