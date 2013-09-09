@@ -254,12 +254,12 @@ var dialogSetParam_SMI_SalePerDayFn=function(paramTitleSetting){
 	 title:"<b>"+paramTitleSetting+"-Setting</b>",
 	 autoOpen: false,
 	 show: {
-	 effect: "blind",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 hide: {
-	 effect: "fold",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 width: 450,
 	 height:300,

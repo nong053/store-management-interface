@@ -8,7 +8,7 @@ function createChart_SMI_Top10Beverage(graphName,graphType,graphSeries,graphCate
 	
 	var seriesDefaultsFont="";
 	if(paramMachine=="Tablet"){
-		seriesDefaultsFont="16px Tahoma";
+		seriesDefaultsFont="13px Tahoma";
 	}else{
 		seriesDefaultsFont="10px Tahoma";
 	}
@@ -211,7 +211,7 @@ var submit_SMI_Top10Beverage=function(graphNameArea,graphName,graphType,arIndex,
 		var startDate = paramStartDate.split("-");
 		var endDate = paramEndDate.split("-");
 		if(parseInt(startDate[1]) <= parseInt(endDate[1])){
-				top10BeverageFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
+				top10BeverageFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
 				}else{
@@ -247,12 +247,12 @@ var dialogSetParam_SMI_Top10BeverageFn=function(paramTitleSetting){
 	 title:paramTitleSetting+"-Setting",
 	 autoOpen: false,
 	 show: {
-	 effect: "blind",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 hide: {
-	 effect: "explode",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 width: 450,
 	 height:300,

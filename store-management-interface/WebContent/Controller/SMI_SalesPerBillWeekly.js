@@ -133,6 +133,10 @@ function salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,
 			data:{"paramGraphName":graphName,"paramStartWeek":startWeek,"paramEndWeek":endWeek,"paramBranch":paramBranch,"paramYear":paramYear},
 			success:function(data){
 				//alert(data);
+				//D,,737.933775,704.377451,
+				//E,,508.601432,534.661053,
+				//T,,269.050609,283.943452,
+				//Total,,373.615761,405.377593
 				//("hello jquery");
 				//SalesType, SalesPerBillTarget, CurrentSalesPerBill, LastYearSalesPerBill 
 				var categoriesSalesPerBillWeekly="";
@@ -519,12 +523,12 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 		 title:paramTitleSetting+"-Setting",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 480,
 		 height:350,

@@ -6,7 +6,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 	
 	var seriesDefaultsFont="";
 	if(paramMachine=="Tablet"){
-		seriesDefaultsFont="16px Tahoma";
+		seriesDefaultsFont="13px Tahoma";
 	}else{
 		seriesDefaultsFont="10px Tahoma";
 	}
@@ -14,7 +14,8 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background: ""
 			  },
 	     title: {
 	    	 text: titleText,
@@ -343,7 +344,7 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 			var paramMonth=$("#paramMonth"+graphNameArea).val();
 			embedParameterTop10Waste(graphName,paramBranch,paramYear,paramMonth);
 			//###################Embead parameter to call embed parameter function start##############
-			top10WasteFn(graphName,graphType,arIndex,paramBranch,paramYear,paramMonth,graphWidth,graphHeight);
+			top10WasteFn(graphName,graphType,arIndex,paramBranch,paramYear,paramMonth,graphWidth,graphHeight,paramMachine);
 			
 			if(paramMachine=="Tablet"){
 				$(".ui-icon-closethick").trigger("click");
@@ -379,12 +380,12 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 		 title:paramTitleSetting+"-Setting",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 450,
 		 height:300,

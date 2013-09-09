@@ -359,12 +359,12 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 		 title:paramTitleSetting+"-Setting",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 450,
 		 height:300,

@@ -511,12 +511,12 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 		 title:"<b>"+paramTitleSetting+"-Setting</b>",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 480,
 		 height:350,

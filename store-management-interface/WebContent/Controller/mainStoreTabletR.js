@@ -20,6 +20,9 @@
 
 	var ParamFirstDayOfMonthDel2Day="";
 	var ParamCurrentDateDel2Day="";
+	var dateDel2Day="";
+	var mmDel2Day="";
+	var yyyyDel2Day="";
 
 	function currentDateDel2Day(CurrentDate){
 		
@@ -32,13 +35,13 @@
 			success:function(data){
 				
 				ParamCurrentDateDel2Day=data[0][0];
-				var dateDel2Day=new Date(data[0][0]);
-				var mmDel2Day=dateDel2Day.getMonth()+1;
-				var yyyDel2Day=dateDel2Day.getFullYear();
+				 dateDel2Day=new Date(data[0][0]);
+				 mmDel2Day=dateDel2Day.getMonth()+1;
+				 yyyyDel2Day=dateDel2Day.getFullYear();
 				 if (mmDel2Day < 10) {
 					 mmDel2Day = '0' + mmDel2Day;
 					}
-				ParamFirstDayOfMonthDel2Day=yyyDel2Day+"-"+mmDel2Day+"-01";
+				ParamFirstDayOfMonthDel2Day=yyyyDel2Day+"-"+mmDel2Day+"-01";
 			}
 		});
 	}
@@ -1106,18 +1109,21 @@ $(document).ready(function(){
 				var graphNameArray = this.id.split("-");
 				var graphName=graphNameArray[1];
 				//alert(graphId);
-				var typeCate="";
+				var typeCateUrl="";
 				if($("#categroryNameTitle").text()==":: Myview"){
 					typeCateUrl="../Model/SMI_callGraphBySubMenuMyView.jsp";
 				}else{
 					typeCateUrl="../Model/SMI_callGraphBySubMenu.jsp";
 				}
+				
 				$.ajax({
 					url:typeCateUrl,
 					type:"get",
 					dataType:"json",
 					data:{"paramGraphName":graphName},
+					async:false,
 					success:function(data){
+						
 						//data=SalePerDay,line,1,ยอดขายรายวันของหน้าร้าน
 						if($("#categroryNameTitle").text()==":: Myview"){
 						//send parameter graphName,myViewId,slotPosition,graphNameTitle
@@ -1151,8 +1157,9 @@ $(document).ready(function(){
 				if(graphName=="SalePerDay"){
 					
 							if($(".paramEmbed"+graphName).text()==""){
-								startDate=""+yyyy+"-"+mm+"-01";
-								endDate=""+yyyy+"-"+mm+"-"+dd+"";
+								
+								startDate=ParamFirstDayOfMonthDel2Day;
+								endDate=ParamCurrentDateDel2Day;
 							}else{
 								startDate=$("ul.paramEmbed"+graphName+">li.paramStartDate"+graphName).text();
 								endDate=$("ul.paramEmbed"+graphName+">li.paramEndDate"+graphName).text();
@@ -1195,7 +1202,8 @@ $(document).ready(function(){
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
-										 	paramYear=yyyy;
+										 	paramYear=yyyyDel2Day;
+										 	
 										}else{
 											startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
 											endWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeek").text();
@@ -1215,9 +1223,9 @@ $(document).ready(function(){
 	
 							 
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
-										 	startWeek=currentWeekNumber;
-										 	endWeek=currentWeekNumber;
-										 	paramYear=yyyy;
+										 	startWeek=currentWeekNumber;//Del 2 Day
+										 	endWeek=currentWeekNumber;//Day 2 Day
+										 	paramYear=yyyyDel2Day;
 										}else{
 											startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
 											endWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeek").text();
@@ -1241,7 +1249,7 @@ $(document).ready(function(){
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
-										 	paramYear=yyyy;
+										 	paramYear=yyyyDel2Day;
 										}else{
 											startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
 											endWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeek").text();
@@ -1262,8 +1270,8 @@ $(document).ready(function(){
 								
 								if($(".paramDefaultEmbed"+graphName).text()==""){
 									 
-									  vSDate=""+yyyy+"-"+mm+"-01";
-									  vEDate=""+yyyy+"-"+mm+"-"+dd+"";
+									  vSDate=ParamFirstDayOfMonthDel2Day;
+									  vEDate=ParamCurrentDateDel2Day;
 								}else{
 									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 									vSDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
@@ -1282,7 +1290,7 @@ $(document).ready(function(){
 									
 										if($(".paramDefaultEmbed"+graphName).text()==""){
 											paramWeekNumber=currentWeekNumber; 
-											paramYear=yyyy;
+											paramYear=yyyyDel2Day;
 											
 										}else{
 					
@@ -1304,7 +1312,7 @@ $(document).ready(function(){
 									 if($(".paramDefaultEmbed"+graphName).text()==""){
 										 	startWeek=currentWeekNumber;
 										 	endWeek=currentWeekNumber;
-										 	paramYear=yyyy;
+										 	paramYear=yyyyDel2Day;
 										}else{
 											startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
 											endWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeek").text();
@@ -1330,13 +1338,25 @@ $(document).ready(function(){
 				}else if(graphName=="SalesByPromotionMonthly"){
 					//g9
 					//Defualt Parameter Start
-					/*
-
+					
+					
+							
+							 var today = new Date(ParamCurrentDateDel2Day);
+							 var mm = today.getMonth()+1; //January is 0!
+							 var yyyy = today.getFullYear();
+							 if (mm < 10) {
+								    mm = '0' + mm;
+								}
+							 /*
+							  var ParamFirstDayOfMonthDel2Day="";
+							  var ParamCurrentDateDel2Day="";
+							  */
 							 var vYearDefault=""+yyyy+"";
 							 var vMonthDefault=""+mm+"";
+							 var vBranchDefault =branchId;
 							 var vYear="";
 							 var vMonth="";
-							 var vBranch=branchId;
+							 var vBranch="";
 							 var vPromotionCode1="";
 							 var vPromotionCode2="";
 							 var vPromotionCode3="";
@@ -1351,20 +1371,30 @@ $(document).ready(function(){
 								 type:"get",
 								 dataType:"json",
 								 async :false,
-								 data:{"paramYear":vYear,"paramMonth":vMonth,"paramBranch":vBranch},
+								 data:{"paramYear":vYearDefault,"paramMonth":vMonthDefault,"paramBranch":vBranchDefault},
 								 success:function(data){
 									
 									 if($(".paramEmbed"+graphName).text()==""){
-										 
+										 vBranch=vBranchDefault;
 										 vYear=vYearDefault;
 										 vMonth=vMonthDefault;
+									
+										 
+										 if(data!=""){
 										 vPromotionCode1=data[0][0];
 										 vPromotionCode2=data[0][0];
 										 vPromotionCode3=data[0][0];
 										 vPromotionCode4=data[0][0];
 										 vPromotionCode5=data[0][0];
 										 vPromotionCode6=data[0][0];
-										 
+										 }else{
+										 	 vPromotionCode1="00";
+											 vPromotionCode2="00";
+											 vPromotionCode3="00";
+											 vPromotionCode4="00";
+											 vPromotionCode5="00";
+											 vPromotionCode6="00";
+										 }
 										}else{
 											
 											 vBranch=$("ul.paramEmbed"+graphName+">li.paramBranch").text();
@@ -1382,7 +1412,7 @@ $(document).ready(function(){
 									
 									 SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,vPromotionCode1,
 											 vPromotionCode2,vPromotionCode3 ,vPromotionCode4,vPromotionCode5,
-											 vPromotionCode6,graphWidth,graphHeight);
+											 vPromotionCode6,graphWidth,graphHeight,paramMachine);
 									 
 								 }	
 								 
@@ -1392,7 +1422,7 @@ $(document).ready(function(){
 					
 					//Defualt Parameter End
 				
-					*/
+					
 				}else if(graphName=="Top10Food"){
 					//alert("g10");
 					//g10
@@ -1404,8 +1434,8 @@ $(document).ready(function(){
 							 var vEDate="";
 							
 							if($(".paramDefaultEmbed"+graphName).text()==""){
-								  vSDate=""+yyyy+"-"+mm+"-01";
-								  vEDate=""+yyyy+"-"+mm+"-"+dd+"";
+								  vSDate=ParamFirstDayOfMonthDel2Day;
+								  vEDate=ParamCurrentDateDel2Day;
 							}else{
 								vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 								vSDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
@@ -1428,8 +1458,8 @@ $(document).ready(function(){
 								
 								if($(".paramDefaultEmbed"+graphName).text()==""){
 									 
-									  vSDate=""+yyyy+"-"+mm+"-01";
-									  vEDate=""+yyyy+"-"+mm+"-"+dd+"";
+									  vSDate=ParamFirstDayOfMonthDel2Day;
+									  vEDate=ParamCurrentDateDel2Day;
 								}else{
 									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 									vSDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
@@ -1453,8 +1483,8 @@ $(document).ready(function(){
 								
 								if($(".paramDefaultEmbed"+graphName).text()==""){
 									 
-									  vSDate=""+yyyy+"-"+mm+"-01";
-									  vEDate=""+yyyy+"-"+mm+"-"+dd+"";
+									  vSDate=ParamFirstDayOfMonthDel2Day;
+									  vEDate=ParamCurrentDateDel2Day;
 								}else{
 									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 									vSDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
@@ -1480,8 +1510,8 @@ $(document).ready(function(){
 								
 								if($(".paramDefaultEmbed"+graphName).text()==""){
 									  
-									  vYear=""+yyyy+"";
-									  vMonth=""+mm+"";
+									  vYear=""+yyyyDel2Day+"";
+									  vMonth=""+mmDel2Day+"";
 								}else{
 									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 									vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
@@ -1508,8 +1538,8 @@ $(document).ready(function(){
 								
 								if($(".paramDefaultEmbed"+graphName).text()==""){
 									
-									  vYear=""+yyyy+"";
-									  vMonth=""+mm+"";
+									  vYear=""+yyyyDel2Day+"";
+									  vMonth=""+mmDel2Day+"";
 								}else{
 									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 									vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
@@ -1535,8 +1565,8 @@ $(document).ready(function(){
 								
 								if($(".paramDefaultEmbed"+graphName).text()==""){
 									
-									  vYear=""+yyyy+"";
-									  vMonth=""+mm+"";
+									  vYear=""+yyyyDel2Day+"";
+									  vMonth=""+mmDel2Day+"";
 								}else{
 									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 									vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
@@ -1683,12 +1713,12 @@ $(document).ready(function(){
 				 //title:arGraphName,
 				 autoOpen: false,
 				 show: {
-				 effect: "fade",
-				 duration: 1000
+				 effect: "clip",
+				 duration: 500
 				 },
 				 hide: {
-				 effect: "fade",
-				 duration: 1000
+				 effect: "clip",
+				 duration: 500
 				 },
 				 width: 390,
 				 modal: true,
