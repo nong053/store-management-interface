@@ -92,11 +92,13 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
     		var salesValue="";
     		if(objdataSeriesWasteDailyPercentage[num1]!=0){
     			if(objdataSeriesWasteDailyPercentage[num1]>=1.5){
-    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr("fill","orange");
+    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
+    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(1)").attr({"fill":"orange","stroke":"orange"});
     			}
     			
     			if(objdataSeriesWasteDailyPercentage[num1]>=2){
-    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr("fill","red");
+    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr({"fill":"red","stroke":"red"});
+    				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(1)").attr({"fill":"red","stroke":"red"});
     			}
     			salesValue=":"+objdataSeriesWasteDailyPercentage[num1]+"%";
     		}
