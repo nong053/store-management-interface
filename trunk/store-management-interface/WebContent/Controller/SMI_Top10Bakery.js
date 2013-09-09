@@ -7,7 +7,7 @@ function createChart_SMI_Top10Bakery(graphName,graphType,graphSeries,graphCatego
 
 	var seriesDefaultsFont="";
 	if(paramMachine=="Tablet"){
-		seriesDefaultsFont="16px Tahoma";
+		seriesDefaultsFont="13px Tahoma";
 	}else{
 		seriesDefaultsFont="10px Tahoma";
 	}
@@ -216,7 +216,7 @@ var submit_SMI_Top10Bakery=function(graphNameArea,graphName,graphType,arIndex,gr
 		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
 		if(parseInt(startDate[1]) <= parseInt(endDate[1])){
 			
-			top10BakeryFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
+			top10BakeryFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
 			if(paramMachine=="Tablet"){
 				$(".ui-icon-closethick").trigger("click");
 				
@@ -254,12 +254,12 @@ var dialogSetParam_SMI_Top10BakeryFn=function(paramTitleSetting){
 	 title:paramTitleSetting+"-Setting",
 	 autoOpen: false,
 	 show: {
-	 effect: "blind",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 hide: {
-	 effect: "explode",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 width: 450,
 	 height:300,

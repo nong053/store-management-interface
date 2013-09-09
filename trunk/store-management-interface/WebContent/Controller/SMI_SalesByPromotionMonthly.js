@@ -897,11 +897,11 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 		 title:"<b>"+paramTitleSetting+"-Setting</b>",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
+		 effect: "clip",
 		 duration: 1000
 		 },
 		 hide: {
-		 effect: "explode",
+		 effect: "clip",
 		 duration: 1000
 		 },
 		 width: 870,//+200

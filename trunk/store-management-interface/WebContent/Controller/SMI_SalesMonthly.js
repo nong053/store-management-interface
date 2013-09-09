@@ -103,7 +103,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	         },
 	         labels: {
 	             font: cateFont,
-	        	  rotation : -45
+	        	  rotation : -20
 	          }
 	     },
 	     tooltip: {
@@ -259,7 +259,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	         */
 	         labels: {
 	             font: cateFont,
-	        	  rotation : -45
+	        	  rotation : -20
 	          }
 	     },
 	     tooltip: {
@@ -548,12 +548,12 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 		 title:paramTitleSetting+"-Setting",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 440,//+90
 		 height:250,//+20
@@ -638,7 +638,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 			 $(".date").datepicker("option", "dateFormat", "yy-mm-dd");
 			 
 			 
-			 
+			 /*
 			 var today = new Date();
 			 var dd = today.getDate();
 			 var mm = today.getMonth()+1; //January is 0!
@@ -651,16 +651,12 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 				if (dd < 10) {
 				    dd = '0' + dd;
 				}
-			 //2013-01-30
-			//call function to get all branch start
-				//data is empty
-			//call function to get all branch end	
-			// $("#paramDate"+graphNameArea).val(""+yyyy+"-"+mm+"-"+dd+"");
-				//alert($(".paramEmbed"+graphName).text());
+				*/
+			
 			 if($(".paramEmbed"+graphName).text()==""){
 				 getBranch(graphNameArea);
 				 $("#paramBranch"+graphNameArea).kendoDropDownList();
-				 $("#paramDate"+graphNameArea).val(""+yyyy+"-"+mm+"-"+dd+"");
+				 $("#paramDate"+graphNameArea).val(ParamCurrentDateDel2Day);
 			}else{
 				 getBranch(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramBranchCode").text());
 				 $("#paramBranch"+graphNameArea).kendoDropDownList();

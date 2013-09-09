@@ -8,7 +8,7 @@ function createChart_SMI_CookingTimeRange(graphName,graphType,graphSeries,graphC
 	if(paramMachine=="Tablet"){
 		seriesDefaultsFont="16px Tahoma";
 	}else{
-		seriesDefaultsFont="10px Tahoma";
+		seriesDefaultsFont="13px Tahoma";
 	}
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
@@ -305,7 +305,7 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 			embedParameterTop10CookingTime(graphName,paramBranch,paramYear,paramMonth);
 			//###################Embead parameter to call embed parameter function start##############
 			
-			cookingTimeRangeFn(graphName,graphType,arIndex,paramBranch,paramYear,paramMonth,graphWidth,graphHeight);
+			cookingTimeRangeFn(graphName,graphType,arIndex,paramBranch,paramYear,paramMonth,graphWidth,graphHeight,paramMachine);
 			
 			if(paramMachine=="Tablet"){
 				$(".ui-icon-closethick").trigger("click");
@@ -341,12 +341,12 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 		 title:paramTitleSetting+"-Setting",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 450,
 		 height:300,

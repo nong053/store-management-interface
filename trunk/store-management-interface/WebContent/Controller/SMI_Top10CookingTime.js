@@ -3,7 +3,7 @@
 function createChart_SMI_Top10CookingTime(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,paramMachine,titleText) {
 	var seriesDefaultsFont="";
 	if(paramMachine=="Tablet"){
-		seriesDefaultsFont="16px Tahoma";
+		seriesDefaultsFont="13px Tahoma";
 	}else{
 		seriesDefaultsFont="10px Tahoma";
 	}
@@ -334,7 +334,7 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 			embedParameterTop10CookingTime(graphName,paramBranch,paramYear,paramMonth);
 			//###################Embead parameter to call embed parameter function start##############
 			
-			top10CookingTimeFn(graphName,graphType,arIndex,paramBranch,paramYear,paramMonth,graphWidth,graphHeight);
+			top10CookingTimeFn(graphName,graphType,arIndex,paramBranch,paramYear,paramMonth,graphWidth,graphHeight,paramMachine);
 			
 			if(paramMachine=="Tablet"){
 				$(".ui-icon-closethick").trigger("click");
@@ -370,12 +370,12 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 		 title:paramTitleSetting+"-Setting",
 		 autoOpen: false,
 		 show: {
-		 effect: "blind",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 hide: {
-		 effect: "explode",
-		 duration: 1000
+		 effect: "clip",
+		 duration: 500
 		 },
 		 width: 450,
 		 height:300,

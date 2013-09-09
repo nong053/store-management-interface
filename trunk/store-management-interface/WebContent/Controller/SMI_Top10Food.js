@@ -8,8 +8,7 @@ function createChart_SMI_Top10Food(graphName,graphType,graphSeries,graphCategory
 
 	var seriesDefaultsFont="";
 	if(paramMachine=="Tablet"){
-		
-		seriesDefaultsFont="16px Tahoma";
+		seriesDefaultsFont="13px Tahoma";
 	}else{
 		seriesDefaultsFont="10px Tahoma";
 	}
@@ -110,7 +109,7 @@ function createChart_SMI_Top10Food(graphName,graphType,graphSeries,graphCategory
 
     		var salesValue="";
     		if(objDataSeriesSaleValue[num1]!=0){
-    			salesValue="="+objDataSeriesSaleValue[num1]+"";
+    			salesValue=":"+objDataSeriesSaleValue[num1]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -221,7 +220,7 @@ var submit_SMI_Top10Food=function(graphNameArea,graphName,graphType,arIndex,grap
 		
 		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
 			if(parseInt(startDate[1]) <= parseInt(endDate[1])){
-				top10FoodFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
+				top10FoodFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
 				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
@@ -263,12 +262,12 @@ var dialogSetParam_SMI_Top10FoodFn=function(paramTitleSetting){
 	 title:paramTitleSetting+"-Setting",
 	 autoOpen: false,
 	 show: {
-	 effect: "blind",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 hide: {
-	 effect: "explode",
-	 duration: 1000
+	 effect: "clip",
+	 duration: 500
 	 },
 	 width: 450,
 	 height:300,
