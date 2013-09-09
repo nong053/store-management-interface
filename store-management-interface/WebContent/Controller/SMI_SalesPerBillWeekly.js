@@ -251,7 +251,7 @@ function salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,
 				 var startWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeekInterval").text();
 				 var endWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeekInterval").text();
 				 */
-				 var titleText="Sale per Bill(บาทต่อบิล)ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
+				 var titleText="Sales per Bill(บาทต่อบิล)ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
 				 createChart_SMI_SalesPerBillWeekly(graphName,graphType,series,objcategoriesSalesPerBillWeekly,arIndex,graphWidth,graphHeight,titleText);
 			
 			}

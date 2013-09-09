@@ -142,10 +142,10 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     	}
      });
      console.log("-----------------------------");
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr("fill","orange");
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr("fill","#007bc3");
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr("fill","gray");
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr("fill","#cccccc");
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr({"fill":"#007bc3","stroke":"#007bc3"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr({"fill":"gray","stroke":"gray"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr({"fill":"#cccccc","stroke":"#cccccc"});
      
      
      
@@ -296,11 +296,16 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		num++;
     	}
      });
-     
+     /*
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr("fill","orange");
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr("fill","#007bc3");
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr("fill","gray");
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr("fill","#cccccc");
+     */
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr({"fill":"#007bc3","stroke":"#007bc3"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr({"fill":"gray","stroke":"gray"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr({"fill":"#cccccc","stroke":"#cccccc"});
 };
 
 

@@ -3,35 +3,7 @@
 //call SMI_SalePerDay (  '2012-01-01' , '2012-03-31' , '322000' )
 
 function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,paramMachine,titieText){
-	/*
-		alert("areaSalePerDay="+graphName);
-		alert("graphSeries="+graphSeries);
-		alert("graphCategory="+graphCategory);
-		alert("arIndex="+arIndex);
-	*/
-	/*
-	var valueAxisFont="";
-	var labelsRotation="";
-	var legendFont="";
-	var cateFont="";
 	
-	if(paramMachine=="Tablet"){
-		//alert("Tablet");
-		valueAxisFont="20px Tahoma";
-		legendFont="16px Tahoma";
-		cateFont="16px Tahoma";
-		titleFont="16px Tahoma";
-		labelsRotation=0;
-	}else{
-		//alert("PC");
-		valueAxisFont="12px Tahoma";
-		legendFont="13px Tahoma";
-		cateFont="10px Tahoma";
-		titleFont="13px Tahoma";
-		labelsRotation=0;
-	}
-	*/
-	//alert(cateFont);
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  theme: $(document).data("kendoSkin") || "silver",
@@ -103,6 +75,7 @@ function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,ar
 	     });
 };
 
+
 var htmlParam_SMI_SalePerDay = function(graphNameArea,paramMachine){
 	var readonly="";
 	if(paramMachine=="Tablet"){
@@ -127,12 +100,14 @@ var htmlParam_SMI_SalePerDay = function(graphNameArea,paramMachine){
 				htmlParam+="<b>Branch</b>";
 			htmlParam+="</td>";
 			htmlParam+="<td id=\"areaParamBranch"+graphNameArea+"\">";
-				htmlParam+="<select class=\"list\" id=\"paramBrach"+graphNameArea+"\">";
+				/*
+				htmlParam+="<select class=\"list\" id=\"paramBranch"+graphNameArea+"\">";
 					htmlParam+="<option value=\"311\">311-ทองหล่อ</option>";
 					htmlParam+="<option value=\"312\">312-branchName2</option>";
 					htmlParam+="<option value=\"313\">313-branchName3</option>";
 					htmlParam+="<option value=\"314\">314-branchName4</option>";
 				htmlParam+="</select>";
+				*/
 			htmlParam+="</td>";
 			htmlParam+="</tr>";
 			
@@ -140,16 +115,20 @@ var htmlParam_SMI_SalePerDay = function(graphNameArea,paramMachine){
 				htmlParam+="<td>";
 					htmlParam+="<b>Start Date</b>";
 				htmlParam+="</td>";
-				htmlParam+="<td>";
+				htmlParam+="<td id=\"areaParamStartDate"+graphNameArea+"\">";
+				/*
 					htmlParam+="<input type=\"text\" "+readonly+" name=\"paramStartDate"+graphNameArea+"\" id=\"paramStartDate"+graphNameArea+"\" class=\"date\">";
+	 			*/
 	 			htmlParam+="</td>";
 	 		htmlParam+="</tr>";
 	 		htmlParam+="<tr>";
 	 			htmlParam+="<td>";
 	 				htmlParam+="<b>End Date</b>";
 	 			htmlParam+="</td>";
-	 			htmlParam+="<td>";
+	 			htmlParam+="<td id=\"areaParamEndDate"+graphNameArea+"\">";
+	 			/*
 	 				htmlParam+="<input type=\"text\" "+readonly+" name=\"paramEndDate"+graphNameArea+"\" id=\"paramEndDate"+graphNameArea+"\" class=\"date\">";
+	 			*/
 	 			htmlParam+="</td>";
 	 		htmlParam+="</tr>";
 	 	
@@ -179,29 +158,15 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 	$("#salePerDaySubmit"+graphNameArea).die("click");
 	$("#salePerDaySubmit"+graphNameArea).live("click",function(){
 		
-		//Embed Parameter for reuse again start
+		//###################Embead parameter to call embed parameter function start##############
+		var paramBranch=$("#paramBranch"+graphNameArea).val();
+		var paramStartDate=$("#paramStartDate"+graphNameArea).val();
+		var paramEndDate=$("#paramEndDate"+graphNameArea).val();
+		embedParamSalePerDay(graphName,paramBranch,paramStartDate,paramEndDate);
+		//###################Embead parameter to call embed parameter function start##############
 		
-		var paramEmbedHtml="" +
-				"<ul style=\"display:none\" class=\"paramEmbed"+graphName+"\">"+graphName+"" +
-					"<li class=\"paramBranchCode"+graphName+"\">"+$("#paramBrach"+graphNameArea).val()+"</li>" +
-					"<li class=\"paramStartDate"+graphName+"\">"+$("#paramStartDate"+graphNameArea).val()+"</li>" +
-					"<li class=\"paramEndDate"+graphName+"\">"+$("#paramEndDate"+graphNameArea).val()+"</li>" +
-				"</ul>";
-		
-		$(".paramEmbed"+graphName).remove();
-		$("body").append(paramEmbedHtml);
 
-		//Embed Parameter for reuse again end
-		var paramBrach="";
-		var paramStartDate="";
-		var paramEndDate="";
-		
-		paramBrach=$("#paramBrach"+graphNameArea).val();
-		paramStartDate=$("#paramStartDate"+graphNameArea).val();
-		paramEndDate=$("#paramEndDate"+graphNameArea).val();
-
-		//call function create graph for gernarate new graph
-		//salePerDayFn
+	
 		//condition check can't select over month
 		var startDate = paramStartDate.split("-");
 		var endDate = paramEndDate.split("-");
@@ -209,8 +174,8 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 		if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){
 			
 			if(parseInt(startDate[2]) < parseInt(endDate[2])){
-			
-					salePerDayFn(graphName,graphType,arIndex,paramStartDate,paramEndDate,paramBrach,graphWidth,graphHeight,paramMachine);
+					
+					salePerDayFn(graphName,graphType,arIndex,paramStartDate,paramEndDate,paramBranch,graphWidth,graphHeight,paramMachine);
 					if(paramMachine=="Tablet"){
 						$(".ui-icon-closethick").trigger("click");
 						$(".contentGraph").shadow();
@@ -274,6 +239,21 @@ var dialogSetParam_SMI_SalePerDayFn=function(paramTitleSetting){
  $(".ui-dialog .ui-dialog-content").css({"padding":"0px"});
 };
  /*####################### config dialog for tablet end ###################*/ 
+//#######################Embed parameter Function start #################
+function embedParamSalePerDay(graphName,paramBranch,paramStartDate,paramEndDate){
+
+	var paramDefaultEmbedHtml="" +
+	"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
+		"<li class=\"paramBranch\">"+paramBranch+"</li>" +
+		"<li class=\"paramStartDate\">"+paramStartDate+"</li>" +
+		"<li class=\"paramEndDate\">"+paramEndDate+"</li>" +
+	"</ul>";
+
+	$(".paramDefaultEmbed"+graphName).remove();
+	$("body").append(paramDefaultEmbedHtml);
+	//Embed Default Parameter end
+}
+//#######################Embed parameter Function end #################
 
 function manageParamSalePerDayFn(graphNameArea,graphWidth,graphHeight,paramMachine){
 	//alert("access by:"+paramMachine);
@@ -306,26 +286,12 @@ function manageParamSalePerDayFn(graphNameArea,graphWidth,graphHeight,paramMachi
 			 $(".setParamForm"+graphNameArea).slideDown();
 		 }
 		
-		
-		 $(".date").datepicker({
-			 showOn: "button",
-			 buttonImage: ""+$buttonImage+"",
-			 buttonImageOnly: true
-			 });
-		 $(".date").datepicker("option", "dateFormat", "yy-mm-dd");
-		 $("#paramBrach"+graphNameArea).kendoDropDownList();
-		 
-
-		if($(".paramEmbed"+graphName).text()==""){
-			//startDate=ParamFirstDayOfMonthDel2Day;
-			//endDate=ParamCurrentDateDel2Day;
-			 $("#paramStartDate"+graphNameArea).val(ParamFirstDayOfMonthDel2Day);
-			 $("#paramEndDate"+graphNameArea).val(ParamCurrentDateDel2Day);
-		}else{
-			$("#paramStartDate"+graphNameArea).val($("ul.paramEmbed"+graphName+">li.paramStartDate"+graphName).text());
-			$("#paramEndDate"+graphNameArea).val($("ul.paramEmbed"+graphName+">li.paramEndDate"+graphName).text());	
-
-		}
+		 //#####################check parameter is selected start#########################
+			getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
+			getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
+			getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text(),paramMachine);
+		//######################check parameter is selected end###########################
+			
 		 //create button submit
 		 submit_SMI_SalePerDay(graphNameArea,graphName,'line',graphIndex,graphWidth,graphHeight,paramMachine);
 		 
@@ -346,13 +312,9 @@ function manageParamSalePerDayFn(graphNameArea,graphWidth,graphHeight,paramMachi
 
 
 function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,graphWidth,graphHeight,paramMachine){
-	 /*
-	 alert("--1"+startDate);
-	 alert("--2"+endDate);
-	 alert("--3"+branchId);
-	 
-	 */
-	
+	//#########################set embed parameter for embed default parameter start########################
+	embedParamSalePerDay(graphName,branchId,startDate,endDate);
+	//#########################set embed parameter for embed default parameter end########################
 	 $.ajax({
 			url:"../Model/SMI_SalePerDay.jsp",
 			type:"POST",
