@@ -763,7 +763,7 @@ $(document).ready(function(){
 		};
 		$(".setting").die("click");
 		$(".setting").live("click",function(){
-			
+			 withdrawFn();
 		     var graphNameArea= $(this).parent().parent().attr("id");
 		     //alert(graphNameArea);
 		     callManageParameter(graphNameArea);
@@ -1693,8 +1693,11 @@ $(document).ready(function(){
 			});
 			//when click area orther define left menu hide the right.
 			
-			$("#contentArea").click(function(){
+			$("#contentArea").live("click",function(e){
 				withdrawFn();
+				//withdrawSubGraphFn();
+				e.preventDefault();
+				$(this).die("click");
 			});
 			/*
 			$(".touchslider-nav").die("click");
