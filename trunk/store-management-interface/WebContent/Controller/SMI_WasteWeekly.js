@@ -219,16 +219,16 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 					
 					if(index==0){
 						categorieswasteWeekly+="\""+indexEntry[0]+"\"";
-						dataSerieswasteUpperLine+="\""+indexEntry[1]+"\"";
-						dataSerieswasteLowerLine+="\""+indexEntry[2]+"\"";
-						dataSerieswasteWeekly+="\""+indexEntry[3]+"\"";
+						dataSerieswasteUpperLine+="\""+parseFloat(indexEntry[1]).toFixed(2)+"\"";
+						dataSerieswasteLowerLine+="\""+parseFloat(indexEntry[2]).toFixed(2)+"\"";
+						dataSerieswasteWeekly+="\""+parseFloat(indexEntry[3]).toFixed(2)+"\"";
 						
 						
 					}else{
 						categorieswasteWeekly+=",\""+indexEntry[0]+"\"";
-						dataSerieswasteUpperLine+=",\""+indexEntry[1]+"\"";
-						dataSerieswasteLowerLine+=",\""+indexEntry[2]+"\"";
-						dataSerieswasteWeekly+=",\""+indexEntry[3]+"\"";
+						dataSerieswasteUpperLine+=",\""+parseFloat(indexEntry[1]).toFixed(2)+"\"";
+						dataSerieswasteLowerLine+=",\""+parseFloat(indexEntry[2]).toFixed(2)+"\"";
+						dataSerieswasteWeekly+=",\""+parseFloat(indexEntry[3]).toFixed(2)+"\"";
 						
 					}
 

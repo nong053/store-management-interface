@@ -1,7 +1,7 @@
 
 /* demo slider*/
 *{
-	font:18px Tahoma;
+	font:16px Tahoma;
 }
 
 #loading {
@@ -464,7 +464,7 @@ div#selectFav ul li .boxSlot{
 	
 }
 .chart{
-	margin-left:60px;
+	margin-left:45px;
 }
 #contentArea .subGraph{
 

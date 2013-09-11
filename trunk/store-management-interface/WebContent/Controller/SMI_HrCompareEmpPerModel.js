@@ -24,19 +24,22 @@
 		return x1 + x2;
 	}	
 
-function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex){
-/*
+function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,paramMachine){
+
 
 	var seriesDefaultsFont="";
+	var PositionWidth="";
 	if(paramMachine=="Tablet"){
 		seriesDefaultsFont="13px Tahoma";
+		PositionWidth=200;
 	}else{
 		seriesDefaultsFont="10px Tahoma";
+		PositionWidth=150
 	}
-*/	
+
 	
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
-		 	 height: 270,
+		 	 height: graphHeight,
              dataSource: {
                  data: [{    "Position":"ผจก.บริหาร/ผู้เชี่ยวชาญ",
 		                	 "Model":"299",
@@ -120,17 +123,19 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex){
 				      }
                  
                  ],
-                 pageSize: 10
+                // pageSize: 10
              },
              groupable: false,
-             sortable: true,
+             sortable: false,
+             /*
              pageable: {
                  refresh: true,
                  pageSizes: true
              },
+             */
              columns: [ {
                      field: "Position",
-                     width: 150,
+                     width: PositionWidth,
                      title: "<center><b>ตำแหน่ง</b></center>"
                  } , {
                      field: "Model",
@@ -437,7 +442,7 @@ function manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,
 }
 
 
-function HrCompareEmpPerModelFn(graphName,graphType,arIndex){
+function HrCompareEmpPerModelFn(graphName,graphType,arIndex,graphHeight,paramMachine){
 	//graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
 	
 	//alert("graphName="+graphName);
@@ -540,7 +545,7 @@ function HrCompareEmpPerModelFn(graphName,graphType,arIndex){
 		});
 	 
 	 */
-	 createChart_SMI_HrCompareEmpPerModel(graphName,arIndex);
+	 createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,paramMachine);
 		
 	};
 

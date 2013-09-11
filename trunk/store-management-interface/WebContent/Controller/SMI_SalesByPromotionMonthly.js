@@ -82,6 +82,7 @@ $("select#paramYear"+graphNameArea).live("change",function(){
 }
 function getMonthParam_SMI_SalesByPromotionMonthly(graphNameArea,paramMonthSelected){
 	//alert("hello call function year parameter"+paramMonthSelected);
+	var vParamMonthSelected=parseFloat(paramMonthSelected+"").toFixed(0);
 	var monthHtml = "";
 	$.ajax({
 		url:"../Model/SMI_ParamMonth.jsp",
@@ -91,7 +92,8 @@ function getMonthParam_SMI_SalesByPromotionMonthly(graphNameArea,paramMonthSelec
 		success:function(data){
 			monthHtml+="<select class=\"list\" id=\"paramMonth"+graphNameArea+"\">";
 			$.each(data,function(index,indexEntry){
-				if(parseInt(paramMonthSelected)==indexEntry[0]){
+				
+				if(vParamMonthSelected==indexEntry[0]){
 					//alert(branchCode==indexEntry[0]);
 					monthHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
 				}else{
@@ -384,7 +386,8 @@ function createChart_SMI_SalesByPromotionMonthly(graphName,graphType,graphSeries
 	 $("#chart"+graphName+"-"+arIndex).kendoChart({
 		  chartArea: {
 			    width: parseInt(graphWidth),
-			    height:parseInt(graphHeight)
+			    height:parseInt(graphHeight),
+			    background:""
 			  },
 	     title: {
 	         text: titleText,
