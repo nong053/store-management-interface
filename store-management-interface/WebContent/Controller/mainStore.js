@@ -1840,13 +1840,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 
 
 							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-						HrCompareEmpPerModelFn(graphName,graphType,arIndex);
+						HrCompareEmpPerModelFn(graphName,graphType,arIndex,graphHeight,paramMachine);
 					
 				}
 			 });
 			//Defualt Parameter End
 			
 		}else if(graphName=="CompareEmployeePerModelByDepartment"){
+			
 			
 			//g16
 			
@@ -1886,7 +1887,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 
 
 							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-						HrCompareEmpPerModelFn(graphName,graphType,arIndex);
+						HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,graphHeight,paramMachine);
 					
 				}
 			 });
@@ -1932,7 +1933,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 
 
 							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-						HrCompareEmpPerModelFn(graphName,graphType,arIndex);
+						HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,graphHeight,paramMachine);
 					
 				}
 			 });
