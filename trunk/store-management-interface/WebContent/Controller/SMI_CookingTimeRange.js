@@ -178,20 +178,27 @@ function cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 				var objdataSeriescookingTimeRangeThisMonth=eval("("+dataSeriescookingTimeRangeThisMonth+")");
 				var objdataSeriescookingTimeRangeLastMonth=eval("("+dataSeriescookingTimeRangeLastMonth+")");
 
+				var vLastMonth="";
+				var vLastYear="";
+				if((vMonth-1)==0){
+					vLastMonth=12;
+					vLastYear=vYear-1;
+				}else{
+					vLastMonth=vMonth-1;
+					vLastYear=vYear;
+				}
 				
 				 series=[{
-						 name: "Last Month",
+					     name: getMonthName(vLastMonth)+" "+vLastYear,
 			         	 data: objdataSeriescookingTimeRangeLastMonth,
 			         	color: 'orange'
 				     },{
-			         	 
-			         	 
-			         	 name: "This Month",
+				    	 name: getMonthName(vMonth)+" "+vYear,
 			         	 data: objdataSeriescookingTimeRangeThisMonth,
 			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="สรุปจำนวนจานตามเวลาที่ใช้ในการทำอาหารของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
+				 var titleText="จำนวนอาหารที่ทำเกินเวลา "+getMonthName(vMonth)+" ปี "+vYear+"";
 				 createChart_SMI_CookingTimeRange(graphName,graphType,series,objcategoriescookingTimeRange,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
 			}

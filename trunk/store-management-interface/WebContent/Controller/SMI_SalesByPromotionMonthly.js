@@ -528,19 +528,19 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 					var paramTarget="";
 					
 					if(indexEntry[1]!=null){
-						paramTarget=parseFloat(indexEntry[1]).toFixed(2);
+						paramTarget=parseFloat(indexEntry[1]).toFixed(0);
 						
 					}else{
 						paramTarget=0;
 					}
 					if(indexEntry[2]!=null){
-						paramThisYear=parseFloat(indexEntry[2]).toFixed(2);
+						paramThisYear=parseFloat(indexEntry[2]).toFixed(0);
 						
 					}else{
 						paramThisYear=0;
 					}
 					if(indexEntry[3]!=null){
-						paramLastYear=parseFloat(indexEntry[3]).toFixed(2);
+						paramLastYear=parseFloat(indexEntry[3]).toFixed(0);
 						
 					}else{
 						paramLastYear=0;
@@ -595,11 +595,11 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 				
 				 series=[{
 			         	 
-			         	name: "Last Year",
+			         	name: vYear-1,
 				         data: objdataSeriesSalesByPromotionMonthlyLastYear,
 				         color: 'orange'
 				     }, {
-				         name: "Current",
+				         name: vYear,
 				         data: objdataSeriesSalesByPromotionMonthlyThisYear,
 				         color: '#007bc3'
 				     }, {

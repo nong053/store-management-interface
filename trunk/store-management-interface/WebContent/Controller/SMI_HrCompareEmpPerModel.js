@@ -34,7 +34,7 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,para
 		PositionWidth=200;
 	}else{
 		seriesDefaultsFont="10px Tahoma";
-		PositionWidth=150
+		PositionWidth=150;
 	}
 
 	

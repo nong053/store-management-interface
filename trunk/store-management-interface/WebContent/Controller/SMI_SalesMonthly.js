@@ -12,7 +12,8 @@ function templateFormat(value,summ) {
 			
 //$(document).on("click",".setting",function(){
 //call SMI_SalePerMonth (  '2012-01-01' , '2012-03-31' , '322000' )
-function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCategory,arIndex,currentMTD,paramMachine,objDataDiffSalesMonthlyMTD) {
+function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,currentMTD,paramMachine,objDataDiffSalesMonthlyMTD) {
+
 	var chartWidth="";
 	var chartHeight="";
 	var titleFont="";
@@ -20,8 +21,12 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	var valueAxisFont="";
 	var cateFont="";
 	if(paramMachine=="Tablet"){
-		chartWidth=450;
-		chartHeight=350;
+		//graphWidth=(paramGraphWidth/2);
+		chartWidth=(paramGraphWidth/2);
+		chartHeight=paramGraphHeight;
+		//alert(chartWidth);
+		//alert(chartHeight);
+		
 		titleFont="20px Tahoma";
 		legendFont="16px Tahoma";
 		valueAxisFont="16px Tahoma";
@@ -135,7 +140,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyMTD[num]!=0){
     			if(objDataDiffSalesMonthlyMTD[num]){}
-    			diffPercentage=" : "+objDataDiffSalesMonthlyMTD[num]+"%";
+    			diffPercentage=" : ("+objDataDiffSalesMonthlyMTD[num]+"%)";
     		}
     		$(this).text(""+addCommas(labelValueMTD[1])+""+diffPercentage+"");
     		num++;
@@ -163,7 +168,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 };
 
 
-function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCategory,arIndex,currentYTD,paramMachine,objDataDiffSalesMonthlyYTD) {
+function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,currentYTD,paramMachine,objDataDiffSalesMonthlyYTD) {
 	var chartWidth="";
 	var chartHeight="";
 	var titleFont="";
@@ -171,8 +176,15 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	var valueAxisFont="";
 	var cateFont="";
 	if(paramMachine=="Tablet"){
+		
+		
+		chartWidth=(paramGraphWidth/2);
+		chartHeight=paramGraphHeight;
+		
+		/*
 		chartWidth=460;
 		chartHeight=350;
+		*/
 		titleFont="20px Tahoma";
 		legendFont="16px Tahoma";
 		valueAxisFont="16px Tahoma";
@@ -206,7 +218,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 			    background: ""
 			  },
 	     title: {
-	         text: "(หน่วย:พันบาท) ยอดขาย "+currentYTD+"(YTD)",
+	         text: "(หน่วย:พันบาท) ยอดขายสะสม "+currentYTD+"(YTD)",
 	         visible:true,
 	         font: titleFont
 	     },
@@ -297,7 +309,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		//alert("Num"+num);
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyYTD[num]!=0){
-    			diffPercentage=" : "+objDataDiffSalesMonthlyYTD[num]+"%";
+    			diffPercentage=" : ("+objDataDiffSalesMonthlyYTD[num]+"%)";
     		}
     		$(this).text(""+addCommas(labelValueYTD[1])+""+diffPercentage+"");
     		num++;
@@ -323,9 +335,17 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 };
 
 
-function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachine){
+function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,graphWidth,graphHeight,paramMachine){
 	
 	//call SalesMonthlyMTD
+	/*
+	alert(graphWidth);
+	alert(graphHeight);
+	alert(paramMachine);
+	*/
+	//#########################set embed parameter for embed default parameter start########################
+	embedParameterSalesMonthly(graphName,brach,currentDate);
+	//#########################set embed parameter for embed default parameter end########################
 	
 	 $.ajax({
 			url:"../Model/SMI_SalePerMonth.jsp",
@@ -374,7 +394,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 		
 				 //เป็น ยอดขาย 1-18 Aug 2013
 				 var titieText="(หน่วย:พันบาท)ยอดขาย 1-"+dd+" "+getMonthName(mm)+" "+yyyy;
-				 createChartSMI_SalePerMonthMTD(graphName,graphType,series,objCategories,arIndex,titieText,paramMachine,objDataDiffSalesMonthlyMTD);
+				 createChartSMI_SalePerMonthMTD(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,titieText,paramMachine,objDataDiffSalesMonthlyMTD);
 				
 			}
 			
@@ -406,7 +426,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 				 var targetFullYTD=(parseInt(data[0][3]/1000));	
 	
 				 
-				categories+="[\"Jan-"+getMonthName(mm)+" "+(yy-1)+"\",\"Jan-"+getMonthName(mm)+" "+yy+"\",\"Target Jan-"+getMonthName(mm)+" "+yy+"(YTD)\",\"Target Yearly\"]";			
+				categories+="[\"Jan-"+getMonthName(mm)+" "+(yy-1)+"\",\"Jan-"+getMonthName(mm)+" "+yy+"\",\"Target YTD Jan-"+getMonthName(mm)+" "+yy+"\",\"Target Yearly\"]";			
 				dataSeriesSalesMonthlyYTD+="["+lastPeriod+","+current+","+targetYTD+","+targetFullYTD+"]";
 				dataDiffSalesMonthlyYTD+="[0,"+data[0][4]+","+data[0][5]+","+data[0][6]+"]";
 				var objCategories=eval("("+categories+")");
@@ -425,7 +445,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 				 var selectYYYY = selectDate.getFullYear();
 				 var selectMM = selectDate.getMonth()+1; //January is 0!
 				 
-				 createChartSMI_SalePerMonthYTD(graphName,graphType,series,objCategories,arIndex,""+getMonthName(selectMM)+" "+selectYYYY,paramMachine,objDataDiffSalesMonthlyYTD);
+				 createChartSMI_SalePerMonthYTD(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,""+getMonthName(selectMM)+" "+selectYYYY,paramMachine,objDataDiffSalesMonthlyYTD);
 				
 			}
 			
@@ -476,8 +496,8 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 					htmlParam+="<td>";
 						htmlParam+="<b>Date</b>";
 					htmlParam+="</td>";
-					htmlParam+="<td>";
-						htmlParam+="<input type=\"text\"  "+readonly+" name=\"paramDate"+graphNameArea+"\" id=\"paramDate"+graphNameArea+"\" class=\"date\">";
+					htmlParam+="<td id=\"areaParamStartDate"+graphNameArea+"\">";
+						//htmlParam+="<input type=\"text\"  "+readonly+" name=\"paramDate"+graphNameArea+"\" id=\"paramDate"+graphNameArea+"\" class=\"date\">";
 		 			htmlParam+="</td>";
 		 		htmlParam+="</tr>";
 
@@ -505,35 +525,17 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 		
 		$("#SalePerMonthSubmit"+graphNameArea).die("click");
 		$("#SalePerMonthSubmit"+graphNameArea).live("click",function(){
-			/*
+			
+			//###################Embead parameter to call embed parameter function start##############
 			var paramBranch=$("#paramBranch"+graphNameArea).val();
-			var paramDate=$("#paramDate"+graphNameArea).val();
-			*/
-			//Embed Parameter for reuse again start
+			var paramDate=$("#paramStartDate"+graphNameArea).val();
 			
-			var paramEmbedHtml="" +
-					"<ul style=\"display:none\" class=\"paramEmbed"+graphName+"\">"+graphName+"" +
-						"<li class=\"paramBranchCode\">"+$("#paramBranch"+graphNameArea).val()+"</li>" +
-						"<li class=\"paramDate\">"+$("#paramDate"+graphNameArea).val()+"</li>" +
-					"</ul>";
+			embedParameterTop10Food(graphName,paramBranch,paramDate);
+			//###################Embead parameter to call embed parameter function start##############
 			
-			$(".paramEmbed"+graphName).remove();
-			$("body").append(paramEmbedHtml);
-
-			//Embed Parameter for reuse again end
-			var paramBranch="";
-			var paramDate="";
 			
-			paramBranch=$("ul.paramEmbed"+graphName+">li.paramBranchCode").text();
-			paramDate=$("ul.paramEmbed"+graphName+">li.paramDate").text();
-			/*
-			alert(paramBranch);
-			alert(paramDate);
-			*/
-			//call function create graph for gernarate new graph
-			//SalePerMonth
-			//graphName,graphType,arIndex,currentDate,brach
-			salePerMonthFn(graphName,graphType,arIndex,paramDate,paramBranch,paramMachine);
+			 		  
+			salePerMonthFn(graphName,graphType,arIndex,paramDate,paramBranch,graphWidth,graphHeight,paramMachine);
 			if(paramMachine=="Tablet"){
 				$(".ui-icon-closethick").trigger("click");
 
@@ -620,7 +622,27 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 	$("td#areaParamBranch"+graphNameArea).html(branchHtml);
 	}	
 	
+	
+	
+	//#######################Embed parameter Function start #################
+	function embedParameterSalesMonthly(graphName,paramBranch,paramDate){
+
+		var paramDefaultEmbedHtml="" +
+		"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
+			"<li class=\"paramBranch\">"+paramBranch+"</li>" +
+			"<li class=\"paramStartDate\">"+paramDate+"</li>" +
+		
+		"</ul>";
+
+		$(".paramDefaultEmbed"+graphName).remove();
+		$("body").append(paramDefaultEmbedHtml);
+		//Embed Default Parameter end
+	}
+	//#######################Embed parameter Function end #################
+	
+	
 	function manageParamSalePerMonthFn(graphNameArea,graphWidth,graphHeight,paramMachine){
+		
 		var $buttonImage="";
 		if(paramMachine=="Tablet"){
 			$buttonImage="../images/calendarBig.gif";
@@ -648,41 +670,11 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,paramMachi
 				 
 			 }
 			
-			 $(".date").datepicker({
-				 showOn: "button",
-				 buttonImage: ""+$buttonImage+"",
-				 buttonImageOnly: true
-				 });
 			 
-			 $(".date").datepicker("option", "dateFormat", "yy-mm-dd");
-			 
-			 
-			 /*
-			 var today = new Date();
-			 var dd = today.getDate();
-			 var mm = today.getMonth()+1; //January is 0!
-			 var yyyy = today.getFullYear();
-			 
-			 if (mm < 10) {
-				    mm = '0' + mm;
-				}
-
-				if (dd < 10) {
-				    dd = '0' + dd;
-				}
-				*/
-			
-			 if($(".paramEmbed"+graphName).text()==""){
-				 getBranch(graphNameArea);
-				 $("#paramBranch"+graphNameArea).kendoDropDownList();
-				 $("#paramDate"+graphNameArea).val(ParamCurrentDateDel2Day);
-			}else{
-				 getBranch(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramBranchCode").text());
-				 $("#paramBranch"+graphNameArea).kendoDropDownList();
-				 $("#paramDate"+graphNameArea).val($("ul.paramEmbed"+graphName+">li.paramDate").text());	
-
-			}
-			 //create button submit
+			//#####################check parameter is selected start#########################
+				getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
+				getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
+			//######################check parameter is selected end###########################
 			
 			 
 			 

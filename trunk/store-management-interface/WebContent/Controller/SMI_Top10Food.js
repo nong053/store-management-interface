@@ -1,7 +1,4 @@
 
-//$(document).on("click",".setting",function(){
-//call SMI_Top10Food (  '2012-01-01' , '2012-03-31' , '322000' )
-
 function createChart_SMI_Top10Food(graphName,graphType,graphSeries,graphCategory,arIndex,paramGraphWidth,paramGraphHeight,paramMachine,titleText,
 		objDataSeriesSaleValue,objDataSeriesSaleValueLastMonth){
 
@@ -109,7 +106,7 @@ function createChart_SMI_Top10Food(graphName,graphType,graphSeries,graphCategory
 
     		var salesValue="";
     		if(objDataSeriesSaleValue[num1]!=0){
-    			salesValue=":"+objDataSeriesSaleValue[num1]+"";
+    			salesValue=" : "+objDataSeriesSaleValue[num1]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -118,7 +115,7 @@ function createChart_SMI_Top10Food(graphName,graphType,graphSeries,graphCategory
 
     		var salesValue="";
     		if(objDataSeriesSaleValueLastMonth[num2]!=0){
-    			salesValue=":"+objDataSeriesSaleValueLastMonth[num2]+"";
+    			salesValue=" : "+objDataSeriesSaleValueLastMonth[num2]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -218,8 +215,8 @@ var submit_SMI_Top10Food=function(graphNameArea,graphName,graphType,arIndex,grap
 		var startDate = paramStartDate.split("-");
 		var endDate = paramEndDate.split("-");
 		
-		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
-			if(parseInt(startDate[1]) <= parseInt(endDate[1])){
+		if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
+			if(parseInt(startDate[2]) <= parseInt(endDate[2])){
 				top10FoodFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
 				
 				if(paramMachine=="Tablet"){
@@ -229,13 +226,13 @@ var submit_SMI_Top10Food=function(graphNameArea,graphName,graphType,arIndex,grap
 					$("#setting"+graphNameArea).trigger("click");
 				}
 			}else{
-				alert("Unable to select start date less than end date");
+				alert("เลือกช่วงวันที่ไม่ถูกต้อง");
 			}
-			/*
+			
 		}else{
-			alert("Unable to select over month");
+			alert("เลือกช่วงวันที่ไม่ถูกต้อง");
 		}
-		*/
+		
 	});
 	
 	if(paramMachine=="Tablet"){
@@ -398,19 +395,19 @@ function top10FoodFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidt
 					
 					if(index2==0){
 						categories+="\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+="\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+="\""+indexEntry2[1]+"\"";
+						dataSeriesSaleAmount+="\""+parseFloat(indexEntry2[2]).toFixed(0)+"\"";
+						dataSeriesSaleAmountLastMonth+="\""+parseFloat(indexEntry2[1]).toFixed(0)+"\"";
 						
-						dataSeriesSaleValue+="\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+="\""+indexEntry2[3]+"\"";
+						dataSeriesSaleValue+="\""+parseFloat(indexEntry2[4]).toFixed(0)+"\"";
+						dataSeriesSaleValueLastMonth+="\""+parseFloat(indexEntry2[3]).toFixed(0)+"\"";
 	
 					}else{
 						categories+=",\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+=",\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+=",\""+indexEntry2[1]+"\"";
+						dataSeriesSaleAmount+=",\""+parseFloat(indexEntry2[2]).toFixed(0)+"\"";
+						dataSeriesSaleAmountLastMonth+=",\""+parseFloat(indexEntry2[1]).toFixed(0)+"\"";
 						
-						dataSeriesSaleValue+=",\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+=",\""+indexEntry2[3]+"\"";
+						dataSeriesSaleValue+=",\""+parseFloat(indexEntry2[4]).toFixed(0)+"\"";
+						dataSeriesSaleValueLastMonth+=",\""+parseFloat(indexEntry2[3]).toFixed(0)+"\"";
 				
 					}
 
@@ -439,18 +436,18 @@ function top10FoodFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidt
 				
 				 series=[{
 			         	 
-			         	 name: "Last Month",
+			         	 name: getMonthName(getMonthOnDate(vSDate)-1)+" "+getYearONDate(vSDate),
 				         name2:"lastMonth",
 				         data: objDataSeriesSaleAmountLastMonth,
 				         color: 'orange'
 				     }, {
-				    	 name: "Current",
+				    	 name: getMonthName(getMonthOnDate(vSDate))+" "+getYearONDate(vSDate),
 			         	 name2:"current",
 			         	 data: objDataSeriesSaleAmount,
 			         	 color: '#007bc3'
 				     }];
 				
-				 var titleText="Top10-Food:ตั้งแต่วันที่ "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
+				 var titleText="10 อันดับขายดี Foodตั้งแต่วันที่ "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
 				 createChart_SMI_Top10Food(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 						 objDataSeriesSaleValue,objDataSeriesSaleValueLastMonth);
 				

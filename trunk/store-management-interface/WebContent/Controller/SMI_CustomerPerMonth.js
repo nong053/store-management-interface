@@ -94,7 +94,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 
     		var salesValue="";
     		if(objDataSeriesCustomerValueMonthLastYear[num2]!=0){
-    			salesValue=" : "+objDataSeriesCustomerValueMonthLastYear[num2]+"";
+    			salesValue=" : "+objDataSeriesCustomerValueMonthLastYear[num2]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -104,7 +104,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
 
     		var salesValue="";
     		if(objDataSeriesCustomerValueTarget[num3]!=0){
-    			salesValue=" : "+objDataSeriesCustomerValueTarget[num3]+"";
+    			salesValue=" : "+objDataSeriesCustomerValueTarget[num3]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num3++;
@@ -188,38 +188,38 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 					if(indexEntry[2]==null){
 						CustomerMonthThisYear=0;
 					}else{
-						CustomerMonthThisYear=indexEntry[2];
+						CustomerMonthThisYear=parseFloat(indexEntry[2]).toFixed(0);
 					}
 					//amount
 					if(indexEntry[3]==null){
 						CustomerMonthLastYear=0;
 					}else{
-						CustomerMonthLastYear=indexEntry[3];
+						CustomerMonthLastYear=parseFloat(indexEntry[3]).toFixed(0);
 					}
 					
 					if(indexEntry[1]==null){
 						CustomerTarget=0;
 					}else{
-						CustomerTarget=indexEntry[1];
+						CustomerTarget=parseFloat(indexEntry[1]).toFixed(0);
 					}
 					
 					//value
 					if(indexEntry[5]==null){
 						CustomerValueMonthThisYear=0;
 					}else{
-						CustomerValueMonthThisYear=indexEntry[5];
+						CustomerValueMonthThisYear=parseFloat(indexEntry[5]).toFixed(0);
 					}
 					
 					if(indexEntry[6]==null){
 						CustomerValueMonthLastYear=0;
 					}else{
-						CustomerValueMonthLastYear=indexEntry[6];
+						CustomerValueMonthLastYear=parseFloat(indexEntry[6]).toFixed(0);
 					}
 					
 					if(indexEntry[4]==null){
 						CustomerValueTarget=0;
 					}else{
-						CustomerValueTarget=indexEntry[4];
+						CustomerValueTarget=parseFloat(indexEntry[4]).toFixed(0);
 					}
 					
 					if(index==0){
@@ -273,13 +273,13 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 
 				
 				 series=[{
-						 name: "Last Year",
+						 name: paramYear-1,
 				         name2:"lastYear",
 				         data: objDataSeriesCustomerMonthLastYear,
 				         color: 'orange'
 				     }, {
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
-				    	 name: "Current",
+				    	 name: paramYear,
 				         name2:"thisYear",
 				         data: objDataSeriesCustomerMonthThisYear,
 				         color: '#007bc3'
@@ -295,7 +295,7 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 				 var startWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeekInterval").text();
 				 var endWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeekInterval").text();
 				 */
-				 var titleText="จำนวนลูกค้า(คน)ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
+				 var titleText="จำนวนลูกค้าแยกตามประเภทการขายตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
 				 createChart_SMI_CustomerPerMonth(graphName,graphType,series,objCategoriesCustomer,arIndex,graphWidth,graphHeight,titleText,paramMachine,objDataSeriesCustomerValueMonthThisYear,objDataSeriesCustomerValueMonthLastYear,objDataSeriesCustomerValueTarget);
 			
 			}
@@ -393,14 +393,17 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 			
 			//call function create graph for gernarate new graph
 			if(startWeek < endWeek){
+				
 				customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine);
+				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
 				}else{
 					$("#setting"+graphNameArea).trigger("click");
 				}
 			}else{
-				alert("Unable to select start week less than end week");
+				//alert("Unable to select start week less than end week");
+				alert("เลือกช่วงสัปดาห์ไม่ถูกต้อง");
 			}
 		});	
 		if(paramMachine=="Tablet"){

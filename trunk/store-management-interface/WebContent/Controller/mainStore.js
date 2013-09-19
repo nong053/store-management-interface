@@ -426,7 +426,7 @@ function setFont(paramMachine){
 		
 	}else{
 		//alert("PC");
-		seriesDefaultsFont="13px Tahoma";
+		seriesDefaultsFont="12px Tahoma";
 		valueAxisFont="12px Tahoma";
 		legendFont="13px Tahoma";
 		categoryAxisFont="10px Tahoma";
@@ -503,7 +503,7 @@ $(".cateGraph").live("mouseover",function(e){
 	//function num amount graph in myview start
 	var countMyView="";
 	var countMyViewFn= function(){
-		 
+		
 	$.ajax({
 		url:"../Model/countGrMyView.jsp",
 		type:"get",
@@ -529,12 +529,12 @@ $(".cateGraph").live("mouseover",function(e){
 	
 	var expansionFn = function(){
 		
-		$("#leftMenu").animate({"left":"0px"});
+		$("#leftMenu").animate({"left":"0px"},100);
 		$("#leftMenu").removeClass("expansion");
 		$("#leftMenu").addClass("withdraw");
 	};
 	var withdrawFn= function(){
-		$("#leftMenu").animate({"left":"-200px"});
+		$("#leftMenu").animate({"left":"-200px"},100);
 		$("#leftMenu").removeClass("withdraw");
 		$("#leftMenu").addClass("expansion");
 	};
@@ -543,10 +543,11 @@ $(".cateGraph").live("mouseover",function(e){
 	
 	$("#btHideShow").click(function(){
 		//get count new myview 
-		countMyViewFn();
+		
+		if($("#leftMenu").hasClass("expansion")){
+		//countMyViewFn();
 		$("#cateView").remove();
 		$("#boxContent>ul").append("<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
-		if($("#leftMenu").hasClass("expansion")){
 		expansionFn();
 		}else{
 		withdrawFn();	
@@ -1021,13 +1022,13 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					 var startDate="";
 					 var endDate="";
 					 var branchId =data[0][0];
-					if($(".paramEmbed"+graphName).text()==""){
+					if($(".paramDefaultEmbed"+graphName).text()==""){
 						startDate=ParamFirstDayOfMonthDel2Day;
 						endDate=ParamCurrentDateDel2Day;
 						//ParamCurrentDateDel2Day
 					}else{
-						startDate=$("ul.paramEmbed"+graphName+">li.paramStartDate"+graphName).text();
-						endDate=$("ul.paramEmbed"+graphName+">li.paramEndDate"+graphName).text();
+						startDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
+						endDate=$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text();
 					}
 					
 					//send graphName,graphType
@@ -2394,6 +2395,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//alert(checkMyviewFn(userLogin,slotView));
 			if(checkMyviewFn(userLogin,slotView)=="thisEmpty"){
 				insertToMyviewFn(userLogin,slotView,graphId);
+				countMyViewFn();
 			}else{
 				
 				if(confirm("Do you want to replace this myview?")){
@@ -2417,6 +2419,8 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			 if(confirm("Do you want to remove form myview?")){
 				
 				 deleteFromMyView(myviewId);
+				 countMyViewFn();
+				 
 				  
 			 }
 		 });

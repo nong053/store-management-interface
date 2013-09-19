@@ -219,16 +219,16 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 					
 					if(index==0){
 						categorieswasteWeekly+="\""+indexEntry[0]+"\"";
-						dataSerieswasteUpperLine+="\""+parseFloat(indexEntry[1]).toFixed(2)+"\"";
-						dataSerieswasteLowerLine+="\""+parseFloat(indexEntry[2]).toFixed(2)+"\"";
-						dataSerieswasteWeekly+="\""+parseFloat(indexEntry[3]).toFixed(2)+"\"";
+						dataSerieswasteUpperLine+="\""+parseFloat(indexEntry[1]).toFixed(0)+"\"";
+						dataSerieswasteLowerLine+="\""+parseFloat(indexEntry[2]).toFixed(0)+"\"";
+						dataSerieswasteWeekly+="\""+parseFloat(indexEntry[3]).toFixed(0)+"\"";
 						
 						
 					}else{
 						categorieswasteWeekly+=",\""+indexEntry[0]+"\"";
-						dataSerieswasteUpperLine+=",\""+parseFloat(indexEntry[1]).toFixed(2)+"\"";
-						dataSerieswasteLowerLine+=",\""+parseFloat(indexEntry[2]).toFixed(2)+"\"";
-						dataSerieswasteWeekly+=",\""+parseFloat(indexEntry[3]).toFixed(2)+"\"";
+						dataSerieswasteUpperLine+=",\""+parseFloat(indexEntry[1]).toFixed(0)+"\"";
+						dataSerieswasteLowerLine+=",\""+parseFloat(indexEntry[2]).toFixed(0)+"\"";
+						dataSerieswasteWeekly+=",\""+parseFloat(indexEntry[3]).toFixed(0)+"\"";
 						
 					}
 
@@ -253,13 +253,13 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 				  */
 				 series=[{
 					 
-			         	 name: "UpperLine",
+			         	 name: "เกินมาตรฐาน",
 			         	 data: objdataSerieswasteUpperLine,
 			         	 color: "red",
 			         	 dashType: "dot"
 				     },{
 					 
-			         	 name: "LowerLine",
+			         	 name: "มาตรฐาน",
 			         	 data: objdataSerieswasteLowerLine,
 			         	 color: "green",
 			         	 dashType: "dot"
@@ -270,12 +270,15 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 			         	 color: "#007bc3"
 				     }];
 				 var vWeekDel12="";
+				 var vStartYear="";
 				 if((vWeek-12)<=0){
-					 vWeekDel12=1;
+					 vWeekDel12=52+(vWeek-12);
+					 vStartYear=vYear-1;
 				 }else{
 					 vWeekDel12=vWeek-12;
+					 vStartYear=vYear;
 				 }
-				 var titleText="ของเสีย12 week ตั้งแต่  W"+vWeekDel12+""+getWeekInterval(vYear,vWeekDel12)+"-"+vWeek+""+getWeekInterval(vYear,vWeek)+" ปี "+vYear+"";
+				 var titleText="ยอดของเสีย12 week ตั้งแต่  W"+vWeekDel12+""+getWeekInterval(vStartYear,vWeekDel12)+" ปี "+vStartYear+" -W"+vWeek+""+getWeekInterval(vYear,vWeek)+" ปี "+vYear+"";
 				 
 				 createChart_SMI_WasteWeekly(graphName,graphType,series,objcategorieswasteWeekly,arIndex,graphWidth,graphHeight,titleText);
 			

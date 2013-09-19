@@ -89,7 +89,7 @@ tooltipFont
 	     },
 	     tooltip: {
 	         visible: true,
-	         template: "#= series.name #: #= value #",
+	         template: "#= series.name #: #= addCommas(value) #",
 	         font: tooltipFont
 	         }
 	     });
@@ -231,12 +231,12 @@ function salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,
 				
 				 //Target,Current,Last Year
 				 series=[{
-						 name: "Last Year",
+						 name: paramYear-1,
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
 				         data: objdataSeriesSalesPerBillWeeklyLastYear ,
 				         color: 'orange'
 				     }, {
-				    	 name: "Current",
+				    	 name: paramYear,
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
 				         data: objdataSeriesSalesPerBillWeeklyThisYear,
 				         color: '#007bc3'
@@ -251,7 +251,7 @@ function salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,
 				 var startWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeekInterval").text();
 				 var endWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeekInterval").text();
 				 */
-				 var titleText="Sales per Bill(บาทต่อบิล)ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
+				 var titleText="Sales per Billตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
 				 createChart_SMI_SalesPerBillWeekly(graphName,graphType,series,objcategoriesSalesPerBillWeekly,arIndex,graphWidth,graphHeight,titleText);
 			
 			}
@@ -495,7 +495,8 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 						$("#setting"+graphNameArea).trigger("click");
 					}
 			}else{
-				alert("Unable to select start week less than end week");
+				//alert("Unable to select start week less than end week");
+				alert("เลือกช่วงสัปดาห์ไม่ถูกต้อง");
 			}
 		});
 		

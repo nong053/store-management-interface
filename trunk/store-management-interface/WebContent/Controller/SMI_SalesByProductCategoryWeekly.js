@@ -11,12 +11,15 @@ titleFont
 labelsRotation
 tooltipFont
  */
-	var seriesDefaultsFont="";
+	//var seriesDefaultsFont="";
 	if(paramMachine=="Tablet"){
 		seriesDefaultsFont="16px Tahoma";
-	}else{
+	}
+	/*
+	else{
 		seriesDefaultsFont="";
 	}
+	*/
 	
 	
 	
@@ -146,19 +149,19 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 					var paramTarget="";
 					
 					if(indexEntry[1]!=null){
-						paramTarget=(parseFloat(indexEntry[3]/1000).toFixed(2));
+						paramTarget=(parseFloat(indexEntry[3]).toFixed(0));
 						
 					}else{
 						paramTarget=0;
 					}
 					if(indexEntry[2]!=null){
-						paramThisYear=(parseFloat(indexEntry[2]/1000).toFixed(2));
+						paramThisYear=(parseFloat(indexEntry[2]).toFixed(0));
 						
 					}else{
 						paramThisYear=0;
 					}
 					if(indexEntry[3]!=null){
-						paramLastYear=(parseFloat(indexEntry[1]/1000).toFixed(2));
+						paramLastYear=(parseFloat(indexEntry[1]).toFixed(0));
 						
 					}else{
 						paramLastYear=0;
@@ -218,13 +221,13 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 				
 				 series=[{
 					 //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
-				    	 name: "Last Year",
+				    	 name: paramYear-1,
 				         data: objdataSeriesSalesByProductCategoryWeeklyLastYear,
 				         color: 'orange'
 			         
 				     }, {
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
-				    	 name: "Current",
+				    	 name: paramYear,
 				         data: objdataSeriesSalesByProductCategoryWeeklyThisYear,
 				         color: '#007bc3'
 				     }, {
@@ -241,7 +244,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 				 
 				 
 				 
-				 var titleText="(หน่วย:พันบาท)ยอดขายตามประเภทอาหาร ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+yyyy+"";
+				 var titleText="ยอดขายแยกตามกลุ่มสินค้า ตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+yyyy+"";
 				 createChart_SMI_SalesByProductCategoryWeekly(graphName,graphType,series,objcategoriesSalesByProductCategoryWeekly,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
 			}
@@ -402,7 +405,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 					$("#setting"+graphNameArea).trigger("click");
 				}
 			}else{
-				alert("Unable to select start week less than end week");
+				alert(" เลือกช่วงสัปดาห์ไม่ถูกต้อง");
 			}
 		});
 		

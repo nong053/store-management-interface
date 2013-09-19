@@ -91,16 +91,16 @@ function createChart_SMI_WasteDaily(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesWasteDailyPercentage[num1]!=0){
-    			if(objdataSeriesWasteDailyPercentage[num1]>=1.5){
+    			if(objdataSeriesWasteDailyPercentage[num1]>=2){
     				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
     				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(1)").attr({"fill":"orange","stroke":"orange"});
     			}
     			
-    			if(objdataSeriesWasteDailyPercentage[num1]>=2){
+    			if(objdataSeriesWasteDailyPercentage[num1]>=3){
     				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(0)").attr({"fill":"red","stroke":"red"});
     				$(""+"#chart"+graphName+"-"+arIndex+" svg g:eq("+num1+")").children("path:eq(1)").attr({"fill":"red","stroke":"red"});
     			}
-    			salesValue=":"+objdataSeriesWasteDailyPercentage[num1]+"%";
+    			salesValue=" : ("+objdataSeriesWasteDailyPercentage[num1]+"%)";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -174,17 +174,17 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 					
 					
 					if(index==0){
-						totalWaste=parseFloat(indexEntry[1]).toFixed(2);
+						totalWaste=parseFloat(indexEntry[1]).toFixed(0);
 						categoriesWasteDaily+="\""+indexEntry[0]+"\"";
-						dataSeriesWasteDaily+="\""+indexEntry[1]+"\"";
+						dataSeriesWasteDaily+="\""+parseFloat(indexEntry[1]).toFixed(0)+"\"";
 						
 						dataSeriesWasteDailyPercentage+="0";
 						
 					}else{
-						var wasteValue=parseFloat(indexEntry[1]).toFixed(2);
-						var wastePercentageValue=parseFloat((wasteValue/totalWaste)*100).toFixed(2);
+						var wasteValue=parseFloat(indexEntry[1]).toFixed(0);
+						var wastePercentageValue=parseFloat((wasteValue/totalWaste)*100).toFixed(1);
 						categoriesWasteDaily+=",\""+indexEntry[0]+"\"";
-						dataSeriesWasteDaily+=",\""+indexEntry[1]+"\"";
+						dataSeriesWasteDaily+=",\""+parseFloat(indexEntry[1]).toFixed(0)+"\"";
 						
 						dataSeriesWasteDailyPercentage+=",\""+wastePercentageValue+"\"";
 						
@@ -314,7 +314,7 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 			var startDate = paramStartDate.split("-");
 			var endDate = paramEndDate.split("-");
 			if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){
-					if(parseInt(startDate[1]) <= parseInt(endDate[1])){
+					if(parseInt(startDate[2]) <= parseInt(endDate[2])){
 						
 						wateDailyFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight);
 						
@@ -326,12 +326,12 @@ function wateDailyFn(graphName,graphType,arIndex,branchId,startDate,endDate,grap
 						}
 						
 					}else{
-						alert("Unable to select start date less than end date");
+						alert("เลือกช่วงวันที่ไม่ถูกต้อง");
 					}
 				
 					
 			}else{
-				alert("Unable to select over month");
+				alert("เลือกช่วงวันที่ไม่ถูกต้อง");
 			}
 			
 		});

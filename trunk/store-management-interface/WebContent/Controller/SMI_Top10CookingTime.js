@@ -206,19 +206,27 @@ function top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,gra
 				var objdataSeriestop10CookingTimeThisMonth=eval("("+dataSeriestop10CookingTimeThisMonth+")");
 				var objdataSeriestop10CookingTimeLastMonth=eval("("+dataSeriestop10CookingTimeLastMonth+")");
 
-				
+				var vLastMonth="";
+				var vLastYear="";
+				if((vMonth-1)==0){
+					vLastMonth=12;
+					vLastYear=vYear-1;
+				}else{
+					vLastMonth=vMonth-1;
+					vLastYear=vYear;
+				}
 				 series=[{
-						 name: "Last Month",
+						 name: getMonthName(vLastMonth)+" "+vLastYear,
 			         	 data: objdataSeriestop10CookingTimeLastMonth,
 			         	color: 'orange'
 				     },{
-			         	 
-			         	name: "This Month",
+			         	 //getMonthName(getMonthOnDate(vSDate))+" "+getYearONDate(vSDate)
+			         	name: getMonthName(vMonth)+" "+vYear,
 			         	 data: objdataSeriestop10CookingTimeThisMonth,
 			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="Top10-เวลาปรุงอาหาร(นาที) ของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
+				 var titleText="10 อันดับเวลาปรุงอาหารช้า (นาที)ของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
 				 
 				 createChart_SMI_Top10CookingTime(graphName,graphType,series,objcategoriestop10CookingTime,arIndex,graphWidth,graphHeight,paramMachine,titleText);
 			
