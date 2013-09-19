@@ -108,7 +108,7 @@ function createChart_SMI_Top10Bakery(graphName,graphType,graphSeries,graphCatego
 
     		var salesValue="";
     		if(objDataSeriesSaleValue[num1]!=0){
-    			salesValue=":"+objDataSeriesSaleValue[num1]+"";
+    			salesValue=" : "+objDataSeriesSaleValue[num1]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -117,7 +117,7 @@ function createChart_SMI_Top10Bakery(graphName,graphType,graphSeries,graphCatego
 
     		var salesValue="";
     		if(objDataSeriesSaleValueLastMonth[num2]!=0){
-    			salesValue=":"+objDataSeriesSaleValueLastMonth[num2]+"";
+    			salesValue=" : "+objDataSeriesSaleValueLastMonth[num2]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -213,19 +213,22 @@ var submit_SMI_Top10Bakery=function(graphNameArea,graphName,graphType,arIndex,gr
 		var startDate = paramStartDate.split("-");
 		var endDate = paramEndDate.split("-");
 		
-		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
-		if(parseInt(startDate[1]) <= parseInt(endDate[1])){
-			
-			top10BakeryFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
-			if(paramMachine=="Tablet"){
-				$(".ui-icon-closethick").trigger("click");
+		if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
+			if(parseInt(startDate[2]) <= parseInt(endDate[2])){
 				
-				
+				top10BakeryFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
+				if(paramMachine=="Tablet"){
+					$(".ui-icon-closethick").trigger("click");
+					
+					
+				}else{
+					$("#setting"+graphNameArea).trigger("click");
+				}
 			}else{
-				$("#setting"+graphNameArea).trigger("click");
+				alert("เลือกช่วงวันที่ไม่ถูกต้อง");
 			}
 		}else{
-			alert("Unable to select start date less than end date");
+			alert("เลือกช่วงวันที่ไม่ถูกต้อง");
 		}
 		
 	});
@@ -388,20 +391,20 @@ function top10BakeryFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWi
 					
 					if(index2==0){
 						categories+="\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+="\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+="\""+indexEntry2[1]+"\"";
+						dataSeriesSaleAmount+="\""+parseFloat(indexEntry2[2]).toFixed(0)+"\"";
+						dataSeriesSaleAmountLastMonth+="\""+parseFloat(indexEntry2[1]).toFixed(0)+"\"";
 						
-						dataSeriesSaleValue+="\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+="\""+indexEntry2[3]+"\"";
+						dataSeriesSaleValue+="\""+parseFloat(indexEntry2[4]).toFixed(0)+"\"";
+						dataSeriesSaleValueLastMonth+="\""+parseFloat(indexEntry2[3]).toFixed(0)+"\"";
 						
 	
 					}else{
 						categories+=",\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+=",\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+=",\""+indexEntry2[1]+"\"";
+						dataSeriesSaleAmount+=",\""+parseFloat(indexEntry2[2]).toFixed(0)+"\"";
+						dataSeriesSaleAmountLastMonth+=",\""+parseFloat(indexEntry2[1]).toFixed(0)+"\"";
 						
-						dataSeriesSaleValue+=",\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+=",\""+indexEntry2[3]+"\"";
+						dataSeriesSaleValue+=",\""+parseFloat(indexEntry2[4]).toFixed(0)+"\"";
+						dataSeriesSaleValueLastMonth+=",\""+parseFloat(indexEntry2[3]).toFixed(0)+"\"";
 				
 					}
 
@@ -429,18 +432,18 @@ function top10BakeryFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWi
 				
 				 series=[{
 			         	
-			         	 name: "Last Month",
+			         	 name: getMonthName(getMonthOnDate(vSDate)-1)+" "+getYearONDate(vSDate),
 				         name2: "lastMonth",
 				         data: objDataSeriesSaleAmountLastMonth,
 				         color: 'orange'
 				     }, {
-				    	 name: "Current",
+				    	 name: getMonthName(getMonthOnDate(vSDate))+" "+getYearONDate(vSDate),
 			         	 name2: "current",
 			         	 data: objDataSeriesSaleAmount,
 			         	 color: '#007bc3'
 				     }];
 				 
-				 var titleText="Top10-Bakery:ตั้งแต่วันที่ "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
+				 var titleText="10 อันดับขายดี Beverage ตั้งแต่วันที่ "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
 				 createChart_SMI_Top10Bakery(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 						 objDataSeriesSaleValue,objDataSeriesSaleValueLastMonth);
 				

@@ -162,6 +162,7 @@
 
 	}
 	function getMonthParameter(graphNameArea,paramMonthSelected){
+		var vParamMonthSelected=parseFloat(paramMonthSelected+"").toFixed(0);
 		//alert("paramMonthSelected"+paramMonthSelected);
 		var monthHtml = "";
 		$.ajax({
@@ -172,7 +173,7 @@
 			success:function(data){
 				monthHtml+="<select class=\"list\" id=\"paramMonth"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
-					if(parseInt(paramMonthSelected)==indexEntry[0]){
+					if(vParamMonthSelected==indexEntry[0]){
 						//alert(branchCode==indexEntry[0]);
 						monthHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
 					}else{
@@ -465,11 +466,8 @@
 	var cateFont="";
 	var seriesFont="";
 	
-	function setFont(paramMachine){
-		//ConfigFont
-		
-		if(paramMachine=="Tablet"){
-			//alert("Tablet");
+	function setFont(){
+	
 			seriesDefaultsFont="16px Tahoma";
 			valueAxisFont="20px Tahoma";
 			legendFont="16px Tahoma";
@@ -478,16 +476,16 @@
 			labelsRotation=0;
 			tooltipFont="16px Tahoma";
 			
-		}else{
-			//alert("PC");
-			seriesDefaultsFont="13px Tahoma";
-			valueAxisFont="12px Tahoma";
-			legendFont="13px Tahoma";
-			categoryAxisFont="10px Tahoma";
-			titleFont="13px Tahoma";
-			labelsRotation=0;
-			tooltipFont="13px Tahoma";
-		}
+		
+		/*
+		seriesDefaultsFont="100% Tahoma";
+		valueAxisFont="100% Tahoma";
+		legendFont="100% Tahoma";
+		categoryAxisFont="100% Tahoma";
+		titleFont="100% Tahoma";
+		labelsRotation=0;
+		tooltipFont="100% Tahoma";
+		*/
 		
 	}
 	//function num amount graph in myview start
@@ -521,7 +519,19 @@
 		var htmlMenuLeft="" +
 				"<div id=\"boxContent\">" +
 					"<ul>" +
-						"<li class=\"selected\" id=\"mainMenu\">Main Menu</li>";
+						"<li class=\"selected\" id=\"mainMenu\">" +
+						
+							"<table>" +
+								"<tr>" +
+									"<td>" +
+									"<span class='ui-icon ui-icon-home'></span>" +
+									"</td>" +
+									"<td>" +
+									"Main Menu" +
+									"</td>" +
+								"</tr>" +
+						    "</table>" +
+						"</li>";
 						
 						$.ajax({
 							url:"../Model/ui_SMI_ListAllCategory.jsp",
@@ -543,7 +553,22 @@
 										success:function(data){
 											//alert(EntryIndex[0]);
 											//alert(data.length);
-											htmlMenuLeft+="<li class=\"cateGraph\" id=\""+EntryIndex[0]+"\"><a href=\"#\">"+EntryIndex[1]+"("+data.length+")</a></li>";
+											htmlMenuLeft+="<li class=\"cateGraph\" id=\""+EntryIndex[0]+"\">" +
+															"<a href=\"#\">" +
+																"<table>" +
+																	"<tr>" +
+																		"<td>" +
+																		"<span class='ui-icon ui-icon-folder-collapsed'></span>" +
+																		"</td>" +
+																		"<td>" +
+																		EntryIndex[1]+"("+data.length+")" +
+																		"</td>" +
+																	"</tr>" +
+																"</table>" +
+															
+																
+															"</a>" +
+															"</li>";
 										}
 									});
 									
@@ -551,7 +576,21 @@
 							}
 						});
 						
-						htmlMenuLeft+="<li class=\"cateGraph cateView\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>" +
+						htmlMenuLeft+="<li class=\"cateGraph cateView\" id=\"cateView\">" +
+											"<a href=\"#\">" +
+												"<table>" +
+													"<tr>" +
+														"<td>" +
+														"<span class='ui-icon ui-icon-folder-collapsed'></span>" +
+														"</td>" +
+														"<td>" +
+														"Myview("+countMyView+")" +
+														"</td>" +
+													"</tr>" +
+												"</table>" +
+												
+											"</a>" +
+										"</li>" +
 					"</ul>" +
 				"</div>" +
 				"";
@@ -571,14 +610,31 @@ $(document).ready(function(){
 	/*######################################Define Config Start############################################*/
 	var userLogin="";
 	userLogin="N0001";
-	var graphWidth="930";
-	var graphHeight="365";
+	//screen.availWidth
+	//screen.availHeight
+	var widthScreen=screen.availWidth;
+	var heightScreen=screen.availHeight;
+	
+	//var graphWidth="930";
+	//var graphHeight="365";
+	
+	var graphWidth=(widthScreen-80);
+	var graphHeight=(heightScreen-240);
+	//seting layout dinamic
+	
+	//$("#contentGraph").css({"width":graphWidth+"px","height":graphHeight+"px"});
+	//$(".touchslider-item").css({"width":graphWidth+"px","height":graphHeight+"px"});
+	
+	
+	
+	
+	
 	var paramMachine="Tablet";
 	/*######################################Define Config End############################################*/
 	//call function top start
 	getFirstBranch(userLogin);
 	currentDateDel2Day(CurrentDate);
-	setFont(paramMachine);
+	setFont();
 	countMyViewFn(userLogin);
 	getCurrentWeek();
 	createMenuLeft();
@@ -637,12 +693,12 @@ $(document).ready(function(){
 		//######################Function Expantion left menu start##########################
 		var expansionFn = function(){
 			
-			$("#leftMenu").animate({"left":"0px"});
+			$("#leftMenu").animate({"left":"0px"},100);
 			$("#leftMenu").removeClass("expansion");
 			$("#leftMenu").addClass("withdraw");
 		};
 		var withdrawFn= function(){
-			$("#leftMenu").animate({"left":"-370px"});
+			$("#leftMenu").animate({"left":"-370px",},100);
 			$("#leftMenu").removeClass("withdraw");
 			$("#leftMenu").addClass("expansion");
 		};
@@ -659,7 +715,22 @@ $(document).ready(function(){
 			$("#leftMenu").html($("#areaLeftMenu").html());
 			
 			$(".cateView").remove();
-			$("#boxContent>ul").append("<li class=\"cateGraph cateView\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
+			$("#boxContent>ul").append("<li class=\"cateGraph cateView\" id=\"cateView\">" +
+											"<a href=\"#\">" +
+												"<table>" +
+													"<tr>" +
+														"<td>" +
+															"<span class='ui-icon ui-icon-folder-collapsed'></span>" +
+														"</td>" +
+														"<td>" +
+														"Myview("+countMyView+")" +
+														"</td>" +
+													"</tr>" +
+												"</table>" +
+										
+											
+											"</a>" +
+										"</li>");
 			expansionFn();
 			}else{
 			withdrawFn();	
@@ -669,13 +740,13 @@ $(document).ready(function(){
 		//######################Function Expansion sub graph start########################
 		var expansionSubGraphFn = function(){
 			
-			$("#boxSubGraph").animate({"left":"0px"});
+			$("#boxSubGraph").animate({"left":"0px"},200);
 			$("#boxSubGraph").removeClass("expansionSubGraph");
 			$("#boxSubGraph").addClass("withdrawSubGraph");
 			
 		};
 		var withdrawSubGraphFn= function(){
-			$("#boxSubGraph").animate({"left":"-370px"});
+			$("#boxSubGraph").animate({"left":"-370px"},200);
 			$("#boxSubGraph").removeClass("withdrawSubGraph");
 			$("#boxSubGraph").addClass("expansionSubGraph");
 		};
@@ -719,6 +790,7 @@ $(document).ready(function(){
 				manageParamSalePerMonthFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 				
 			}else if(graphNameAreaNoneIndex=="areaCustomerPerMonth"){
+				
 				manageParamCusPerMonthFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 				
 			}else if(graphNameAreaNoneIndex=="areaBillPerMonth"){
@@ -929,7 +1001,7 @@ $(document).ready(function(){
 		 //dialog end
 		 
 		 //create main layout
-		 var createMainLayout = function(){
+		 var createMainLayout = function(cateTitle){
 				var mainLayoutHtml="" +
 						"<div class=\"touchslider touchslider-demo\">" +
 							"<div class=\"touchslider-nav\">" +
@@ -953,7 +1025,13 @@ $(document).ready(function(){
 									"</div>" +
 									"<div class=\"subGraph\">" +
 										"<div id=\"boxSubGraph\" class=\"expansionSubGraph\" >" +
-											"<div id=\"subMenuR\">"+
+											"<div id=\"subMenuR\">" +
+												"<div class=\"cateTitle\">" +
+												"<div class='iconL'><span class='ui-icon ui-icon-folder-collapsed'></span></div>" +
+												"<div class='titleR'>"+cateTitle+"</div>" +
+												"<br style='celar:both'>"+
+												"</div>" +
+												
 												"<ul>" +
 													"<li><a href=\"#\">graph1</a></li>" +
 													"<li><a href=\"#\">graph2</a></li>" +
@@ -971,8 +1049,8 @@ $(document).ready(function(){
 									"</div>" +
 									"<div class=\"areaSettingExternal\">" +
 									"</div>" +
-									"<div class=\"touchslider-viewport\" style=\"width:"+widthTablet+"px;overflow:hidden;position:relative;height:425px\">" +
-										"<div id=\"contentGraph\" style=\"width:"+widthTablet+"px\">" +
+									"<div class=\"touchslider-viewport\" style=\"width:"+widthScreen+"px;overflow:hidden;position:relative;height:"+(heightScreen-150)+"px\">" +
+										"<div id=\"contentGraph\" style=\"width:"+widthScreen+"px\">" +
 										"</div>" +
 									"</div>" +
 								"</div>" +
@@ -981,11 +1059,8 @@ $(document).ready(function(){
 						"";
 				//alert(mainLayoutHtml);
 				$(".demo-in-in").html(mainLayoutHtml);
-				/*
-					
-				
-			
-			*/
+				var marginTop=(heightScreen/2)-170;
+				$("#btnShowHideSubMenu").css({"margin-top":marginTop+"px"});
 			};
 			
 			//createMainLayout();
@@ -1056,8 +1131,10 @@ $(document).ready(function(){
 				
 				//alert(htmlLayoutGraph);
 			$("#contentGraph").append(htmlLayoutGraph);
-			$(".contentGraph").shadow();
-			//$(".graphDetail").css({"margin":"5px"});
+			$(".contentGraph").shadow().css({"width":widthScreen+"px","height":(heightScreen)+"px"});
+			$(".graphTop").css({"width":widthScreen+"px","height":(heightScreen-235)+"px"});
+			$(".setting").css({"left":(widthScreen-60)+"px"});
+			
 			};
 			
 			
@@ -1080,6 +1157,7 @@ $(document).ready(function(){
 					 */
 				}
 				$("#boxR").html(htmlListTopButton);
+				$("#boxR").css({"width":(widthScreen-70)+"px"});
 			};
 			/*################ function create sub graph lis left sub menu#################*/
 			var createSubGraph = function(graphName){
@@ -1092,11 +1170,28 @@ $(document).ready(function(){
 				</ul>
 				 */
 				var htmlSubGraph="";
-				htmlSubGraph="<li><a href=\"#\" class=\"listSubGraph\" id=\"SubGraphId-"+graphName+"\">"+graphName+"</a></li>";
+				htmlSubGraph="<li >" +
+									"<a href=\"#\" class=\"listSubGraph\" id=\"SubGraphId-"+graphName+"\">" +
+											
+											"<table>" +
+											"<tr>" +
+												"<td>" +
+												"<span class='ui-icon ui-icon-arrowthick-1-se'></span>" +
+												"</td>" +
+												"<td>" +
+												graphName +
+												"</td>" +
+											"</tr>" +
+											"</table>" +
+											
+											
+											
+							"</li>";
 				//alert(htmlSubGraph);
 				$("#boxSubGraph>#subMenuR>ul").append(htmlSubGraph);
 				/*$("#boxSubGraph").shadow();*/
-				
+				//-240
+				$("#subMenuR").css({"height":(heightScreen)+"px"});
 			};
 			
 			/*################### num list top button end  ################################*/
@@ -1156,13 +1251,13 @@ $(document).ready(function(){
 				//alert("graphName="+graphName);
 				if(graphName=="SalePerDay"){
 					
-							if($(".paramEmbed"+graphName).text()==""){
+							if($(".paramDefaultEmbed"+graphName).text()==""){
 								
 								startDate=ParamFirstDayOfMonthDel2Day;
 								endDate=ParamCurrentDateDel2Day;
 							}else{
-								startDate=$("ul.paramEmbed"+graphName+">li.paramStartDate"+graphName).text();
-								endDate=$("ul.paramEmbed"+graphName+">li.paramEndDate"+graphName).text();
+								startDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
+								endDate=$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text();
 							}
 							
 							//send graphName,graphType
@@ -1188,8 +1283,8 @@ $(document).ready(function(){
 							//send graphName,graphType
 							//g2
 							//alert(currentDate);
-	
-							salePerMonthFn(graphName,graphType,arIndex,currentDate,branchId,paramMachine);	
+							            
+							salePerMonthFn(graphName,graphType,arIndex,currentDate,branchId,graphWidth,graphHeight,paramMachine);	
 					
 					//Defualt Parameter End
 					
@@ -1745,7 +1840,8 @@ $(document).ready(function(){
 			$(".cateGraph").live("click",function(){
 				withdrawFn();
 				//alert("cateGraph");
-				createMainLayout();
+				//alert($(this).text());
+				createMainLayout($(this).text());
 				//createMenuLeft();
 				
 				
@@ -2223,8 +2319,7 @@ $(document).ready(function(){
 							
 							//alert(htmlLayoutGraph);
 							$("#slot-1").html(htmlLayoutGraphMyView);
-						 
-										
+								
 						
 					}else if(slotPosition==2){
 						 var htmlLayoutGraphMyView="";
@@ -2488,6 +2583,16 @@ $(document).ready(function(){
 							
 						$("#slot-6").html(htmlLayoutGraphMyView);
 					}
+					
+					
+					//set layout for dinamic style start
+					
+					$(".touchslider-item").shadow().css({"width":widthScreen+"px"});
+					$(".contentGraph").shadow().css({"width":widthScreen+"px","height":(heightScreen)+"px"});
+					$(".graphTop").css({"width":widthScreen+"px","height":(heightScreen-235)+"px"});
+					$(".setting").css({"left":(widthScreen-60)+"px"});
+					$(".graphBoxArea").shadow().css({"width":widthScreen+"px","height":(heightScreen)+"px"});
+					//set layout for dinamic style end		
 					
 				};
 				

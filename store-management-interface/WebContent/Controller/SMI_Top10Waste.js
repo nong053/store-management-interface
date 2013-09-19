@@ -106,7 +106,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesTop10WasteValueThisMonth[num1]!=0){
-    			salesValue=":"+objdataSeriesTop10WasteValueThisMonth[num1]+"";
+    			salesValue=" : "+objdataSeriesTop10WasteValueThisMonth[num1]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -115,7 +115,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesTop10WasteValueLastMonth[num2]!=0){
-    			salesValue=":"+objdataSeriesTop10WasteValueLastMonth[num2]+"";
+    			salesValue=" : "+objdataSeriesTop10WasteValueLastMonth[num2]+"";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -177,19 +177,19 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 					
 					if(index==0){
 						categoriesTop10Waste+="\""+indexEntry[1]+"\"";
-						dataSeriesTop10WasteThisMonth+="\""+indexEntry[3]+"\"";
-						dataSeriesTop10WasteLastMonth+="\""+indexEntry[2]+"\"";
+						dataSeriesTop10WasteThisMonth+="\""+parseFloat(indexEntry[3]).toFixed(0)+"\"";
+						dataSeriesTop10WasteLastMonth+="\""+parseFloat(indexEntry[2]).toFixed(0)+"\"";
 						
-						dataSeriesTop10WasteValueThisMonth+="\""+indexEntry[5]+"\"";
-						dataSeriesTop10WasteValueLastMonth+="\""+indexEntry[4]+"\"";
+						dataSeriesTop10WasteValueThisMonth+="\""+parseFloat(indexEntry[5]).toFixed(0)+"\"";
+						dataSeriesTop10WasteValueLastMonth+="\""+parseFloat(indexEntry[4]).toFixed(0)+"\"";
 						
 					}else{
 						categoriesTop10Waste+=",\""+indexEntry[1]+"\"";
-						dataSeriesTop10WasteThisMonth+=",\""+indexEntry[3]+"\"";
-						dataSeriesTop10WasteLastMonth+=",\""+indexEntry[2]+"\"";
+						dataSeriesTop10WasteThisMonth+=",\""+parseFloat(indexEntry[3]).toFixed(0)+"\"";
+						dataSeriesTop10WasteLastMonth+=",\""+parseFloat(indexEntry[2]).toFixed(0)+"\"";
 						
-						dataSeriesTop10WasteValueThisMonth+=",\""+indexEntry[5]+"\"";
-						dataSeriesTop10WasteValueLastMonth+=",\""+indexEntry[4]+"\"";
+						dataSeriesTop10WasteValueThisMonth+=",\""+parseFloat(indexEntry[5]).toFixed(0)+"\"";
+						dataSeriesTop10WasteValueLastMonth+=",\""+parseFloat(indexEntry[4]).toFixed(0)+"\"";
 						
 					}
 
@@ -211,22 +211,30 @@ function top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidt
 				
 				var objdataSeriesTop10WasteValueThisMonth=eval("("+dataSeriesTop10WasteValueThisMonth+")");
 				var objdataSeriesTop10WasteValueLastMonth=eval("("+dataSeriesTop10WasteValueLastMonth+")");
-
+				
+				var vLastMonth="";
+				var vLastYear="";
+				if((vMonth-1)==0){
+	         		vLastMonth=12;
+	         		vLastYear=vYear-1;
+	         	 }else{
+	         		vLastMonth=vMonth-1;
+	         		vLastYear=vYear;
+	         	 }
 				
 				 series=[{
-			         	 
-			         	 name: "Last Month",
+			         	 name: getMonthName(vLastMonth)+" "+vLastYear,
 			         	 name2:"lastMonth",
 			         	 data: objdataSeriesTop10WasteLastMonth,
 			         	color: 'orange'
 				     },{
-				    	 name: "This Month",
+				    	 name: getMonthName(vMonth)+" "+vYear,
 			         	 name2:"current",
 			         	 data: objdataSeriesTop10WasteThisMonth,
 			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="Top10-ของเสีย(ชิ้น):ของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
+				 var titleText="10 อันดับของเสียสูง(ชิ้น):ของเดือน "+getMonthName(vMonth)+" ปี "+vYear+"";
 				 
 				 createChart_SMI_Top10Waste(graphName,graphType,series,objcategoriesTop10Waste,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 						 objdataSeriesTop10WasteValueThisMonth,objdataSeriesTop10WasteValueLastMonth);

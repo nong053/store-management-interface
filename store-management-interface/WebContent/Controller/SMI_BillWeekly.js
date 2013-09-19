@@ -92,7 +92,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesBillWeeklyValueThisYear[num1]!=0){
-    			salesValue=" : "+objdataSeriesBillWeeklyValueThisYear[num1]+"";
+    			salesValue=" : "+objdataSeriesBillWeeklyValueThisYear[num1]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -101,7 +101,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objDataSeriesBillWeeklyValueLastYear[num2]!=0){
-    			salesValue=" : "+objDataSeriesBillWeeklyValueLastYear[num2]+"";
+    			salesValue=" : "+objDataSeriesBillWeeklyValueLastYear[num2]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;
@@ -198,39 +198,39 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 					if(indexEntry[2]==null){
 						BillWeeklyThisYear=0;
 					}else{
-						BillWeeklyThisYear=indexEntry[2];
+						BillWeeklyThisYear=parseFloat(indexEntry[2]).toFixed(0);
 					}
 					//sorting target,current,lastYear
 					//Amount
 					if(indexEntry[3]==null){
 						BillWeeklyLastYear=0;
 					}else{
-						BillWeeklyLastYear=indexEntry[3];
+						BillWeeklyLastYear=parseFloat(indexEntry[3]).toFixed(0);
 					}
 					
 					if(indexEntry[1]==null){
 						BillWeeklyTarget=0;
 					}else{
-						BillWeeklyTarget=indexEntry[1];
+						BillWeeklyTarget=parseFloat(indexEntry[1]).toFixed(0);
 					}
 					
 					//Value
 					if(indexEntry[5]==null){
 						BillWeeklyValueThisYear=0;
 					}else{
-						BillWeeklyValueThisYear=indexEntry[5];
+						BillWeeklyValueThisYear=parseFloat(indexEntry[5]).toFixed(0);
 					}
 					
 					if(indexEntry[6]==null){
 						BillWeeklyValueLastYear=0;
 					}else{
-						BillWeeklyValueLastYear=indexEntry[6];
+						BillWeeklyValueLastYear=parseFloat(indexEntry[6]).toFixed(0);
 					}
 					
 					if(indexEntry[4]==null){
 						BillWeeklyValueTarget=0;
 					}else{
-						BillWeeklyValueTarget=indexEntry[4];
+						BillWeeklyValueTarget=parseFloat(indexEntry[4]).toFixed(0);
 					}
 					
 					
@@ -300,13 +300,13 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 				
 				 series=[{
 						 //name: ""+startWeek+"-"+endWeek+" ปี"+(yyyy-1)+"",
-				    	 name: "Last Year",
+				    	 name: paramYear-1,
 				         name2: "lastYear",
 				         data: objDataSeriesBillWeeklyLastYear,
 				         color: 'orange'
 				     }, {
 				         //name: ""+startWeek+"-"+endWeek+" ปี"+yyyy+"",
-				    	 name: "Current",
+				    	 name: paramYear,
 				         name2: "thisYear",
 				         data: objdataSeriesBillWeeklyThisYear,
 				         color: '#007bc3'
@@ -327,7 +327,7 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 				 var startWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeekInterval").text();
 				 var endWeekInterval=$("ul.paramDefaultEmbed"+graphName+">li.paramEndWeekInterval").text();
 				 */
-				 var titleText="จำนวนบิลตั้งแต่"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
+				 var titleText="จำนวนบิลตามประเภทการขาย"+"W"+startWeek+""+getWeekInterval(paramYear,startWeek)+"-"+"W"+endWeek+""+getWeekInterval(paramYear,endWeek)+"ปี"+paramYear+"";
 				 createChart_SMI_BillWeekly(graphName,graphType,series,objcategoriesBillWeekly,arIndex,graphWidth,graphHeight,titleText,
 						 objdataSeriesBillWeeklyValueThisYear,objDataSeriesBillWeeklyValueLastYear,objDataSeriesBillWeeklyValueTarget);
 			
@@ -483,7 +483,7 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 					$("#setting"+graphNameArea).trigger("click");
 				}
 			}else{
-				alert("Unable to select start week less than end week");
+				alert("เลือกช่วงสัปดาห์ไม่ถูกต้อง");
 			}
 		});
 		

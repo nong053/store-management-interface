@@ -183,11 +183,14 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 						$("#setting"+graphNameArea).trigger("click");
 					}
 			}else{
-				alert("Unable to select start date less than end date");
+				//start date less than end date
+				alert(" เลือกช่วงวันที่ไม่่ถูกต้อง");
+				
 			}
 			
 		}else{
-			alert("Unable to select over month");
+			//over month
+			alert(" เลือกช่วงวันที่ไม่ถูกต้อง");
 		}
 		
 		
@@ -344,15 +347,16 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 					
 					if(index2==0){
 						categories+="\""+vCategories+"\"";
-						dataSeriesSaleAmount+="\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastYear+="\""+indexEntry2[1]+"\"";
-						dataSeriesSaleTarget+="\""+indexEntry2[3]+"\"";
+						dataSeriesSaleAmount+="\""+parseFloat(indexEntry2[2]).toFixed(0)+"\"";
+						dataSeriesSaleAmountLastYear+="\""+parseFloat(indexEntry2[1]).toFixed(0)+"\"";
+						dataSeriesSaleTarget+="\""+parseFloat(indexEntry2[3]).toFixed(0)+"\"";
 					}else{
 						categories+=",\""+vCategories+"\"";
-						dataSeriesSaleAmount+=",\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastYear+=",\""+indexEntry2[1]+"\"";
-						dataSeriesSaleTarget+=",\""+indexEntry2[3]+"\"";
+						dataSeriesSaleAmount+=",\""+parseFloat(indexEntry2[2]).toFixed(0)+"\"";
+						dataSeriesSaleAmountLastYear+=",\""+parseFloat(indexEntry2[1]).toFixed(0)+"\"";
+						dataSeriesSaleTarget+=",\""+parseFloat(indexEntry2[3]).toFixed(0)+"\"";
 					}
+					
 					/*
 					console.log(indexEntry2[0]);
 					console.log(indexEntry2[1]);
@@ -360,9 +364,6 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 					console.log(indexEntry2[3]);
 					console.log("============");
 					*/
-					
-				
-					
 					
 				});
 				dataSeriesSaleAmount+="]";
@@ -376,21 +377,6 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 				var objDataSeriesSaleAmountLastYear=eval("("+dataSeriesSaleAmountLastYear+")");
 				var objDataSeriesSaleTarget=eval("("+dataSeriesSaleTarget+")");
 				
-				 series=[{
-						 name: "Last Year",
-				         data: objDataSeriesSaleAmountLastYear,
-				         color: 'orange'
-				     }, {
-				         
-				         name: "Current",
-			         	 data: objDataSeriesSaleAmount,
-			         	 color: '#007bc3'
-				     }, {
-				         name: "Target",
-				         data: objDataSeriesSaleTarget,
-				         color: 'gray'
-				     }];
-				 
 				
 				// var Numbermm=parseInt(mm);
 				 var selectStartDate = new Date(startDate);
@@ -402,6 +388,25 @@ function salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,gra
 				 var selectEndYYYY = selectEndDate.getFullYear();
 				 var selectEndMM = selectEndDate.getMonth()+1; //January is 0!
 				 var selectEndDD = selectEndDate.getDate();
+				 
+				 
+				 series=[{
+						 name: selectStartYYYY-1,
+				         data: objDataSeriesSaleAmountLastYear,
+				         color: 'orange'
+				     }, {
+				         
+				         name: selectStartYYYY,
+			         	 data: objDataSeriesSaleAmount,
+			         	 color: '#007bc3'
+				     }, {
+				         name: "Target",
+				         data: objDataSeriesSaleTarget,
+				         color: 'gray'
+				     }];
+				 
+				
+				
 				 console.log(series);
 				 var titieText="ยอดขายรายวันตั้งแต่  "+selectStartDD+" "+getMonthName(selectStartMM)+" "+selectStartYYYY+" ถึง "+selectEndDD+" "+getMonthName(selectEndMM)+" "+selectEndYYYY+"";
 				createChart_salePerDay(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titieText);

@@ -28,7 +28,7 @@
 	        border-radius: 6px;
 }
 .touchslider-demo .touchslider-item {
-	height: 425px;
+	/*height: 425px;*/
 	overflow: hidden;
 }
 .touchslider-demo .touchslider-nav {
@@ -133,16 +133,17 @@ Store Management
 
 }
 #boxL{
-	width:425px;
+	width:580px;
 	float:left;
 	text-align:left;
 	/*margin: 2px 2px 2px 10px;*/
 	margin: 0px;
 }
 #boxR{
-	width:300px;
-	float:left;
-	margin:5px;
+	float: right;
+    margin: 5px 5px 5px 50px;
+	position:absolute;
+	text-align:center;
 
 }
 
@@ -221,7 +222,7 @@ Store Management
 
 
 .contentGraph{
-	width:1018px;
+	/*width:1018px;*/
 	height:425px;
 	background:white;
 	
@@ -274,12 +275,13 @@ Store Management
 	float:left;
 	font-weight:bold;
 	padding-left:10px;
+	font-size: 20px;
 	
 }
 .contentGraph .graphBottom .graphAddFav{
 	width:300px;
 	float:right;
-	padding-right:10px;
+	padding-right:5px;
 }
 button.addMyView{
 	/*
@@ -539,18 +541,46 @@ div#selectFav ul li .boxSlot{
 }
 
 
-
+#contentArea .subGraph .cateTitle {
+	
+	padding:5px;
+	
+	color:white;
+	border-bottom:1px solid #333333;
+	
+	
+}
+#contentArea .subGraph .cateTitle>.titleR{
+	font-weight:bold;
+}
+.iconL{
+	width:20px;
+	float:left;
+}
+.titleR{
+	float:left;
+	
+	
+}
 #contentArea .subGraph #boxSubGraph ul{
 	padding:0px;
 	margin:0px;
 	width:365px;
+
 }
 #contentArea .subGraph #boxSubGraph ul li{
 	/*background:#FEEEBD;*/
 	display:block;
 	border-bottom:1px solid #333333;
-	/*padding:5px;*/
+	/*padding:5px;
+	 background-image: url("../jqueryUI/css/custom-theme/images/ui-icons_d19405_256x240.png");
+	 background-repeat: no-repeat;
+	 */
+	 
+
+
 }
+
 
 
 #contentArea .subGraph #boxSubGraph ul li a{
@@ -558,6 +588,14 @@ div#selectFav ul li .boxSlot{
 	text-decoration:none;
 	color:white;
 	padding:5px;
+	padding-left:10px;
+	
+}
+#contentArea .subGraph #boxSubGraph ul li a .iconL{
+	
+	width:50px;
+}
+#contentArea .subGraph #boxSubGraph ul li a .titleR{
 	
 	
 }
@@ -591,7 +629,7 @@ div#selectFav ul li .boxSlot{
 	float:left;
 	/*margin:5px;*/
 	height: 465px;
-    width: 1018px;
+   /* width: 1018px;*/
 
 	
 }
