@@ -1157,6 +1157,15 @@ $(document).ready(function(){
 					 */
 				}
 				$("#boxR").html(htmlListTopButton);
+				
+				
+				/*
+				setTimeout(function(){
+					//alert("hello");
+					$("#boxR").trigger("click");
+					//$(".touchslider-nav-item").trigger("click");
+				},5000);
+				*/
 				$("#boxR").css({"width":(widthScreen-70)+"px"});
 			};
 			/*################ function create sub graph lis left sub menu#################*/
@@ -1273,11 +1282,11 @@ $(document).ready(function(){
 					//Defualt Parameter Start
 					
 							 
-							 if($(".paramEmbed"+graphName).text()==""){
+							 if($(".paramDefaultEmbed"+graphName).text()==""){
 									currentDate=ParamCurrentDateDel2Day;
 								}else{
-									currentDate=""+$("ul.paramEmbed"+graphName+">li.paramDate").text()+"";
-									branchId=""+$("ul.paramEmbed"+graphName+">li.paramBranchCode").text()+"";
+									currentDate=""+$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text()+"";
+									branchId=""+$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text()+"";
 								}
 							 
 							//send graphName,graphType
@@ -1864,6 +1873,7 @@ $(document).ready(function(){
 						type:"post",
 						dataType:"json",
 						data:{"paramUserLogin":userLogin},
+						async:false,
 						success:function(data){
 							//alert(data);
 							
@@ -1888,6 +1898,7 @@ $(document).ready(function(){
 							//createMainLayout();
 							//createMenuLeft();
 							touchSlider();
+							//$(".touchslider-nav-item:eq(0)").click();
 						}
 					});
 					
@@ -1900,6 +1911,7 @@ $(document).ready(function(){
 						type:"post",
 						dataType:"json",
 						data:{"paramCateId":$("#embCateGraphId").val(),"paramMachine":paramMachine},
+						async:false,
 						success:function(data){
 							
 							//alert(data);
@@ -1917,12 +1929,14 @@ $(document).ready(function(){
 							//boxSubGraph
 							//createChart();
 							numListTopButton(numIndex);
-							
 							touchSlider();
 						}
 					});
 					
 				};
+				//$(".touchslider-nav-item:eq(3)").click();
+				$(".touchslider-nav-item:eq(1)").click();
+				$(".touchslider-nav-item:eq(0)").click();
 				//touchSlider();
 				
 			});

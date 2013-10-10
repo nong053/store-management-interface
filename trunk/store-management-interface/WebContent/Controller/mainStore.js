@@ -1067,13 +1067,13 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					 */
 					 var branchId ="";
 					 
-					 if($(".paramEmbed"+graphName).text()==""){
+					 if($(".paramDefaultEmbed"+graphName).text()==""){
 						    branchId =data[0][0];
 							//currentDate=""+yyyy+"-"+mm+"-"+dd+"";
 						    currentDate=ParamCurrentDateDel2Day;
 						}else{
-							currentDate=""+$("ul.paramEmbed"+graphName+">li.paramDate").text()+"";
-							branchId=""+$("ul.paramEmbed"+graphName+">li.paramBranchCode").text()+"";
+							currentDate=""+$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text()+"";
+							branchId=""+$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text()+"";
 						}
 					 
 					//send graphName,graphType

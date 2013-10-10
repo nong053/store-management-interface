@@ -343,6 +343,7 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,graphWidth
 	alert(graphHeight);
 	alert(paramMachine);
 	*/
+	//alert(currentDate);
 	//#########################set embed parameter for embed default parameter start########################
 	embedParameterSalesMonthly(graphName,brach,currentDate);
 	//#########################set embed parameter for embed default parameter end########################
