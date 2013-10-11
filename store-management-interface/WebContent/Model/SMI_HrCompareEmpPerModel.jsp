@@ -3,11 +3,12 @@
 
 <%@page import="com.snp.store.service.*" %>
 <%
-/*
+String paramBranch=request.getParameter("paramBranch");
+String paramStartDate=request.getParameter("paramStartDate");
 connectionJNDI jndi = new connectionJNDI();
-String columns="1,2";
-String query="CALL SMI_ParamMonth()";
+String columns="4,5,6,7,8,9,10,11";
+String query="CALL SMI_ManPowerOverall()";
 jndi.selectByIndexDwh(query, columns);
 out.println(jndi.getData());
-*/
+
 %>

@@ -24,7 +24,7 @@
 		return x1 + x2;
 	}	
 
-function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,paramMachine){
+function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objDataHrModelAll,paramMachine){
 
 
 	var seriesDefaultsFont="";
@@ -41,7 +41,9 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,para
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
 		 	 height: graphHeight,
              dataSource: {
-                 data: [{    "Position":"ผจก.บริหาร/ผู้เชี่ยวชาญ",
+            	 data:objDataHrModelAll,
+                 /*
+            	 data: [{    "Position":"ผจก.บริหาร/ผู้เชี่ยวชาญ",
 		                	 "Model":"299",
 		                	 "Acctal":"262",
 		                	 "Gap":"37",
@@ -122,7 +124,8 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,para
 				    	   "resignAccumulated":"1904"
 				      }
                  
-                 ],
+                 ]
+                 ,*/
                 // pageSize: 10
              },
              groupable: false,
@@ -248,7 +251,7 @@ var htmlParam_SMI_HrCompareEmpPerModel = function(graphNameArea){
 			
 			 htmlParam+="<tr>";
 				htmlParam+="<td>";
-					htmlParam+="<b>Start Date</b>";
+					htmlParam+="<b>As of Date Date</b>";
 				htmlParam+="</td>";
 				htmlParam+="<td id=\"areaParamStartDate"+graphNameArea+"\">";
 				/*
@@ -256,16 +259,7 @@ var htmlParam_SMI_HrCompareEmpPerModel = function(graphNameArea){
 	 			*/
 	 			htmlParam+="</td>";
 	 		htmlParam+="</tr>";
-	 		htmlParam+="<tr>";
-	 			htmlParam+="<td>";
-	 				htmlParam+="<b>End Date</b>";
-	 			htmlParam+="</td>";
-	 			htmlParam+="<td id=\"areaParamEndDate"+graphNameArea+"\">";
-	 			/*
-	 				htmlParam+="<input type=\"text\" name=\"paramEndDate"+graphNameArea+"\" id=\"paramEndDate"+graphNameArea+"\" class=\"date\">";
-	 			*/
-	 			htmlParam+="</td>";
-	 		htmlParam+="</tr>";
+	 		
 	 	
 	 		
 	 	htmlParam+="</table>";
@@ -296,19 +290,19 @@ var submit_SMI_HrCompareEmpPerModel=function(graphNameArea,graphName,graphType,a
 		//###################Embead parameter to call embed parameter function start##############
 		var paramBranch=$("#paramBranch"+graphNameArea).val();
 		var paramStartDate=$("#paramStartDate"+graphNameArea).val();
-		var paramEndDate=$("#paramEndDate"+graphNameArea).val();
-		embedParameterHrCompareEmpPerModel(graphName,paramBranch,paramStartDate,paramEndDate);
+		
+		embedParameterHrCompareEmpPerModel(graphName,paramBranch,paramStartDate);
 		//###################Embead parameter to call embed parameter function start##############
 		
 		
 		//call function create graph for gernarate new graph
 		//HrCompareEmpPerModelFn
-		var startDate = paramStartDate.split("-");
-		var endDate = paramEndDate.split("-");
+		//var startDate = paramStartDate.split("-");
+		
 		
 		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
-			if(parseInt(startDate[1]) <= parseInt(endDate[1])){
-				HrCompareEmpPerModelFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
+			
+				HrCompareEmpPerModelFn(graphName,graphType,arIndex,paramBranch,paramStartDate,graphWidth,graphHeight,paramMachine);
 				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
@@ -316,9 +310,7 @@ var submit_SMI_HrCompareEmpPerModel=function(graphNameArea,graphName,graphType,a
 				}else{
 					$("#setting"+graphNameArea).trigger("click");
 				}
-			}else{
-				alert("Unable to select start date less than end date");
-			}
+			
 			/*
 		}else{
 			alert("Unable to select over month");
@@ -378,13 +370,13 @@ var dialogSetParam_SMI_HrCompareEmpPerModelFn=function(paramTitleSetting){
 };
  /*####################### config dialog for tablet end ###################*/ 
 //#######################Embed parameter Function start #################
-function embedParameterHrCompareEmpPerModel(graphName,paramBranch,paramStartDate,paramEndDate){
+function embedParameterHrCompareEmpPerModel(graphName,paramBranch,paramStartDate){
 
 	var paramDefaultEmbedHtml="" +
 	"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
 		"<li class=\"paramBranch\">"+paramBranch+"</li>" +
 		"<li class=\"paramStartDate\">"+paramStartDate+"</li>" +
-		"<li class=\"paramEndDate\">"+paramEndDate+"</li>" +
+		
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -422,7 +414,7 @@ function manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,
 		 //#####################check parameter is selected start#########################
 		getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
 		getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
-		getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text(),paramMachine);
+		
 		//######################check parameter is selected end###########################
 		 submit_SMI_HrCompareEmpPerModel(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);
 		 
@@ -442,110 +434,62 @@ function manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,
 }
 
 
-function HrCompareEmpPerModelFn(graphName,graphType,arIndex,graphHeight,paramMachine){
-	//graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
+function HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine){
+	//graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine
 	
 	//alert("graphName="+graphName);
 	//alert("graphType="+graphType);
 	//alert("arIndex="+arIndex);
 	
 	//#########################set embed parameter for embed default parameter start########################
-	//embedParameterHrCompareEmpPerModel(graphName,vBranch,vSDate,vEDate);
+	embedParameterHrCompareEmpPerModel(graphName,vBranch,asOfDate);
 	//#########################set embed parameter for embed default parameter end########################
 	
-	/*
+	
 	 $.ajax({
 			url:"../Model/SMI_HrCompareEmpPerModel.jsp",
 			type:"POST",
 			dataType:"json",
 			async:false,
-			data:{"paramBranch":vBranch,"paramStartDate":vSDate,"paramEndDate":vEDate},
-			success:function(data2){
-				//alert(data2);
-				var categories="";
-				var dataSeriesSaleAmount="";
-				var dataSeriesSaleAmountLastMonth="";
+			data:{"paramBranch":vBranch,"paramStartDate":asOfDate},
+			success:function(data){
 				
-				var dataSeriesSaleValue="";
-				var dataSeriesSaleValueLastMonth="";
-				
-				var series="";
-				
-				//SaleAmount
-				//SaleAmountLastMonth
-				
-				 
-				categories+="[";
-				dataSeriesSaleAmount+="[";
-				dataSeriesSaleAmountLastMonth+="[";
-				
-				dataSeriesSaleValue+="[";
-				dataSeriesSaleValueLastMonth+="[";
-
-				$.each(data2,function(index2,indexEntry2){
+				var dataHrModelAll="";
+				dataHrModelAll+="[";
+				$.each(data,function(index,indexEntry){
 					
-					if(index2==0){
-						categories+="\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+="\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+="\""+indexEntry2[1]+"\"";
-						
-						dataSeriesSaleValue+="\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+="\""+indexEntry2[3]+"\"";
-	
+					if(index==0){
+						dataHrModelAll+="{";
 					}else{
-						categories+=",\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+=",\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+=",\""+indexEntry2[1]+"\"";
-						
-						dataSeriesSaleValue+=",\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+=",\""+indexEntry2[3]+"\"";
-				
+						dataHrModelAll+=",{";
 					}
-
+					
+					
+					dataHrModelAll+="\"Position\":\""+indexEntry[0]+"\",";
+					dataHrModelAll+="\"Model\":"+indexEntry[1]+",";
+					dataHrModelAll+="\"Acctal\":"+indexEntry[2]+",";
+					dataHrModelAll+="\"Gap\":"+indexEntry[3]+",";
+					dataHrModelAll+="\"NewEmp\":"+indexEntry[4]+",";
+					dataHrModelAll+="\"resign\":"+indexEntry[5]+",";
+					dataHrModelAll+="\"resignPercentage\":"+indexEntry[6]+"," ;
+					dataHrModelAll+="\"resignAccumulated\":"+indexEntry[7]+"";
+					
+					dataHrModelAll+="}";
+					
 				});
-				dataSeriesSaleAmount+="]";
-				dataSeriesSaleAmountLastMonth+="]";
-				
-				dataSeriesSaleValue+="]";
-				dataSeriesSaleValueLastMonth+="]";
-		
-				categories+="]";
-				
-			
-				var objCategories=eval("("+categories+")");
-				var objDataSeriesSaleAmount=eval("("+dataSeriesSaleAmount+")");
-				var objDataSeriesSaleAmountLastMonth=eval("("+dataSeriesSaleAmountLastMonth+")");
-				
-				var objDataSeriesSaleValue=eval("("+dataSeriesSaleValue+")");
-				var objDataSeriesSaleValueLastMonth=eval("("+dataSeriesSaleValueLastMonth+")");
-				
-		
-				console.log("------------------------------------");
-				console.log("---"+objDataSeriesSaleValue);
-				console.log("---"+objDataSeriesSaleValueLastMonth);
-				
-				
-				 series=[{
-			         	 
-			         	 name: "Last Month",
-				         name2:"lastMonth",
-				         data: objDataSeriesSaleAmountLastMonth,
-				         color: 'orange'
-				     }, {
-				    	 name: "Current",
-			         	 name2:"current",
-			         	 data: objDataSeriesSaleAmount,
-			         	 color: '#007bc3'
-				     }];
+				dataHrModelAll+="]";
+				var objDataHrModelAll=eval("("+dataHrModelAll+")");
+				//console.log(objDataHrModelAll);
 				
 				 //var titleText="Top10-Food:������ѹ��� "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ��"+getYearONDate(vSDate)+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ��"+getYearONDate(vEDate)+"";
-				 //createChart_SMI_HrCompareEmpPerModel(graphName,arIndex);
+				 //createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,objDataHrModelAll);
+				 createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objDataHrModelAll,paramMachine);
 				
 			}
 		});
 	 
-	 */
-	 createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,paramMachine);
+	 
+	// createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,paramMachine);
 		
 	};
 

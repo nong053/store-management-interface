@@ -1826,22 +1826,21 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						}
 						
 						var vBranch ="";
-						var vYear="";
-						var vMonth="";
+						var asOfDate="";
+						
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
 							  vBranch =data[0][0];
-							  vYear=""+yyyy+"";
-							  vMonth=""+mm+"";
+							  asOfDate=""+yyyy+"-"+mm+"-"+dd;
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-							vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-							vMonth=$("ul.paramDefaultEmbed"+graphName+">li.paramMonth").text();
+							asOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
+
 						}
 
 
-							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-						HrCompareEmpPerModelFn(graphName,graphType,arIndex,graphHeight,paramMachine);
+							     //graphName,graphType,arIndex,vBranch,asOfDate,graphWidth,graphHeight
+						HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine);
 					
 				}
 			 });
@@ -2057,7 +2056,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 		var graphNameAreaNoneIndexArray=graphNameArea.split("-");
 	    var graphNameAreaNoneIndex=graphNameAreaNoneIndexArray[0];
 	   // alert("graphNameArea="+graphNameArea);
-	   // alert("graphNameAreaNoneIndex="+graphNameAreaNoneIndex);
+	    //alert("graphNameAreaNoneIndex="+graphNameAreaNoneIndex);
 	     
 		if(graphNameAreaNoneIndex=="areaSalePerDay"){
 			manageParamSalePerDayFn(graphNameArea,graphWidth,graphHeight,paramMachine);
@@ -2105,6 +2104,16 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 		}else if(graphNameAreaNoneIndex=="areaCookingTimeRange"){
 			//g15
 			manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModel"){
+			//g16
+			//alert("hello world managment table1");
+			manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByDepartment"){
+			//g17
+			//manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByManager"){
+			//g18
+			//manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 		}
 		
 	};
