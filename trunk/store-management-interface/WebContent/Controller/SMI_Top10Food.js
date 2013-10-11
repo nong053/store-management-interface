@@ -458,11 +458,3 @@ function top10FoodFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidt
 	};
 
 
-	 
-	
-	
-	 
-	
-	 
-
-	 

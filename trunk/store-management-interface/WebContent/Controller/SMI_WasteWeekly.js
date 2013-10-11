@@ -253,13 +253,13 @@ function wasteWeeklyFn(graphName,graphType,arIndex,vBranch,vYear,vWeek,graphWidt
 				  */
 				 series=[{
 					 
-			         	 name: "เกินมาตรฐาน",
+			         	 name: "เกินมาตรฐาน 3%",
 			         	 data: objdataSerieswasteUpperLine,
 			         	 color: "red",
 			         	 dashType: "dot"
 				     },{
 					 
-			         	 name: "มาตรฐาน",
+			         	 name: "มาตรฐาน 2%",
 			         	 data: objdataSerieswasteLowerLine,
 			         	 color: "green",
 			         	 dashType: "dot"
