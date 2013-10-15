@@ -1871,42 +1871,40 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 				async:false,
 				success:function(data){
 					
-					 var today = new Date(ParamCurrentDateDel2Day);
-					 var dd = today.getDate();
-					 var mm = today.getMonth()+1; //January is 0!
-					 var yyyy = today.getFullYear();
-					 
-					 if (mm < 10) {
-						    mm = '0' + mm;
-						}
-
-						if (dd < 10) {
-						    dd = '0' + dd;
-						}
-						
 						var vBranch ="";
 						var vAsOfDate="";
 						var vSubBranch="";
 						
-						//call sub branch for parameter subbranch start.
-						/*
 						$.ajax({
-							url:"../Model/SIM_subBranch.jsp",
-						
+							url:"../Model/SMI_ManPowerByOrganizationAsOfDate.jsp",
 							type:"get",
 							dataType:"json",
-							data:{"paramBranch":"311"},
+							//data:{"paramBranch":vBranch},
+							async:false,
 							success:function(data){
-								alert(data);
+								//alert(data);
+								vAsOfDate=data[0][0];
 								
 							}
 						});
-						*/
+						
+						$.ajax({
+							url:"../Model/SMI_ManPowerByOrganizationSubBranch.jsp",
+							type:"get",
+							dataType:"json",
+							//data:{"paramBranch":vBranch},
+							async:false,
+							success:function(data){
+								//alert(data);
+								vSubBranch=data[0][0];
+								
+							}
+						});
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
 							  vBranch =data[0][0];
-							  vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
-							  vSubBranch="ครัว";
+							  //vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
+							  //vSubBranch="ครัว";
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 							vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramAsOfDate").text();
@@ -1950,7 +1948,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					var vAsOfDate="";
 					
 					$.ajax({
-						url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+						url:"../Model/SMI_ManPowerBranchAsOfDate.jsp",
 						type:"get",
 						dataType:"json",
 						//data:{"paramBranch":vBranch},
@@ -2153,7 +2151,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByDepartment"){
 			//g17
-			//manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+			manageParamHrCompareEmpPerModelByDepartmentFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByManager"){
 			//g18
 			manageParamHrCompareEmpPerModelByManagerFn(graphNameArea,graphWidth,graphHeight,paramMachine);

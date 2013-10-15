@@ -23,9 +23,61 @@
 		}
 		return x1 + x2;
 	}	
+	
+	//create list dropdown as of date function 
+	function callAsOfDateEmpPerModelDepartment(graphNameArea,paramStartDate){
+		var htmlDropdown="";
+		$.ajax({
+			url:"../Model/SMI_ManPowerByOrganizationAsOfDate.jsp",
+			type:"get",
+			dataType:"json",
+			//data:{"paramBranch":vBranch},
+			async:false,
+			success:function(data){
+				//alert(data);
+				htmlDropdown+="<select class=\"list\" id=\"paramStartDate"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					if(paramStartDate==indexEntry[0]){
+						htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[0]+"</option>";
+					}else{
+						htmlDropdown+="<option value="+indexEntry[0]+">"+indexEntry[0]+"</option>";
+					}
+				});
+				htmlDropdown+="</select>";
+				//alert(htmlDropdown);
+				$("#areaParamStartDate"+graphNameArea).html(htmlDropdown);
+			}
+		});
+	}
+	//create list dropdown sub branch function 
+	function callSubBranchEmpPerModelDepartment(graphNameArea,paramSubBranch){
+		var htmlDropdown="";
+		$.ajax({
+			url:"../Model/SMI_ManPowerByOrganizationSubBranch.jsp",
+			type:"get",
+			dataType:"json",
+			//data:{"paramBranch":vBranch},
+			async:false,
+			success:function(data){
+				//alert(data);
+				htmlDropdown+="<select class=\"list\" id=\"paramSubBranch"+graphNameArea+"\">";
+				$.each(data,function(index,indexEntry){
+					if(paramSubBranch==indexEntry[0]){
+						htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[1]+"</option>";
+					}else{
+						htmlDropdown+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>";
+					}
+				});
+				htmlDropdown+="</select>";
+				//alert(htmlDropdown);
+				$("#areaParamSubBranch"+graphNameArea).html(htmlDropdown);
+			}
+		});
+	}
 
+	
 function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objDataHrModelAll,graphHeight,paramMachine){
-
+	
 
 	var seriesDefaultsFont="";
 	var PositionWidth="";
@@ -37,7 +89,7 @@ function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objD
 		PositionWidth=150;
 	}
 
-	
+	 $("#chart"+graphName+"-"+arIndex).empty();
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
 		 	 height: graphHeight,
              dataSource: {
@@ -282,19 +334,19 @@ var submit_SMI_HrCompareEmpPerModelByDepartment=function(graphNameArea,graphName
 		//###################Embead parameter to call embed parameter function start##############
 		var paramBranch=$("#paramBranch"+graphNameArea).val();
 		var paramStartDate=$("#paramStartDate"+graphNameArea).val();
-		var paramEndDate=$("#paramEndDate"+graphNameArea).val();
-		embedParameterHrCompareEmpPerModelByDepartment(graphName,paramBranch,paramStartDate,paramEndDate);
+		var paramSubBranch=$("#paramSubBranch"+graphNameArea).val();
+		
+		
+		
+		embedParameterHrCompareEmpPerModelByDepartment(graphName,paramBranch,paramStartDate,paramSubBranch);
 		//###################Embead parameter to call embed parameter function start##############
 		
 		
 		//call function create graph for gernarate new graph
 		//HrCompareEmpPerModelByDepartmentFn
-		var startDate = paramStartDate.split("-");
-		var endDate = paramEndDate.split("-");
 		
-		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
-			if(parseInt(startDate[1]) <= parseInt(endDate[1])){
-				HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
+												  // graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine
+				HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramSubBranch,graphHeight,paramMachine);
 				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
@@ -302,14 +354,8 @@ var submit_SMI_HrCompareEmpPerModelByDepartment=function(graphNameArea,graphName
 				}else{
 					$("#setting"+graphNameArea).trigger("click");
 				}
-			}else{
-				alert("Unable to select start date less than end date");
-			}
-			/*
-		}else{
-			alert("Unable to select over month");
-		}
-		*/
+			
+		
 	});
 	
 	if(paramMachine=="Tablet"){
@@ -370,7 +416,7 @@ function embedParameterHrCompareEmpPerModelByDepartment(graphName,paramBranch,pa
 	"<ul style=\"display:\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
 		"<li class=\"paramBranch\">"+paramBranch+"</li>" +
 		"<li class=\"paramStartDate\">"+paramAsOfDate+"</li>" +
-		"<li class=\"paramEndDate\">"+paramSubBranch+"</li>" +
+		"<li class=\"paramSubBranch\">"+paramSubBranch+"</li>" +
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -407,8 +453,8 @@ function manageParamHrCompareEmpPerModelByDepartmentFn(graphNameArea,graphWidth,
 		 //create button submit
 		 //#####################check parameter is selected start#########################
 		getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
-		getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramAsOfDate").text(),paramMachine);
-		//getSubBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text(),paramMachine);
+		callAsOfDateEmpPerModelDepartment(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text());
+		callSubBranchEmpPerModelDepartment(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text());
 		//######################check parameter is selected end###########################
 		 submit_SMI_HrCompareEmpPerModelByDepartment(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);
 		 
@@ -494,7 +540,7 @@ function HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,
 				dataHrModelAll+="]";
 				var objDataHrModelAll=eval("("+dataHrModelAll+")");
 				
-				
+				 
 				 createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objDataHrModelAll,graphHeight,paramMachine);
 				
 			}
