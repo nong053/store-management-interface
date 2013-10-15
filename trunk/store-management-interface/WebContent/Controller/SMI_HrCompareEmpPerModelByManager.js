@@ -23,8 +23,32 @@
 		}
 		return x1 + x2;
 	}	
+	function callAsOfDateEmpPerModelAll(graphNameArea,paramStartDate){
+		var htmlDropdown="";
+		$.ajax({
+			url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+			type:"get",
+			dataType:"json",
+			//data:{"paramBranch":vBranch},
+			async:false,
+			success:function(data){
+				//alert(data);
+				htmlDropdown+="<select class='list' id='paramStartDate'>";
+				$.each(data,function(index,indexEntry){
+					if(paramStartDate==indexEntry[0]){
+						htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[0]+"</option>";
+					}else{
+						htmlDropdown+="<option value="+indexEntry[0]+">"+indexEntry[0]+"</option>";
+					}
+				});
+				htmlDropdown+="</select>";
+				//alert(htmlDropdown);
+				$("#areaParamStartDate"+graphNameArea).html(htmlDropdown);
+			}
+		});
+	}
 
-function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,graphHeight,paramMachine){
+function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,objDataHrModelManager,graphHeight,paramMachine){
 
 
 	var seriesDefaultsFont="";
@@ -41,6 +65,8 @@ function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,graphHe
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
 		 	 height: graphHeight,
              dataSource: {
+            	 data:objDataHrModelManager,
+            	 /*
                  data: [{    "Position":"ผู้จัดการเขต/ผู้ช่วยเขต",
 		                	 "Model":"24",
 		                	 "Acctal":"24",
@@ -132,7 +158,7 @@ function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,graphHe
 				    	   "resignAccumulated":"96"
 				      }
                  
-                 ],
+                 ],*/
                  pageSize: 10
              },
              groupable: false,
@@ -257,7 +283,7 @@ var htmlParam_SMI_HrCompareEmpPerModelByManager = function(graphNameArea){
 			
 			 htmlParam+="<tr>";
 				htmlParam+="<td>";
-					htmlParam+="<b>Start Date</b>";
+					htmlParam+="<b>As of Date</b>";
 				htmlParam+="</td>";
 				htmlParam+="<td id=\"areaParamStartDate"+graphNameArea+"\">";
 				/*
@@ -265,17 +291,7 @@ var htmlParam_SMI_HrCompareEmpPerModelByManager = function(graphNameArea){
 	 			*/
 	 			htmlParam+="</td>";
 	 		htmlParam+="</tr>";
-	 		htmlParam+="<tr>";
-	 			htmlParam+="<td>";
-	 				htmlParam+="<b>End Date</b>";
-	 			htmlParam+="</td>";
-	 			htmlParam+="<td id=\"areaParamEndDate"+graphNameArea+"\">";
-	 			/*
-	 				htmlParam+="<input type=\"text\" name=\"paramEndDate"+graphNameArea+"\" id=\"paramEndDate"+graphNameArea+"\" class=\"date\">";
-	 			*/
-	 			htmlParam+="</td>";
-	 		htmlParam+="</tr>";
-	 	
+	 		
 	 		
 	 	htmlParam+="</table>";
 	 	
@@ -305,8 +321,8 @@ var submit_SMI_HrCompareEmpPerModelByManager=function(graphNameArea,graphName,gr
 		//###################Embead parameter to call embed parameter function start##############
 		var paramBranch=$("#paramBranch"+graphNameArea).val();
 		var paramStartDate=$("#paramStartDate"+graphNameArea).val();
-		var paramEndDate=$("#paramEndDate"+graphNameArea).val();
-		embedParameterHrCompareEmpPerModelByManager(graphName,paramBranch,paramStartDate,paramEndDate);
+		
+		embedParameterHrCompareEmpPerModelByManager(graphName,paramBranch,paramStartDate);
 		//###################Embead parameter to call embed parameter function start##############
 		
 		
@@ -387,13 +403,12 @@ var dialogSetParam_SMI_HrCompareEmpPerModelByManagerFn=function(paramTitleSettin
 };
  /*####################### config dialog for tablet end ###################*/ 
 //#######################Embed parameter Function start #################
-function embedParameterHrCompareEmpPerModelByManager(graphName,paramBranch,paramStartDate,paramEndDate){
+function embedParameterHrCompareEmpPerModelByManager(graphName,paramBranch,paramStartDate){
 
 	var paramDefaultEmbedHtml="" +
 	"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
 		"<li class=\"paramBranch\">"+paramBranch+"</li>" +
 		"<li class=\"paramStartDate\">"+paramStartDate+"</li>" +
-		"<li class=\"paramEndDate\">"+paramEndDate+"</li>" +
 	"</ul>";
 
 	$(".paramDefaultEmbed"+graphName).remove();
@@ -430,8 +445,8 @@ function manageParamHrCompareEmpPerModelByManagerFn(graphNameArea,graphWidth,gra
 		 //create button submit
 		 //#####################check parameter is selected start#########################
 		getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
-		getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
-		getEndDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramEndDate").text(),paramMachine);
+		callAsOfDateEmpPerModelAll(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text());
+		
 		//######################check parameter is selected end###########################
 		 submit_SMI_HrCompareEmpPerModelByManager(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);
 		 
@@ -451,110 +466,57 @@ function manageParamHrCompareEmpPerModelByManagerFn(graphNameArea,graphWidth,gra
 }
 
 
-function HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,graphHeight,paramMachine){
-	//graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
+function HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,vBranch,vAsOfDate,graphHeight,paramMachine){
+	
 	
 	//alert("graphName="+graphName);
 	//alert("graphType="+graphType);
 	//alert("arIndex="+arIndex);
 	
 	//#########################set embed parameter for embed default parameter start########################
-	//embedParameterHrCompareEmpPerModelByManager(graphName,vBranch,vSDate,vEDate);
+	 embedParameterHrCompareEmpPerModelByManager(graphName,vBranch,vAsOfDate);
 	//#########################set embed parameter for embed default parameter end########################
 	
-	/*
+	
 	 $.ajax({
 			url:"../Model/SMI_HrCompareEmpPerModelByManager.jsp",
 			type:"POST",
 			dataType:"json",
 			async:false,
-			data:{"paramBranch":vBranch,"paramStartDate":vSDate,"paramEndDate":vEDate},
-			success:function(data2){
-				//alert(data2);
-				var categories="";
-				var dataSeriesSaleAmount="";
-				var dataSeriesSaleAmountLastMonth="";
-				
-				var dataSeriesSaleValue="";
-				var dataSeriesSaleValueLastMonth="";
-				
-				var series="";
-				
-				//SaleAmount
-				//SaleAmountLastMonth
-				
-				 
-				categories+="[";
-				dataSeriesSaleAmount+="[";
-				dataSeriesSaleAmountLastMonth+="[";
-				
-				dataSeriesSaleValue+="[";
-				dataSeriesSaleValueLastMonth+="[";
-
-				$.each(data2,function(index2,indexEntry2){
+			data:{"paramBranch":vBranch,"paramAsfDate":vAsOfDate},
+			success:function(data){
+				var dataHrModelByManager="";
+				dataHrModelByManager+="[";
+				$.each(data,function(index,indexEntry){
 					
-					if(index2==0){
-						categories+="\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+="\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+="\""+indexEntry2[1]+"\"";
-						
-						dataSeriesSaleValue+="\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+="\""+indexEntry2[3]+"\"";
-	
+					if(index==0){
+						dataHrModelByManager+="{";
 					}else{
-						categories+=",\""+indexEntry2[0]+"\"";
-						dataSeriesSaleAmount+=",\""+indexEntry2[2]+"\"";
-						dataSeriesSaleAmountLastMonth+=",\""+indexEntry2[1]+"\"";
-						
-						dataSeriesSaleValue+=",\""+indexEntry2[4]+"\"";
-						dataSeriesSaleValueLastMonth+=",\""+indexEntry2[3]+"\"";
-				
+						dataHrModelByManager+=",{";
 					}
-
+					
+					
+					dataHrModelByManager+="\"Position\":\""+indexEntry[0]+"\",";
+					dataHrModelByManager+="\"Model\":"+indexEntry[1]+",";
+					dataHrModelByManager+="\"Acctal\":"+indexEntry[2]+",";
+					dataHrModelByManager+="\"Gap\":"+indexEntry[3]+",";
+					dataHrModelByManager+="\"NewEmp\":"+indexEntry[4]+",";
+					dataHrModelByManager+="\"resign\":"+indexEntry[5]+",";
+					dataHrModelByManager+="\"resignPercentage\":"+indexEntry[6]+"," ;
+					dataHrModelByManager+="\"resignAccumulated\":"+indexEntry[7]+"";
+					
+					dataHrModelByManager+="}";
+					
 				});
-				dataSeriesSaleAmount+="]";
-				dataSeriesSaleAmountLastMonth+="]";
+				dataHrModelByManager+="]";
+				var objDataHrModelManager=eval("("+dataHrModelByManager+")");
 				
-				dataSeriesSaleValue+="]";
-				dataSeriesSaleValueLastMonth+="]";
-		
-				categories+="]";
-				
-			
-				var objCategories=eval("("+categories+")");
-				var objDataSeriesSaleAmount=eval("("+dataSeriesSaleAmount+")");
-				var objDataSeriesSaleAmountLastMonth=eval("("+dataSeriesSaleAmountLastMonth+")");
-				
-				var objDataSeriesSaleValue=eval("("+dataSeriesSaleValue+")");
-				var objDataSeriesSaleValueLastMonth=eval("("+dataSeriesSaleValueLastMonth+")");
-				
-		
-				console.log("------------------------------------");
-				console.log("---"+objDataSeriesSaleValue);
-				console.log("---"+objDataSeriesSaleValueLastMonth);
-				
-				
-				 series=[{
-			         	 
-			         	 name: "Last Month",
-				         name2:"lastMonth",
-				         data: objDataSeriesSaleAmountLastMonth,
-				         color: 'orange'
-				     }, {
-				    	 name: "Current",
-			         	 name2:"current",
-			         	 data: objDataSeriesSaleAmount,
-			         	 color: '#007bc3'
-				     }];
-				
-				 //var titleText="Top10-Food:������ѹ��� "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ��"+getYearONDate(vSDate)+" -"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ��"+getYearONDate(vEDate)+"";
-				 //createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex);
-				
+				createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,objDataHrModelManager,graphHeight,paramMachine);
 			}
 		});
 	 
-	 */
-	 createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,graphHeight,paramMachine);
+	 
+	 //createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,graphHeight,paramMachine);
 		
 	};
 

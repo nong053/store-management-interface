@@ -5,10 +5,10 @@
 <%
 String paramBranch=request.getParameter("paramBranch");
 String paramStartDate=request.getParameter("paramStartDate");
-
+String paramSubBranch=request.getParameter("paramSubBranch");
 connectionJNDI jndi = new connectionJNDI();
-String columns="5,6,7,8,9,10,11,12";
-String query="CALL SMI_ManPowerBranch()";
+String columns="1";
+String query="CALL SMI_ManPowerBranchAsOfDate()";
 jndi.selectByIndexDwh(query, columns);
 out.println(jndi.getData());
 

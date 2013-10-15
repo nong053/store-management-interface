@@ -1810,8 +1810,9 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 				url:"../Model/SMI_getBranch.jsp",
 				type:"get",
 				dataType:"json",
+				async:false,
 				success:function(data){
-					
+					/*
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
 					 var mm = today.getMonth()+1; //January is 0!
@@ -1824,20 +1825,31 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						if (dd < 10) {
 						    dd = '0' + dd;
 						}
-						
+						*/
 						var vBranch ="";
 						var asOfDate="";
 						
+					$.ajax({
+						url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+						type:"get",
+						dataType:"json",
+						//data:{"paramBranch":vBranch},
+						async:false,
+						success:function(data){
+							//alert(data);
+							asOfDate=data[0][0];
+							
+						}
+					});
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
 							  vBranch =data[0][0];
-							  asOfDate=""+yyyy+"-"+mm+"-"+dd;
+							 // asOfDate=""+yyyy+"-"+mm+"-"+dd;
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
 							asOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
 
 						}
-
 
 							     //graphName,graphType,arIndex,vBranch,asOfDate,graphWidth,graphHeight
 						HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine);
@@ -1856,6 +1868,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 				url:"../Model/SMI_getBranch.jsp",
 				type:"get",
 				dataType:"json",
+				async:false,
 				success:function(data){
 					
 					 var today = new Date(ParamCurrentDateDel2Day);
@@ -1872,22 +1885,37 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						}
 						
 						var vBranch ="";
-						var vYear="";
-						var vMonth="";
+						var vAsOfDate="";
+						var vSubBranch="";
+						
+						//call sub branch for parameter subbranch start.
+						/*
+						$.ajax({
+							url:"../Model/SIM_subBranch.jsp",
+						
+							type:"get",
+							dataType:"json",
+							data:{"paramBranch":"311"},
+							success:function(data){
+								alert(data);
+								
+							}
+						});
+						*/
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
 							  vBranch =data[0][0];
-							  vYear=""+yyyy+"";
-							  vMonth=""+mm+"";
+							  vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
+							  vSubBranch="ครัว";
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-							vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-							vMonth=$("ul.paramDefaultEmbed"+graphName+">li.paramMonth").text();
+							vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramAsOfDate").text();
+							vSubBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text();
 						}
 
 
-							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-						HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,graphHeight,paramMachine);
+							     //graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine
+						HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine);
 					
 				}
 			 });
@@ -1902,8 +1930,9 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 				url:"../Model/SMI_getBranch.jsp",
 				type:"get",
 				dataType:"json",
+				async:false,
 				success:function(data){
-					
+					/*
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
 					 var mm = today.getMonth()+1; //January is 0!
@@ -1916,24 +1945,38 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						if (dd < 10) {
 						    dd = '0' + dd;
 						}
+						*/
+					var vBranch ="";
+					var vAsOfDate="";
+					
+					$.ajax({
+						url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+						type:"get",
+						dataType:"json",
+						//data:{"paramBranch":vBranch},
+						async:false,
+						success:function(data){
+							//alert(data);
+							asOfDate=data[0][0];
+							
+						}
+					});
+					
 						
-						var vBranch ="";
-						var vYear="";
-						var vMonth="";
+						
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
 							  vBranch =data[0][0];
-							  vYear=""+yyyy+"";
-							  vMonth=""+mm+"";
+							  //vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
+							 
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-							vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-							vMonth=$("ul.paramDefaultEmbed"+graphName+">li.paramMonth").text();
+							vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
+							
 						}
 
-
-							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-						HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,graphHeight,paramMachine);
+						//graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
+						HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,vBranch,vAsOfDate,graphHeight,paramMachine);
 					
 				}
 			 });
@@ -2113,7 +2156,8 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByManager"){
 			//g18
-			//manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+			manageParamHrCompareEmpPerModelByManagerFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+			
 		}
 		
 	};

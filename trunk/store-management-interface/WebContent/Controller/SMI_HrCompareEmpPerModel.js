@@ -23,6 +23,32 @@
 		}
 		return x1 + x2;
 	}	
+	
+function callAsOfDateEmpPerModelAll(graphNameArea,paramStartDate){
+	var htmlDropdown="";
+	$.ajax({
+		url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+		type:"get",
+		dataType:"json",
+		//data:{"paramBranch":vBranch},
+		async:false,
+		success:function(data){
+			//alert(data);
+			htmlDropdown+="<select class='list' id='paramStartDate'>";
+			$.each(data,function(index,indexEntry){
+				if(paramStartDate==indexEntry[0]){
+					htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[0]+"</option>";
+				}else{
+					htmlDropdown+="<option value="+indexEntry[0]+">"+indexEntry[0]+"</option>";
+				}
+			});
+			htmlDropdown+="</select>";
+			//alert(htmlDropdown);
+			$("#areaParamStartDate"+graphNameArea).html(htmlDropdown);
+		}
+	});
+}
+
 
 function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objDataHrModelAll,paramMachine){
 
@@ -254,9 +280,15 @@ var htmlParam_SMI_HrCompareEmpPerModel = function(graphNameArea){
 					htmlParam+="<b>As of Date Date</b>";
 				htmlParam+="</td>";
 				htmlParam+="<td id=\"areaParamStartDate"+graphNameArea+"\">";
-				/*
-					htmlParam+="<input type=\"text\" name=\"paramStartDate"+graphNameArea+"\" id=\"paramStartDate"+graphNameArea+"\" class=\"date\">";
-	 			*/
+				
+					htmlParam+="<select class=\"list\" id=\"paramStartDate"+graphNameArea+"\">";
+						htmlParam+="<option value=\"2013-10-11\">2013-10-11</option>";
+						htmlParam+="<option value=\"2013-09-11\">2013-09-11</option>";
+						htmlParam+="<option value=\"2013-08-11\">2013-08-11</option>";
+						htmlParam+="<option value=\"2013-07-11\">2013-07-11</option>";
+					htmlParam+="</select>";
+				
+	 			
 	 			htmlParam+="</td>";
 	 		htmlParam+="</tr>";
 	 		
@@ -413,7 +445,7 @@ function manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,
 		 //create button submit
 		 //#####################check parameter is selected start#########################
 		getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
-		getStartDateParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text(),paramMachine);
+		callAsOfDateEmpPerModelAll(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text());
 		
 		//######################check parameter is selected end###########################
 		 submit_SMI_HrCompareEmpPerModel(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);
