@@ -61,7 +61,7 @@ function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,objData
 		PositionWidth=150;
 	}
 
-	
+	$("#chart"+graphName+"-"+arIndex).empty();
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
 		 	 height: graphHeight,
              dataSource: {
@@ -328,12 +328,10 @@ var submit_SMI_HrCompareEmpPerModelByManager=function(graphNameArea,graphName,gr
 		
 		//call function create graph for gernarate new graph
 		//HrCompareEmpPerModelByManagerFn
-		var startDate = paramStartDate.split("-");
-		var endDate = paramEndDate.split("-");
 		
-		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
-			if(parseInt(startDate[1]) <= parseInt(endDate[1])){
-				HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramEndDate,graphWidth,graphHeight,paramMachine);
+		
+	         // HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,vBranch,vAsOfDate,graphHeight,paramMachine
+				HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,paramBranch,paramStartDate,graphHeight,paramMachine);
 				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
@@ -341,14 +339,7 @@ var submit_SMI_HrCompareEmpPerModelByManager=function(graphNameArea,graphName,gr
 				}else{
 					$("#setting"+graphNameArea).trigger("click");
 				}
-			}else{
-				alert("Unable to select start date less than end date");
-			}
-			/*
-		}else{
-			alert("Unable to select over month");
-		}
-		*/
+			
 	});
 	
 	if(paramMachine=="Tablet"){

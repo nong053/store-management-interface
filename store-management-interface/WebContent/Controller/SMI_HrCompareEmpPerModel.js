@@ -63,7 +63,7 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objD
 		PositionWidth=150;
 	}
 
-	
+	 $("#chart"+graphName+"-"+arIndex).empty();
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
 		 	 height: graphHeight,
              dataSource: {
@@ -333,8 +333,8 @@ var submit_SMI_HrCompareEmpPerModel=function(graphNameArea,graphName,graphType,a
 		
 		
 		//if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){//check 
-			
-				HrCompareEmpPerModelFn(graphName,graphType,arIndex,paramBranch,paramStartDate,graphWidth,graphHeight,paramMachine);
+		                             //graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine
+				HrCompareEmpPerModelFn(graphName,graphType,arIndex,paramBranch,paramStartDate,graphHeight,paramMachine);
 				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
