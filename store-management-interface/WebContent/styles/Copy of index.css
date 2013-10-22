@@ -51,7 +51,7 @@ body{
 }
 #mainBody #header #heaerLeft{
 	float:left;
-	width:635px;
+	width:550px;
 }
 #mainBody #header #heaerRight{
 	float:left;
@@ -174,12 +174,8 @@ body{
 	float:right;
 	
 }
-#mainBody #mainContent #content #boxContent2{
-	width:1360px;
-	padding-left:4px;
-}
-#mainBody #mainContent #content #boxContent2 .graphBoxArea{
-	width: 672px;
+#mainBody #mainContent #content .graphBoxArea{
+	width: 600px;
 	background:white;
 	height:310px;
 	border-radius:5px;
@@ -187,9 +183,8 @@ body{
 	float:left;
 	margin:2px;
 	
-	
 }
-#mainBody #mainContent #content #boxContent2 .graphBoxArea .graphTop{
+#mainBody #mainContent #content .graphBoxArea .graphTop{
 	height:272px;
 	border-bottom:1px solid #cccccc;
 	border-radius:1px;
@@ -197,18 +192,18 @@ body{
 	padding:2px;
 	padding-left:5px;
 }
-#mainBody #mainContent #content #boxContent2 .graphBoxArea .graphBottom{
+#mainBody #mainContent #content .graphBoxArea .graphBottom{
 	margin-top:2px;
 	border-radius:1px;
 
 }
-#mainBody #mainContent #content #boxContent2 .graphBoxArea .graphBottom .graphDetail{
+#mainBody #mainContent #content .graphBoxArea .graphBottom .graphDetail{
 	width:370px;
 	padding:2px;
 	float:left;
 	font-weight:bold;
 }
-#mainBody #mainContent #content #boxContent2 .graphBoxArea .graphBottom .graphAddFav{
+#mainBody #mainContent #content .graphBoxArea .graphBottom .graphAddFav{
 	width:135px;
 	float:right;
 }
@@ -298,7 +293,7 @@ div#selectFav ul li{
 .settingArea{
 	position:relative;
 	z-index:99;
-	width:655px;
+	width:570px;
 	/*background:red;*/
 }
 .settingArea .setting{
@@ -312,14 +307,13 @@ div#selectFav ul li{
 }
 
 #setParamForm{
-	width:655px;
+	width:570px;
 	height:270px;
 	position:absolute;
 	z-index:20;
 	display:none;
 	background:white;
 	opacity:1;
-	
 	
 }
 #contentGraph{
@@ -345,7 +339,7 @@ div#selectFav ul li{
 .setParamArea .setParam{
 	width:auto;
 	height:190px;
-	padding:5px;
+	
 	
 }
 

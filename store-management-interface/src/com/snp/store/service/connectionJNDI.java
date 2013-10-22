@@ -273,6 +273,52 @@ public class connectionJNDI {
 	    }
 	 }
   
+  
+  public void selectByIndexTest(String query,String columns) {
+
+	    try{
+	      Context ctx = new InitialContext();
+	      if(ctx == null ) 
+	          throw new Exception("Boom - No Context");
+
+	      DataSource ds = 
+	            (DataSource)ctx.lookup(
+	               "java:comp/env/jdbc/TestDB");
+
+	      if (ds != null) {
+	        Connection conn = ds.getConnection();
+	              
+	        if(conn != null)  {
+	        	dataObject="";
+	            Statement stmt = conn.createStatement();
+	            ResultSet rst = 
+	                stmt.executeQuery(query);
+	            String[] fieldSplit=columns.split(",");
+	            
+	            JSONArray obj_json = new JSONArray();
+	            
+	            	
+	            while(rst.next()) {
+	            	
+	            	JSONArray sub_obj_json = new JSONArray();
+	            	for(int i=0;i<fieldSplit.length;i++){
+	            		
+	            		sub_obj_json.put(rst.getString(Integer.parseInt(fieldSplit[i])));
+	            		
+	            	}
+	            	obj_json.put(sub_obj_json);
+
+	            }
+	            dataObject=obj_json;
+	            conn.close();
+	        }
+	      }
+	    }catch(Exception e) {
+	      e.printStackTrace();
+	    }
+	 }
+  
+  
   public void setStoreFactsContract(String query,String paramBranchCode,String field) {
 
 	    try{
