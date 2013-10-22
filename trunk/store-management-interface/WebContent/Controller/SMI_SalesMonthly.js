@@ -192,7 +192,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 		cateFont="16px Tahoma";
 		
 	}else{
-		chartWidth=270;
+		chartWidth=320;
 		chartHeight=250;
 		titleFont="13px Tahoma";
 		legendFont="13px Tahoma";

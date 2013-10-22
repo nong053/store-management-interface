@@ -2,24 +2,20 @@
 function getBranchParameter(graphNameArea,branchCode){
 	//alert("branchCode"+branchCode);
 	var branchHtml = "";
-	$.ajax({
-		url:"../Model/SMI_getBranch.jsp",
-		type:"get",
-		dataType:"json",
-		async:false,
-		success:function(data){
+	
 			branchHtml+="<select class=\"list\" id=\"paramBranch"+graphNameArea+"\">";
-			$.each(data,function(index,indexEntry){
-				if(branchCode==indexEntry[0]){
-		
-				branchHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
+			$.each(getObjBranch(),function(index,indexEntry){
+				var branchArray= indexEntry[index].split("-");
+				//alert(branchArray[0]);
+				if(branchCode==branchArray[0]){
+				
+				branchHtml+="<option selected value=\""+branchArray[0]+"\">"+indexEntry[index]+"</option>";
 				}else{
-				branchHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";	
+				branchHtml+="<option value=\""+branchArray[0]+"\">"+indexEntry[index]+"</option>";	
 				}
 			});
 			branchHtml+="</select>";
-		}
-	});
+	
 $("td#areaParamBranch"+graphNameArea).html(branchHtml);
 $("select#paramBranch"+graphNameArea).kendoDropDownList();
 }
@@ -452,7 +448,7 @@ $(".cateGraph").live("mouseover",function(e){
 
 /*######################################Define Config Start############################################*/
 	var userLogin="N0001";
-	var graphWidth="580";
+	var graphWidth="655";
 	var graphHeight="270";
 	var paramMachine="Pc";
 	
@@ -485,15 +481,20 @@ $(".cateGraph").live("mouseover",function(e){
 	
 	/*#########################Ajax start##########################*/
 	//ajax Start
+	var ajaxCount=1;
 	$("#loading").ajaxStart(function(){
 		var widthImg=(screen.availWidth/2)-50;
 		var	hieghtImg=(screen.availHeight/2)-50;
 		$(this).css({"top":hieghtImg+"px","left":widthImg}).show();
+		if(ajaxCount==1){
+		$("#loadBranch").css({"top":hieghtImg+"px","left":widthImg}).show();
+		ajaxCount++;
+		}
 	});
 	
 
 	//ajax Stop
-	$("#loading").ajaxStop(function(){
+	$("#loading").ajaxComplete(function(){
 	$(this).hide();
 	
 	}); 
@@ -546,8 +547,15 @@ $(".cateGraph").live("mouseover",function(e){
 		
 		if($("#leftMenu").hasClass("expansion")){
 		//countMyViewFn();
+			/*
 		$("#cateView").remove();
 		$("#boxContent>ul").append("<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
+		   */
+		$(".listOther").remove();
+		$html="<li class=\"cateGraph listOther\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a>";
+		$html+="</li><li class=\"cateGraph listOther\" id=\"logOut\"><a href=\"deleteSession.jsp\">Logout</a></li>";
+		$("#boxContent>ul").append($html);
+		
 		expansionFn();
 		}else{
 		withdrawFn();	
@@ -580,7 +588,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							"<div class=\"graphTop\" id=\"area"+graphName+"-"+arIndex+"\">" +
 								"<div class=\"settingArea\">" +
 									"<div class=\"setting\" id=\"settingarea"+graphName+"-"+arIndex+"\">" +
-										"<span class=\"ui-icon ui-icon-gear\"></span>" +
+										"<span class=\"ui-icon ui-icon-circle-triangle-s\"></span>" +
 									"</div>" +
 								"</div>";
 								if(graphName=="SalePerMonth"){
@@ -996,11 +1004,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 		
 		if(graphName=="SalePerDay"){
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1021,7 +1025,8 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					 */
 					 var startDate="";
 					 var endDate="";
-					 var branchId =data[0][0];
+					 var branchId =firstBranchCode;
+					 //alert(branchId);
 					if($(".paramDefaultEmbed"+graphName).text()==""){
 						startDate=ParamFirstDayOfMonthDel2Day;
 						endDate=ParamCurrentDateDel2Day;
@@ -1034,8 +1039,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					//send graphName,graphType
 					//g1
 					salePerDayFn(graphName,graphType,arIndex,startDate,endDate,branchId,graphWidth,graphHeight);	
-				}
-			 });
+				
 			//Defualt Parameter End
 			 
 			
@@ -1043,11 +1047,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 		}else if(graphName=="SalePerMonth"){
 			//g2
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1068,7 +1068,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					 var branchId ="";
 					 
 					 if($(".paramDefaultEmbed"+graphName).text()==""){
-						    branchId =data[0][0];
+						    branchId =firstBranchCode;
 							//currentDate=""+yyyy+"-"+mm+"-"+dd+"";
 						    currentDate=ParamCurrentDateDel2Day;
 						}else{
@@ -1081,18 +1081,13 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					//alert(currentDate);
 					 
 					salePerMonthFn(graphName,graphType,arIndex,currentDate,branchId);	
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 		}else if(graphName=="CustomerPerMonth"){
 			//g3
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1125,7 +1120,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							 if($(".paramDefaultEmbed"+graphName).text()==""){
 								 	startWeek=currentWeekNumber;
 								 	endWeek=currentWeekNumber;
-								 	branchId =data[0][0];
+								 	branchId =firstBranchCode;
 								 	paramYear=yyyy;
 								}else{
 									startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
@@ -1140,20 +1135,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						 
 					 });
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 
 			
 		}else if(graphName=="BillPerMonth"){
 			//g4
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
-					
+			
 					 var today = new Date();
 					 var dd = today.getDate();
 					 var mm = today.getMonth()+1; //January is 0!
@@ -1190,7 +1179,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							 if($(".paramDefaultEmbed"+graphName).text()==""){
 								 	startWeek=currentWeekNumber;
 								 	endWeek=currentWeekNumber;
-								 	branchId =data[0][0];
+								 	branchId =firstBranchCode;
 								 	paramYear=yyyy;
 								}else{
 									startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
@@ -1203,8 +1192,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						 
 					 });
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 			
@@ -1212,11 +1200,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			
 			//g5
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1233,7 +1217,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					//2013-01-30
 				
 					 var currentDate=ParamCurrentDateDel2Day;
-					 var branchId =data[0][0];
+					 var branchId ="";
 					 
 					
 					 $.ajax({
@@ -1252,7 +1236,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							 if($(".paramDefaultEmbed"+graphName).text()==""){
 								 	startWeek=currentWeekNumber;
 								 	endWeek=currentWeekNumber;
-								 	branchId =data[0][0];
+								 	branchId =firstBranchCode;
 								 	paramYear=yyyy;
 								}else{
 									startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
@@ -1272,19 +1256,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						 
 					 });
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 		}else if(graphName=="DeptWastePerDay"){
 			//g6
 			
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1309,7 +1288,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						 var vEDate="";
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  vSDate=ParamFirstDayOfMonthDel2Day;
 							  vEDate=ParamCurrentDateDel2Day;
 							  //startDate=ParamFirstDayOfMonthDel2Day;
@@ -1321,19 +1300,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						}
 					 wateDailyFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight);
 						
-				}
-			 });
+			
 			//Defualt Parameter End
 		
 		}else if(graphName=="WasteWeekly"){
 			
 			//g7
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1348,7 +1322,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						    dd = '0' + dd;
 						}
 						
-					 var branchId =data[0][0];
+					 var branchId =firstBranchCode;
 					 var currentDate=ParamCurrentDateDel2Day;
 					 $.ajax({
 						 url:"../Model/currentWeek.jsp",
@@ -1362,19 +1336,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							}
 					 });
 						
-				}
-			 });
+				
 			//Defualt Parameter End
 		
 		}else if(graphName=="SalesByProductCategoryWeekly"){
 			
 			//g8
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1391,7 +1360,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					//2013-01-30
 				
 					 var currentDate=ParamCurrentDateDel2Day;
-					 var branchId =data[0][0];
+					 var branchId ="";
 					 
 					
 					 $.ajax({
@@ -1410,7 +1379,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							 if($(".paramDefaultEmbed"+graphName).text()==""){
 								 	startWeek=currentWeekNumber;
 								 	endWeek=currentWeekNumber;
-								 	branchId =data[0][0];
+								 	branchId =firstBranchCode;
 								 	paramYear=yyyy;
 								}else{
 									startWeek=$("ul.paramDefaultEmbed"+graphName+">li.paramStartWeek").text();
@@ -1432,8 +1401,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						 
 					 });
 					
-				}
-			 });
+				
 			//Defualt Parameter End
 			
 			
@@ -1441,11 +1409,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//g9
 			//Defualt Parameter Start
 			
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var mm = today.getMonth()+1; //January is 0!
@@ -1459,7 +1423,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					  */
 					 var vYearDefault=""+yyyy+"";
 					 var vMonthDefault=""+mm+"";
-					 var vBranchDefault =data[0][0];
+					 var vBranchDefault =firstBranchCode;
 					 var vYear="";
 					 var vMonth="";
 					 var vBranch="";
@@ -1525,8 +1489,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					 });
 					 
 					
-				}
-			 });
+				
 			//Defualt Parameter End
 		
 			
@@ -1534,11 +1497,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//alert("g10");
 			//g10
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1558,7 +1517,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					 var vEDate="";
 					
 					if($(".paramDefaultEmbed"+graphName).text()==""){
-						  vBranch =data[0][0];
+						  vBranch =firstBranchCode;
 						 // vSDate=""+yyyy+"-"+mm+"-01";
 						 // vEDate=""+yyyy+"-"+mm+"-"+dd+"";
 						  vSDate=ParamFirstDayOfMonthDel2Day;
@@ -1571,18 +1530,13 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							 //graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
 					 top10FoodFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 		}else if(graphName=="Top10bakery"){
 			//g11
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1602,7 +1556,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						var vEDate="";
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  vSDate=ParamFirstDayOfMonthDel2Day;
 							  vEDate=ParamCurrentDateDel2Day;
 						}else{
@@ -1614,19 +1568,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
 					 top10BakeryFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 			
 		}else if(graphName=="Top10Beverage"){
 			//g12
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date();
 					 var dd = today.getDate();
@@ -1646,7 +1595,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						var vEDate="";
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  vSDate=ParamFirstDayOfMonthDel2Day;
 							  vEDate=ParamCurrentDateDel2Day;
 						}else{
@@ -1658,19 +1607,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight
 					 top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graphWidth,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 		}else if(graphName=="Top10Waste"){
 			
 			//g13
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
@@ -1691,7 +1635,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						var vMonth="";
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  vYear=""+yyyy+"";
 							  vMonth=""+mm+"";
 						}else{
@@ -1704,8 +1648,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
 					 top10WasteFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 			
@@ -1713,11 +1656,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			
 			//g14
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
@@ -1738,7 +1677,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						var vMonth="";
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  vYear=""+yyyy+"";
 							  vMonth=""+mm+"";
 						}else{
@@ -1750,8 +1689,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
 					 top10CookingTimeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 			
@@ -1760,11 +1698,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//g15
 			
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				success:function(data){
+			
 					
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
@@ -1784,7 +1718,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						var vMonth="";
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  vYear=""+yyyy+"";
 							  vMonth=""+mm+"";
 						}else{
@@ -1797,8 +1731,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
 					 cookingTimeRangeFn(graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight,paramMachine);
 					
-				}
-			 });
+				
 			//Defualt Parameter End
 			 
 		}else if(graphName=="CompareEmployeePerModel"){
@@ -1806,12 +1739,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//g16
 			
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				async:false,
-				success:function(data){
+			
 					/*
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
@@ -1843,7 +1771,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 					});
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							 // asOfDate=""+yyyy+"-"+mm+"-"+dd;
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
@@ -1854,8 +1782,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,asOfDate,graphWidth,graphHeight
 						HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 		}else if(graphName=="CompareEmployeePerModelByDepartment"){
@@ -1864,12 +1791,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//g16
 			
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				async:false,
-				success:function(data){
+			 
 					
 						var vBranch ="";
 						var vAsOfDate="";
@@ -1902,7 +1824,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						});
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  //vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
 							  //vSubBranch="ครัว";
 						}else{
@@ -1915,8 +1837,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							     //graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine
 						HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine);
 					
-				}
-			 });
+				
 			//Defualt Parameter End
 			
 		}else if(graphName=="CompareEmployeePerModelByManager"){
@@ -1924,12 +1845,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			//g16
 			
 			//Defualt Parameter Start
-			 $.ajax({
-				url:"../Model/SMI_getBranch.jsp",
-				type:"get",
-				dataType:"json",
-				async:false,
-				success:function(data){
+			
 					/*
 					 var today = new Date(ParamCurrentDateDel2Day);
 					 var dd = today.getDate();
@@ -1964,7 +1880,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
-							  vBranch =data[0][0];
+							  vBranch =firstBranchCode;
 							  //vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
 							 
 						}else{
@@ -1976,8 +1892,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						//graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
 						HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,vBranch,vAsOfDate,graphHeight,paramMachine);
 					
-				}
-			 });
+			
 			//Defualt Parameter End
 			
 		}
@@ -2079,7 +1994,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							}
 						});
 						
-						htmlMenuLeft+="<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Favorite("+countMyView+")</a></li>" +
+						htmlMenuLeft+="<li class=\"cateGraph listOther\" id=\"cateView\"><a href=\"#\">Favorite("+countMyView+")</a></li>" +
 					"</ul>" +
 				"</div>" +
 				"";
@@ -2164,6 +2079,19 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 	$(".setting").live("click",function(){
 		
 	     var graphNameArea= $(this).parent().parent().attr("id");
+	     //alert(graphNameArea);
+	     
+	     if($("#setting"+graphNameArea).hasClass("setting clicked")){
+	    	 $("#setting"+graphNameArea).removeAttr("class");
+	    	 $("#setting"+graphNameArea).addClass("setting");
+	    	 $("#setting"+graphNameArea+">span").removeAttr("class");
+	    	 $("#setting"+graphNameArea+">span").addClass("ui-icon ui-icon-circle-triangle-s");
+	     }else{
+	    	 $("#setting"+graphNameArea).removeAttr("class");
+	    	 $("#setting"+graphNameArea).addClass("setting clicked");
+	    	 $("#setting"+graphNameArea+">span").removeAttr("class");
+	    	 $("#setting"+graphNameArea+">span").addClass("ui-icon ui-icon-circle-triangle-n");
+	     }
 	     callManageParameter(graphNameArea);
 
 	});

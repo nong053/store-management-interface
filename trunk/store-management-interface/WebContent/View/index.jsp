@@ -1,4 +1,5 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +20,43 @@
 <!--  <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>-->
 <script src="../js/jquery.shadow.js"></script>	
 
+<!--  include file jsp userAuthen here -->
+<% String remoteUser="1000740"; %>
+<script>
+// authen ldap here
+var remoteUser ="<%=remoteUser%>";
+var ObBranch="";
+var firstBranchCode="";
+function setObjBranch(){
+	$.ajax({
+		url:"http://localhost/projectLdap/callLdap.php?callBack=?",
+		type:"get",
+		dataType:"json",
+		async:false,
+		data:{"userAuthen":remoteUser},
+		success:function(data){
+			//alert(data);
+			ObBranch=data;
+			var firstBranchCodeArray=data[0][0].split("-");
+			firstBranchCode=firstBranchCodeArray[0];
+			//console.log(firstBranch);
+			//alert(firstBranch);
+			//alert(ObBranch);
+			$("#loadBranch").hide();
 
+		}
+	});
+}
+setObjBranch();
+function getObjBranch(){
+	
+	return ObBranch;
+}
+
+
+
+
+</script>
 
 <script src="../Controller/SMI_SalesDaily.js"></script><!-- graph1 -->
 <script src="../Controller/SMI_SalesMonthly.js"></script><!-- graph2 -->
@@ -53,6 +90,21 @@
 
 </head>
 <body>
+
+<div id="loadBranch">
+		
+		<div id="loadImage">
+			<table>
+				<tr>
+					<td><img src="../images/loader.gif"></td>
+					<td><span id="loadText">Loading Branch ... </span></td>
+				</tr>
+			</table>
+			
+			
+		</div>
+</div>
+
 <div class="tooltipContent" style="display: none;">
 	<ul>
 		<li>list1</li>
@@ -185,28 +237,30 @@ Set Parameter
 					<!-- 
 					<div id="boxTitle">
 					<div id="txt">
-						เมนูหลัก(Main Manu)
+						à¹à¸¡à¸à¸¹à¸«à¸¥à¸±à¸(Main Manu)
 					</div>
 					</div>
 					-->
 					<ul>
 						<li class="selected" id="mainMenu"><a href="#">Main Menu</a></li>
 						
-						<li class="cateGraph" id="cate1"><a href="#">คน(5)</a></li>
-						<li class="cateGraph" id="cate2"><a href="#">ขาย(6)</a></li>
+						<li class="cateGraph" id="cate1"><a href="#">à¸à¸(5)</a></li>
+						<li class="cateGraph" id="cate2"><a href="#">à¸à¸²à¸¢(6)</a></li>
 						<li class="cateGraph" id="cate3"><a href="#">cost(6)</a></li>
-						<li class="cateGraph" id="cate4"><a href="#">คุณภาพ	ระบบ(4)</a></li>
-						<li class="cateGraph" id="cate5"><a href="#">บริการ(5)</a></li>
+						<li class="cateGraph" id="cate4"><a href="#">à¸à¸¸à¸à¸ à¸²à¸	à¸£à¸°à¸à¸(4)</a></li>
+						<li class="cateGraph" id="cate5"><a href="#">à¸à¸£à¸´à¸à¸²à¸£(5)</a></li>
 						<li class="cateGraph" id="cateView"><a href="#">Favorite(6)</a></li>
 					</ul>
 				</div>
 			</div>
 			
 			<div id="content">
-				<div id="contentGraph">
-				<!--  data content here -->
-				
-				<!--  data content here -->
+				<div id="boxContent2">
+					<div id="contentGraph">
+					<!--  data content here -->
+					
+					<!--  data content here -->
+					</div>
 				</div>
 			</div>
 	</div>
