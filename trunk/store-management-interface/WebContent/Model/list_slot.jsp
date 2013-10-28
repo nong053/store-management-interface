@@ -5,7 +5,7 @@
 	String paramUserLogin = request.getParameter("paramUserLogin");
 	String paramGraphId = request.getParameter("paramGraphId");
 	//paramGraphId="1";
-	paramUserLogin="N0001";
+	//paramUserLogin="N0001";
 	
 	manageSlot slot = new manageSlot();
 	slot.setListSlot(paramUserLogin);

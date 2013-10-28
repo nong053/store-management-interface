@@ -5,7 +5,7 @@
     <%@page import="com.snp.store.service.*" %>
 <%
 	String paramUserLogin = request.getParameter("paramUserLogin");
-	paramUserLogin="N0001";
+	//paramUserLogin="N0001";
 	
 	String query="CALL SMI_list_myview('"+paramUserLogin+"')";
 	String columns="1,2,3,4,5,6,7";

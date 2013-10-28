@@ -4,7 +4,7 @@
     <%@page import="com.snp.store.service.*" %>
 <%
 	String paramUserLogin = request.getParameter("paramUserLogin");
-	//paramUserLogin="N0001";
+	//paramUserLogin="1000740";
 	
 	String query="CALL SMI_count_myview('"+paramUserLogin+"')";
 	String columns="1";

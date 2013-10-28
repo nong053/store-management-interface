@@ -31,7 +31,7 @@ body{
 	font-family:Tahoma;
 	font-size:13px;
 	
-	background: url("../styles/images/bg_pentaho_default.png") repeat scroll 0 0 #222222;
+	/*background: url("../styles/images/bg_pentaho_default.png") repeat scroll 0 0 #222222;*/
     
 }
 #mainBody{
@@ -308,6 +308,8 @@ div#selectFav ul li{
 	background:#FEEEBD;
 	border-radius:5px;
 	cursor:pointer;
+	left: 630px;
+    position: absolute;
 	
 }
 
@@ -363,6 +365,7 @@ div#selectFav ul li{
 
 .chart{
 	margin-top:0px;
+	
 }
 #categroryNameTitle{
 	display:inline;
@@ -376,6 +379,7 @@ div#selectFav ul li{
 
 
 /* GRAPH2 START*/
+/*
 .chartMTD{
 	float:left;
 	
@@ -383,7 +387,43 @@ div#selectFav ul li{
 .chartYTD{
 	float:left;
 }
-
+*/
+#boxSalePerMonthMTD{
+	float:left;
+	width:310px;
+}
+#boxSalePerMonthYTD{
+	float:left;
+	width:330px;
+}
+.lengendSalePerMonth{
+	padding-left:5px;
+}
+.lengendSalePerMonth .rowLengendSalePerMonth{
+	clear:both;
+}
+.lengendSalePerMonth .rowLengendSalePerMonth .columnLengendSalePerMonth{
+	float:left;
+}
+.square{
+	width:10px;
+	height:10px;
+}
+.orangeSalePerMonth{
+	  background: none repeat scroll 0 0 #FFA500;
+}
+.blueSalePerMonth{
+	  background: none repeat scroll 0 0 #007bc3;
+}
+.graySalePerMonth{
+	  background: none repeat scroll 0 0 gray;
+}
+.graycccSalePerMonth{
+	  background: none repeat scroll 0 0 #cccccc;
+}
+.fontLegend{
+	color:#4e5968;
+}
 /* GRAPH2 END*/
 
 /*Tootip*/

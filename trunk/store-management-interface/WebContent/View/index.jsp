@@ -21,10 +21,46 @@
 <script src="../js/jquery.shadow.js"></script>	
 
 <!--  include file jsp userAuthen here -->
-<% String remoteUser="1000740"; %>
+<% //String remoteUser="1000740"; 
+   String remoteUser = (String)session.getAttribute("userName");
+   String remotePass = (String)session.getAttribute("password");
+%>
 <script>
 // authen ldap here
+
 var remoteUser ="<%=remoteUser%>";
+var remotePass ="<%=remotePass%>";
+//alert(remoteUser);
+var ObBranch="";
+var firstBranchCode="";
+function setObjBranch(){
+$.ajax({
+	 url:"../checkByLdap.jsp",
+	 type:"get",
+	 dataType:"json",
+	 data:{"paramUser":remoteUser,"paramPassword":remotePass},
+	 async:false,
+	 success:function(data){
+		 //console.log(data);
+		// alert(data);
+		 //alert(ObBranch);
+		 if(data[0]=="loginFailed"){
+			 	$(location).attr({"href":"../login.jsp"});
+	    	}else{
+	    		 firstBranchCode=data[0][0];
+				 ObBranch=data;
+	    		 
+	    	}
+	 }
+ });
+}
+setObjBranch();
+function getObjBranch(){
+	
+	return ObBranch;
+}
+getObjBranch();
+/*
 var ObBranch="";
 var firstBranchCode="";
 function setObjBranch(){
@@ -52,7 +88,7 @@ function getObjBranch(){
 	
 	return ObBranch;
 }
-
+*/
 
 
 

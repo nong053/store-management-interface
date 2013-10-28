@@ -34,8 +34,8 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 		cateFont="16px Tahoma";
 		
 	}else{
-		chartWidth=270;
-		chartHeight=250;
+		chartWidth=320;
+		chartHeight=230;
 		titleFont="13px Tahoma";
 		legendFont="13px Tahoma";
 		valueAxisFont="13px Tahoma";
@@ -64,7 +64,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	     },
 	     
 	     seriesDefaults: {
-	         type: ""+graphType+"",
+	         type: "bar",
 	       //value default show value on bar chart 
 	         labels: {
                  visible: true,
@@ -91,7 +91,8 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	        // max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value)#",
-                 font:valueAxisFont
+                 font:valueAxisFont,
+                 visible: false
              },
 	         line: {
 	             visible: false
@@ -140,7 +141,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyMTD[num]!=0){
     			if(objDataDiffSalesMonthlyMTD[num]){}
-    			diffPercentage=" : ("+objDataDiffSalesMonthlyMTD[num]+"%)";
+    			diffPercentage=":"+objDataDiffSalesMonthlyMTD[num]+"%";
     		}
     		$(this).text(""+addCommas(labelValueMTD[1])+""+diffPercentage+"");
     		num++;
@@ -159,10 +160,6 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr({"fill":"#cccccc","stroke":"#cccccc"});
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(1)").attr({"fill":"#cccccc","stroke":"#cccccc"});
      
-     
-     
-     
-    
 
 
 };
@@ -192,8 +189,8 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 		cateFont="16px Tahoma";
 		
 	}else{
-		chartWidth=320;
-		chartHeight=250;
+		chartWidth=340;
+		chartHeight=230;
 		titleFont="13px Tahoma";
 		legendFont="13px Tahoma";
 		valueAxisFont="13px Tahoma";
@@ -231,7 +228,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	     },
 	     
 	     seriesDefaults: {
-	         type: ""+graphType+"",
+	         type: "bar",
 	         //value default show value on bar chart 
 	         labels: {
                  visible: true,
@@ -259,7 +256,8 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	         //max: 140000,
 	    	 labels: {
                  template: "#= kendo.format('{0:N0}', value) #  ",
-                 font:valueAxisFont
+                 font:valueAxisFont,
+                 visible: false
              },
 	         line: {
 	             visible: false
@@ -309,7 +307,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		//alert("Num"+num);
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyYTD[num]!=0){
-    			diffPercentage=" : ("+objDataDiffSalesMonthlyYTD[num]+"%)";
+    			diffPercentage=":"+objDataDiffSalesMonthlyYTD[num]+"%";
     		}
     		$(this).text(""+addCommas(labelValueYTD[1])+""+diffPercentage+"");
     		num++;
@@ -376,7 +374,8 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,graphWidth
 				var targetMTD=(parseInt(data[0][2]/1000));
 				var targetFullMTD=(parseInt(data[0][3]/1000));				
 				
-				categories+="[\""+getMonthName(mm)+" "+(yy-1)+"\",\""+getMonthName(mm)+" "+yy+"\",\"Target MTD "+getMonthName(mm)+" "+yy+"\",\"Target "+getMonthName(mm)+" "+yy+"\"]";			
+				//categories+="[\""+getMonthName(mm)+" "+(yy-1)+"\",\""+getMonthName(mm)+" "+yy+"\",\"Target MTD "+getMonthName(mm)+" "+yy+"\",\"Target "+getMonthName(mm)+" "+yy+"\"]";	
+				categories+="[\"\",\"\",\"\",\"\"]";	
 				dataSeriesSalesMonthlyMTD+="["+lastPeriod+","+current+","+targetMTD+","+targetFullMTD+"]";
 				dataDiffSalesMonthlyMTD+="[0,"+data[0][4]+","+data[0][5]+","+data[0][6]+"]";
 				var objCategories=eval("("+categories+")");
@@ -392,7 +391,12 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,graphWidth
 			         	 
 				     }];
 				 
-		
+				 //set legend SaleMonthly MTD start here..
+				 $("#lastYearMTD").html(""+getMonthName(mm)+" "+(yy-1)+"");
+				 $("#currentYearMTD").html(""+getMonthName(mm)+" "+yy+"");
+				 $("#planMTD").html("Target MTD "+getMonthName(mm)+" "+yy+"");
+				 $("#planMTDFull").html("Target "+getMonthName(mm)+" "+yy+"");
+				 //set legend SaleMonthly MTD end here
 				 //เป็น ยอดขาย 1-18 Aug 2013
 				 var titieText="(หน่วย:พันบาท)ยอดขาย 1-"+dd+" "+getMonthName(mm)+" "+yyyy;
 				 createChartSMI_SalePerMonthMTD(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,titieText,paramMachine,objDataDiffSalesMonthlyMTD);
@@ -427,7 +431,8 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,graphWidth
 				 var targetFullYTD=(parseInt(data[0][3]/1000));	
 	
 				 
-				categories+="[\"Jan-"+getMonthName(mm)+" "+(yy-1)+"\",\"Jan-"+getMonthName(mm)+" "+yy+"\",\"Target YTD Jan-"+getMonthName(mm)+" "+yy+"\",\"Target Yearly\"]";			
+				//categories+="[\"Jan-"+getMonthName(mm)+" "+(yy-1)+"\",\"Jan-"+getMonthName(mm)+" "+yy+"\",\"Target YTD Jan-"+getMonthName(mm)+" "+yy+"\",\"Target Yearly\"]";	
+				categories+="[\"\",\"\",\"\",\"\"]";
 				dataSeriesSalesMonthlyYTD+="["+lastPeriod+","+current+","+targetYTD+","+targetFullYTD+"]";
 				dataDiffSalesMonthlyYTD+="[0,"+data[0][4]+","+data[0][5]+","+data[0][6]+"]";
 				var objCategories=eval("("+categories+")");
@@ -445,6 +450,14 @@ function salePerMonthFn(graphName,graphType,arIndex,currentDate,brach,graphWidth
 				 var selectDate = new Date(currentDate);
 				 var selectYYYY = selectDate.getFullYear();
 				 var selectMM = selectDate.getMonth()+1; //January is 0!
+				 
+				//set legend SaleMonthly YTD start here..
+				 $("#lastYearYTD").html("Jan-"+getMonthName(mm)+" "+(yy-1)+"");
+				 $("#currentYearYTD").html("Jan-"+getMonthName(mm)+" "+yy+"");
+				 $("#planYTD").html("Target YTD Jan-"+getMonthName(mm)+" "+yy+"");
+				 $("#planYTDFull").html("Target Yearly");
+				 //set legend SaleMonthly YTD end here
+				 
 				 
 				 createChartSMI_SalePerMonthYTD(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,""+getMonthName(selectMM)+" "+selectYYYY,paramMachine,objDataDiffSalesMonthlyYTD);
 				
