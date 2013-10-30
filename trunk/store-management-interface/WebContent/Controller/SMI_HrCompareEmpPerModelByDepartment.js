@@ -413,7 +413,7 @@ var dialogSetParam_SMI_HrCompareEmpPerModelByDepartmentFn=function(paramTitleSet
 function embedParameterHrCompareEmpPerModelByDepartment(graphName,paramBranch,paramAsOfDate,paramSubBranch){
 
 	var paramDefaultEmbedHtml="" +
-	"<ul style=\"display:\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
+	"<ul style=\"display:none\" class=\"paramDefaultEmbed"+graphName+"\">"+graphName+"" +
 		"<li class=\"paramBranch\">"+paramBranch+"</li>" +
 		"<li class=\"paramStartDate\">"+paramAsOfDate+"</li>" +
 		"<li class=\"paramSubBranch\">"+paramSubBranch+"</li>" +
