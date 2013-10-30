@@ -23,7 +23,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	if(paramMachine=="Tablet"){
 		//graphWidth=(paramGraphWidth/2);
 		chartWidth=(paramGraphWidth/2);
-		chartHeight=paramGraphHeight;
+		chartHeight=paramGraphHeight-((paramGraphHeight*5)/100);
 		//alert(chartWidth);
 		//alert(chartHeight);
 		
@@ -148,17 +148,25 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     	}
      });
      console.log("-----------------------------");
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(1)").attr({"fill":"orange","stroke":"orange"});
+     
+     
+   
+     
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange" ,"stroke-opacity":"1" ,"fill-opacity":"1" ,"stroke-linejoin":"round" ,"stroke-linecap":"square" ,"stroke-width":"1","stroke":"#cc8400"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(1)").attr({"stroke":"#cc8400"});
+     
+     
+     //$(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
+     //$(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(1)").attr({"fill":"orange","stroke":"orange"});
      
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr({"fill":"#007bc3","stroke":"#007bc3"});
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(1)").attr({"fill":"#007bc3","stroke":"#007bc3"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(1)").attr({"stroke":"#007bc3"});
      
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr({"fill":"gray","stroke":"gray"});
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(1)").attr({"fill":"gray","stroke":"gray"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(1)").attr({"stroke":"#666666"});
      
      $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr({"fill":"#cccccc","stroke":"#cccccc"});
-     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(1)").attr({"fill":"#cccccc","stroke":"#cccccc"});
+     $(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(1)").attr({"stroke":"#cccccc"});
      
 
 
@@ -176,7 +184,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 		
 		
 		chartWidth=(paramGraphWidth/2);
-		chartHeight=paramGraphHeight;
+		chartHeight=paramGraphHeight-((paramGraphHeight*5)/100);
 		
 		/*
 		chartWidth=460;
@@ -313,23 +321,23 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		num++;
     	}
      });
-     /*
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr("fill","orange");
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr("fill","#007bc3");
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr("fill","gray");
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr("fill","#cccccc");
-     */
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(1)").attr({"fill":"orange","stroke":"orange"});
+
+     
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange" ,"stroke-opacity":"1" ,"fill-opacity":"1" ,"stroke-linejoin":"round" ,"stroke-linecap":"square" ,"stroke-width":"1","stroke":"#cc8400"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(1)").attr({"stroke":"#cc8400"});
+     
+     
+     //$(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange","stroke":"orange"});
+     //$(""+"#chartMTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(1)").attr({"fill":"orange","stroke":"orange"});
      
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(0)").attr({"fill":"#007bc3","stroke":"#007bc3"});
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(1)").attr({"fill":"#007bc3","stroke":"#007bc3"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(1)").children("path:eq(1)").attr({"stroke":"#007bc3"});
      
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(0)").attr({"fill":"gray","stroke":"gray"});
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(1)").attr({"fill":"gray","stroke":"gray"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(2)").children("path:eq(1)").attr({"stroke":"#666666"});
      
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr({"fill":"#cccccc","stroke":"#cccccc"});
-     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(1)").attr({"fill":"#cccccc","stroke":"#cccccc"});
+     $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(1)").attr({"stroke":"#cccccc"});
 };
 
 

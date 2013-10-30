@@ -106,7 +106,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesTop10WasteValueThisMonth[num1]!=0){
-    			salesValue=" : "+objdataSeriesTop10WasteValueThisMonth[num1]+"";
+    			salesValue=" : "+objdataSeriesTop10WasteValueThisMonth[num1]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;
@@ -115,7 +115,7 @@ function createChart_SMI_Top10Waste(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objdataSeriesTop10WasteValueLastMonth[num2]!=0){
-    			salesValue=" : "+objdataSeriesTop10WasteValueLastMonth[num2]+"";
+    			salesValue=" : "+objdataSeriesTop10WasteValueLastMonth[num2]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num2++;

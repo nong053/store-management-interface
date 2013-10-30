@@ -111,7 +111,7 @@ function createChart_SMI_BillWeekly(graphName,graphType,graphSeries,graphCategor
 
     		var salesValue="";
     		if(objDataSeriesBillWeeklyValueTarget[num3]!=0){
-    			salesValue=" : "+objDataSeriesBillWeeklyValueTarget[num3]+"";
+    			salesValue=" : "+objDataSeriesBillWeeklyValueTarget[num3]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num3++;

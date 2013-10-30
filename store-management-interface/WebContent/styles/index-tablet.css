@@ -237,7 +237,8 @@ Store Management
 .contentGraph #settingArea .setting{
 	padding:15px;
 	float:right;
-	background:url("../images/gear.png") repeat-x scroll 49.7% 50% #FECE2F;
+	//background:url("../images/gear.png") repeat-x scroll 49.7% 50% #FECE2F;
+	background:url("../images/traingle.png") repeat-x scroll 49.7% 50% #FECE2F;
 	border-radius:5px;
 	cursor:pointer;
 	border: 1px solid #D19405;
@@ -468,6 +469,9 @@ div#selectFav ul li .boxSlot{
 .chart{
 	margin-left:45px;
 }
+.chart2{
+	margin-left:0px;
+}
 #contentArea .subGraph{
 
 
@@ -581,8 +585,6 @@ div#selectFav ul li .boxSlot{
 
 }
 
-
-
 #contentArea .subGraph #boxSubGraph ul li a{
 	display:block;
 	text-decoration:none;
@@ -640,13 +642,55 @@ div#selectFav ul li .boxSlot{
 /* GRAPH2 START*/
 .chartMTD{
 	float:left;
+	margin-left:45px;
 	
 }
+/*
 .chartYTD{
 	float:left;
 	margin-left:5px;
 }
-
+*/
+#boxSalePerMonthMTD{
+	float:left;
+	/*width:430px;*/
+}
+#lengendSalePerMonthMTD{
+	margin-left:45px;
+}
+#boxSalePerMonthYTD{
+	float:left;
+	/*width:430px;*/
+	padding-left:25px;
+}
+.lengendSalePerMonth{
+	padding-left:25px;
+}
+.lengendSalePerMonth .rowLengendSalePerMonth{
+	clear:both;
+}
+.lengendSalePerMonth .rowLengendSalePerMonth .columnLengendSalePerMonth{
+	float:left;
+}
+.square{
+	width:10px;
+	height:10px;
+}
+.orangeSalePerMonth{
+	  background: none repeat scroll 0 0 #FFA500;
+}
+.blueSalePerMonth{
+	  background: none repeat scroll 0 0 #007bc3;
+}
+.graySalePerMonth{
+	  background: none repeat scroll 0 0 gray;
+}
+.graycccSalePerMonth{
+	  background: none repeat scroll 0 0 #cccccc;
+}
+.fontLegend{
+	color:#4e5968;
+}
 /* GRAPH2 END*/
 
 /*Manage by Custom End*/

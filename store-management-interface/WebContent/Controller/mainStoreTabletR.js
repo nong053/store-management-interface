@@ -78,7 +78,29 @@
 		 });
 	}
 	
-	
+	function getBranchParameter(graphNameArea,branchCode){
+		//alert("branchCode"+branchCode);
+		var branchHtml = "";
+		
+				branchHtml+="<select class=\"list\" id=\"paramBranch"+graphNameArea+"\">";
+				//console.log(getObjBranch());
+				$.each(getObjBranch(),function(index,indexEntry){
+					//alert(indexEntry[0]);
+					//var branchArray= indexEntry[index].split("-");
+					//alert(branchArray[0]);
+					if(branchCode==indexEntry[0]){
+					branchHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
+					}else{
+					branchHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";	
+					}
+				});
+				branchHtml+="</select>";
+		
+	$("td#areaParamBranch"+graphNameArea).html(branchHtml);
+	$("select#paramBranch"+graphNameArea).kendoDropDownList();
+	}
+
+	/*
 	function getBranchParameter(graphNameArea,branchCode){
 		//alert("branchCode"+branchCode);
 		var branchHtml = "";
@@ -103,7 +125,7 @@
 	$("td#areaParamBranch"+graphNameArea).html(branchHtml);
 	$("select#paramBranch"+graphNameArea).kendoDropDownList();
 	}
-
+*/
 	function getYearParameterOnly(graphNameArea,paramYear){
 		//alert("hello call function year parameter");
 		var yearHtml = "";
@@ -605,11 +627,13 @@
 	//Left Menu Hide Show End
 	
 	//###############################function using share other funciton start ####################################
+	
+var userLogin="";
+userLogin=remoteUser;
 $(document).ready(function(){
 	
 	/*######################################Define Config Start############################################*/
-	var userLogin="";
-	userLogin="N0001";
+	
 	//screen.availWidth
 	//screen.availHeight
 	var widthScreen=screen.availWidth;
@@ -618,8 +642,8 @@ $(document).ready(function(){
 	//var graphWidth="930";
 	//var graphHeight="365";
 	
-	var graphWidth=(widthScreen-80);
-	var graphHeight=(heightScreen-240);
+	var graphWidth=(widthScreen-110);
+	var graphHeight=(heightScreen-270);
 	//seting layout dinamic
 	
 	//$("#contentGraph").css({"width":graphWidth+"px","height":graphHeight+"px"});
@@ -715,6 +739,7 @@ $(document).ready(function(){
 			$("#leftMenu").html($("#areaLeftMenu").html());
 			
 			$(".cateView").remove();
+			
 			$("#boxContent>ul").append("<li class=\"cateGraph cateView\" id=\"cateView\">" +
 											"<a href=\"#\">" +
 												"<table>" +
@@ -724,6 +749,22 @@ $(document).ready(function(){
 														"</td>" +
 														"<td>" +
 														"Myview("+countMyView+")" +
+														"</td>" +
+													"</tr>" +
+												"</table>" +
+										
+											
+											"</a>" +
+										"</li>" +
+										"<li class=\"cateGraph cateView \" id=\"logOut\">" +
+											"<a href=\"#\">" +
+												"<table>" +
+													"<tr>" +
+														"<td>" +
+															"<span class='ui-icon ui-icon-power'></span>" +
+														"</td>" +
+														"<td>" +
+														"Logout" +
 														"</td>" +
 													"</tr>" +
 												"</table>" +
@@ -1092,8 +1133,96 @@ $(document).ready(function(){
 									"</div>" +
 									*/
 									if(graphName=="SalePerMonth"){
-										htmlLayoutGraph+=	"<div id=\"chartMTD"+graphName+"-"+arIndex+"\"  class=\"chart chartMTD\">Chart1</div>" ;	
-										htmlLayoutGraph+=	"<div id=\"chartYTD"+graphName+"-"+arIndex+"\"  class=\"chartYTD\">Chart2</div>" ;	
+										var widthG=((widthScreen/2)-((widthScreen*3)/100));
+										//htmlLayoutGraph+=	"<div id=\"chartMTD"+graphName+"-"+arIndex+"\"  class=\"chart chartMTD\">Chart1</div>" ;	
+										//htmlLayoutGraph+=	"<div id=\"chartYTD"+graphName+"-"+arIndex+"\"  class=\"chartYTD\">Chart2</div>" ;	
+										htmlLayoutGraph+=	"" +
+										"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+										"<div id=\"chartMTD"+graphName+"-"+arIndex+"\"  class=\"chart2 chartMTD\"></div>" +
+										"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+											
+											"<div class=\"rowLengendSalePerMonth\">" +
+											"<div class=\"columnLengendSalePerMonth\">" +
+												"<table>" +
+												"<tr>" +
+													"<td><div class='square orangeSalePerMonth'></div></td>" +
+													"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+												"</tr>" +
+												"</table>"+
+											"</div>" +
+											"<div class=\"columnLengendSalePerMonth\">" +
+												"<table>" +
+												"<tr>" +
+													"<td><div class='square blueSalePerMonth'></div></td>" +
+													"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+												"</tr>" +
+												"</table>"+
+											"</div>" +
+										"</div>" +
+										"<div class=\"rowLengendSalePerMonth\">" +
+											"<div class=\"columnLengendSalePerMonth\">" +
+												"<table>" +
+												"<tr>" +
+													"<td><div class='square graySalePerMonth'></div></td>" +
+													"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+												"</tr>" +
+												"</table>"+
+											"</div>" +
+											"<div class=\"columnLengendSalePerMonth\">" +
+												"<table>" +
+												"<tr>" +
+													"<td><div class='square graycccSalePerMonth'></div></td>" +
+													"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+												"</tr>" +
+												"</table>"+
+											"</div>" +
+										"</div>" +
+											
+										"</div>" +
+										"</div>" ;	
+							
+								htmlLayoutGraph+=	"" +
+										"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+										"<div id=\"chartYTD"+graphName+"-"+arIndex+"\"  class=\"chart2 chartYTD\"></div>" +
+										"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+											"<div class=\"rowLengendSalePerMonth\">" +
+												"<div class=\"columnLengendSalePerMonth\">" +
+													"<table>" +
+													"<tr>" +
+														"<td><div class='square orangeSalePerMonth'></div></td>" +
+														"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+													"</tr>" +
+													"</table>"+
+												"</div>" +
+												"<div class=\"columnLengendSalePerMonth\">" +
+													"<table>" +
+													"<tr>" +
+														"<td><div class='square blueSalePerMonth'></div></td>" +
+														"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+													"</tr>" +
+													"</table>"+
+												"</div>" +
+											"</div>" +
+											"<div class=\"rowLengendSalePerMonth\">" +
+												"<div class=\"columnLengendSalePerMonth\">" +
+													"<table>" +
+													"<tr>" +
+														"<td><div class='square graySalePerMonth'></div></td>" +
+														"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+													"</tr>" +
+													"</table>"+
+												"</div>" +
+												"<div class=\"columnLengendSalePerMonth\">" +
+													"<table>" +
+													"<tr>" +
+														"<td><div class='square graycccSalePerMonth'></div></td>" +
+														"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+													"</tr>" +
+													"</table>"+
+												"</div>" +
+											"</div>" +
+										"</div>" +
+										"</div>" ;	
 									}else{
 										htmlLayoutGraph+=	"<div id=\"chart"+graphName+"-"+arIndex+"\"  class=\"chart\"></div>" ;
 									}
@@ -1132,7 +1261,11 @@ $(document).ready(function(){
 				//alert(htmlLayoutGraph);
 			$("#contentGraph").append(htmlLayoutGraph);
 			$(".contentGraph").shadow().css({"width":widthScreen+"px","height":(heightScreen)+"px"});
+			
+			
+			
 			$(".graphTop").css({"width":widthScreen+"px","height":(heightScreen-235)+"px"});
+			
 			$(".setting").css({"left":(widthScreen-60)+"px"});
 			
 			};
@@ -1902,6 +2035,8 @@ $(document).ready(function(){
 						}
 					});
 					
+				}else if(this.id=="logOut"){
+					$(location).attr({"href":"deleteSession.jsp"});
 				}else{
 					//create graph by cate other
 					//alert("click graph other");
@@ -2299,8 +2434,98 @@ $(document).ready(function(){
 													//"<div id=\"chart"+graphName+"-"+slotPosition+"\"  class=\"chart\"></div>" +
 												
 													if(graphName=="SalePerMonth"){
-														htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
-														htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+														//htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
+														//htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+														
+														var widthG=((widthScreen/2)-((widthScreen*3)/100));
+														htmlLayoutGraphMyView+=	"" +
+														"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+														"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartMTD\"></div>" +
+														"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+															
+															"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square orangeSalePerMonth'></div></td>" +
+																	"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square blueSalePerMonth'></div></td>" +
+																	"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graySalePerMonth'></div></td>" +
+																	"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graycccSalePerMonth'></div></td>" +
+																	"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+															
+														"</div>" +
+														"</div>" ;	
+											
+														htmlLayoutGraphMyView+=	"" +
+														"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+														"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartYTD\"></div>" +
+														"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+															"<div class=\"rowLengendSalePerMonth\">" +
+																"<div class=\"columnLengendSalePerMonth\">" +
+																	"<table>" +
+																	"<tr>" +
+																		"<td><div class='square orangeSalePerMonth'></div></td>" +
+																		"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+																	"</tr>" +
+																	"</table>"+
+																"</div>" +
+																"<div class=\"columnLengendSalePerMonth\">" +
+																	"<table>" +
+																	"<tr>" +
+																		"<td><div class='square blueSalePerMonth'></div></td>" +
+																		"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+																	"</tr>" +
+																	"</table>"+
+																"</div>" +
+															"</div>" +
+															"<div class=\"rowLengendSalePerMonth\">" +
+																"<div class=\"columnLengendSalePerMonth\">" +
+																	"<table>" +
+																	"<tr>" +
+																		"<td><div class='square graySalePerMonth'></div></td>" +
+																		"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+																	"</tr>" +
+																	"</table>"+
+																"</div>" +
+																"<div class=\"columnLengendSalePerMonth\">" +
+																	"<table>" +
+																	"<tr>" +
+																		"<td><div class='square graycccSalePerMonth'></div></td>" +
+																		"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+																	"</tr>" +
+																	"</table>"+
+																"</div>" +
+															"</div>" +
+														"</div>" +
+														"</div>" ;	
+														
 													}else{
 														htmlLayoutGraphMyView+=	"<div id=\"chart"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart\"></div>" ;
 													}	
@@ -2355,8 +2580,96 @@ $(document).ready(function(){
 													//"<div id=\"chart"+graphName+"-"+slotPosition+"\"  class=\"chart\"></div>" +
 												//"</div>" +
 												if(graphName=="SalePerMonth"){
-													htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
-													htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													var widthG=((widthScreen/2)-((widthScreen*3)/100));
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartMTD\"></div>" +
+													"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+														
+														"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square orangeSalePerMonth'></div></td>" +
+																"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square blueSalePerMonth'></div></td>" +
+																"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+													"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graySalePerMonth'></div></td>" +
+																"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graycccSalePerMonth'></div></td>" +
+																"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+														
+													"</div>" +
+													"</div>" ;	
+										
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartYTD\"></div>" +
+													"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square orangeSalePerMonth'></div></td>" +
+																	"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square blueSalePerMonth'></div></td>" +
+																	"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graySalePerMonth'></div></td>" +
+																	"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graycccSalePerMonth'></div></td>" +
+																	"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+													"</div>" +
+													"</div>" ;	
 												}else{
 													htmlLayoutGraphMyView+=	"<div id=\"chart"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart\"></div>" ;
 												}	
@@ -2408,8 +2721,96 @@ $(document).ready(function(){
 													//"<div id=\"chart"+graphName+"-"+slotPosition+"\"  class=\"chart\"></div>" +
 												//"</div>" +
 												if(graphName=="SalePerMonth"){
-													htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
-													htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													var widthG=((widthScreen/2)-((widthScreen*3)/100));
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartMTD\"></div>" +
+													"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+														
+														"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square orangeSalePerMonth'></div></td>" +
+																"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square blueSalePerMonth'></div></td>" +
+																"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+													"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graySalePerMonth'></div></td>" +
+																"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graycccSalePerMonth'></div></td>" +
+																"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+														
+													"</div>" +
+													"</div>" ;	
+										
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartYTD\"></div>" +
+													"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square orangeSalePerMonth'></div></td>" +
+																	"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square blueSalePerMonth'></div></td>" +
+																	"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graySalePerMonth'></div></td>" +
+																	"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graycccSalePerMonth'></div></td>" +
+																	"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+													"</div>" +
+													"</div>" ;	
 												}else{
 													htmlLayoutGraphMyView+=	"<div id=\"chart"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart\"></div>" ;
 												}	
@@ -2461,8 +2862,98 @@ $(document).ready(function(){
 													//"<div id=\"chart"+graphName+"-"+slotPosition+"\"  class=\"chart\"></div>" +
 												//"</div>" +
 												if(graphName=="SalePerMonth"){
-													htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
-													htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													
+													var widthG=((widthScreen/2)-((widthScreen*3)/100));
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartMTD\"></div>" +
+													"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+														
+														"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square orangeSalePerMonth'></div></td>" +
+																"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square blueSalePerMonth'></div></td>" +
+																"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+													"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graySalePerMonth'></div></td>" +
+																"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graycccSalePerMonth'></div></td>" +
+																"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+														
+													"</div>" +
+													"</div>" ;	
+										
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartYTD\"></div>" +
+													"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square orangeSalePerMonth'></div></td>" +
+																	"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square blueSalePerMonth'></div></td>" +
+																	"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graySalePerMonth'></div></td>" +
+																	"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graycccSalePerMonth'></div></td>" +
+																	"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+													"</div>" +
+													"</div>" ;	
+													
 												}else{
 													htmlLayoutGraphMyView+=	"<div id=\"chart"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart\"></div>" ;
 												}	
@@ -2514,8 +3005,96 @@ $(document).ready(function(){
 													//"<div id=\"chart"+graphName+"-"+slotPosition+"\"  class=\"chart\"></div>" +
 												//"</div>" +
 												if(graphName=="SalePerMonth"){
-													htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
-													htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													var widthG=((widthScreen/2)-((widthScreen*3)/100));
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartMTD\"></div>" +
+													"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+														
+														"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square orangeSalePerMonth'></div></td>" +
+																"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square blueSalePerMonth'></div></td>" +
+																"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+													"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graySalePerMonth'></div></td>" +
+																"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graycccSalePerMonth'></div></td>" +
+																"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+														
+													"</div>" +
+													"</div>" ;	
+										
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartYTD\"></div>" +
+													"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square orangeSalePerMonth'></div></td>" +
+																	"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square blueSalePerMonth'></div></td>" +
+																	"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graySalePerMonth'></div></td>" +
+																	"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graycccSalePerMonth'></div></td>" +
+																	"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+													"</div>" +
+													"</div>" ;	
 												}else{
 													htmlLayoutGraphMyView+=	"<div id=\"chart"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart\"></div>" ;
 												}	
@@ -2566,8 +3145,96 @@ $(document).ready(function(){
 													//"<div id=\"chart"+graphName+"-"+slotPosition+"\"  class=\"chart\"></div>" +
 												//"</div>" +
 												if(graphName=="SalePerMonth"){
-													htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
-													htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartMTD\"></div>" ;	
+													//htmlLayoutGraphMyView+=	"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart chartYTD\"></div>" ;	
+													var widthG=((widthScreen/2)-((widthScreen*3)/100));
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthMTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartMTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartMTD\"></div>" +
+													"<div id=\"lengendSalePerMonthMTD\" class=\"lengendSalePerMonth\">" +
+														
+														"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square orangeSalePerMonth'></div></td>" +
+																"<td><div id='lastYearMTD' class='fontLegend'>Nov11</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square blueSalePerMonth'></div></td>" +
+																"<td><div id='currentYearMTD' class='fontLegend'>Nov12</div></td></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+													"<div class=\"rowLengendSalePerMonth\">" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graySalePerMonth'></div></td>" +
+																"<td><div id='planMTD' class='fontLegend'>PlanMTD Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+														"<div class=\"columnLengendSalePerMonth\">" +
+															"<table>" +
+															"<tr>" +
+																"<td><div class='square graycccSalePerMonth'></div></td>" +
+																"<td><div id='planMTDFull' class='fontLegend'>Plan Nov12</div></td>" +
+															"</tr>" +
+															"</table>"+
+														"</div>" +
+													"</div>" +
+														
+													"</div>" +
+													"</div>" ;	
+										
+													htmlLayoutGraphMyView+=	"" +
+													"<div id=\"boxSalePerMonthYTD\" style=\"width:"+widthG+"px\">" +
+													"<div id=\"chartYTD"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart2 chartYTD\"></div>" +
+													"<div id=\"lengendSalePerMonthYTD\" class=\"lengendSalePerMonth\">" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square orangeSalePerMonth'></div></td>" +
+																	"<td><div id='lastYearYTD' class='fontLegend'>Jan-Nov11</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square blueSalePerMonth'></div></td>" +
+																	"<td><div id='currentYearYTD' class='fontLegend'>Jan-Nov12</div></td></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+														"<div class=\"rowLengendSalePerMonth\">" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graySalePerMonth'></div></td>" +
+																	"<td><div id='planYTD' class='fontLegend'>Plan Jan-Nov(YTD)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+															"<div class=\"columnLengendSalePerMonth\">" +
+																"<table>" +
+																"<tr>" +
+																	"<td><div class='square graycccSalePerMonth'></div></td>" +
+																	"<td><div id='planYTDFull' class='fontLegend'>Plan Jan-Nov(Full)12</div></td>" +
+																"</tr>" +
+																"</table>"+
+															"</div>" +
+														"</div>" +
+													"</div>" +
+													"</div>" ;	
 												}else{
 													htmlLayoutGraphMyView+=	"<div id=\"chart"+graphName+"-"+(slotPosition-1)+"\"  class=\"chart\"></div>" ;
 												}	
@@ -2611,12 +3278,12 @@ $(document).ready(function(){
 				};
 				
 				//function update slot sequence start
-				 var updateSlotSequence= function(oldSlot,newSlot){
+				 var updateSlotSequence= function(oldSlot,newSlot,userLogin){
 					 $.ajax({
 						url:"../Model/sequenceSlot.jsp",
 						type:"get",
 						dataType:"html",
-						data:{"paramOldSlot":oldSlot,"paramNewSlot":newSlot},
+						data:{"paramOldSlot":oldSlot,"paramNewSlot":newSlot,"paramUserLogin":userLogin},
 						success:function(data){
 							$("#cateView a").click();
 						}
@@ -2635,7 +3302,7 @@ $(document).ready(function(){
 				 $("#listSequenceMyView").live("change",function(){
 					//alert($("select#listSequenceMyView option:selected").val());
 					 var newSlot=this.value;
-					 updateSlotSequence(oldSlot,newSlot);
+					 updateSlotSequence(oldSlot,newSlot,userLogin);
 					 
 				 });
 				 
