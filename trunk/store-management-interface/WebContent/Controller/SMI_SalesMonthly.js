@@ -22,6 +22,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 	var cateFont="";
 	if(paramMachine=="Tablet"){
 		//graphWidth=(paramGraphWidth/2);
+		
 		chartWidth=(paramGraphWidth/2);
 		chartHeight=paramGraphHeight-((paramGraphHeight*5)/100);
 		//alert(chartWidth);
@@ -32,6 +33,8 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 		valueAxisFont="16px Tahoma";
 		seriesFont="16px Tahoma";
 		cateFont="16px Tahoma";
+		
+		
 		
 	}else{
 		chartWidth=320;
@@ -47,7 +50,7 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
 		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: chartWidth,
-			    height:chartHeight,
+			    height:(chartHeight-20),
 			    background: ""
 			  },
 	     title: {
@@ -140,15 +143,16 @@ function createChartSMI_SalePerMonthMTD(graphName,graphType,graphSeries,graphCat
     		//alert("Num"+num);
     		var diffPercentage="";
     		if(objDataDiffSalesMonthlyMTD[num]!=0){
-    			if(objDataDiffSalesMonthlyMTD[num]){}
+    			if(objDataDiffSalesMonthlyMTD[num]){
     			diffPercentage=":"+objDataDiffSalesMonthlyMTD[num]+"%";
-    		}
+    			}
+    			}
     		$(this).text(""+addCommas(labelValueMTD[1])+""+diffPercentage+"");
     		num++;
     	}
      });
      console.log("-----------------------------");
-     
+     $(""+"#chartMTD"+graphName+"-"+arIndex+">svg").css({"width":(chartWidth+30)+"px"});
      
    
      
@@ -180,6 +184,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	var legendFont="";
 	var valueAxisFont="";
 	var cateFont="";
+	var fontLegend="";
 	if(paramMachine=="Tablet"){
 		
 		
@@ -195,6 +200,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 		valueAxisFont="16px Tahoma";
 		seriesFont="16px Tahoma";
 		cateFont="16px Tahoma";
+		fontLegend="10px Tahoma";
 		
 	}else{
 		chartWidth=340;
@@ -204,6 +210,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 		valueAxisFont="13px Tahoma";
 		seriesFont="10px Tahoma";
 		cateFont="10px Tahoma";
+		fontLegend="13px Tahoma";
 	}
 	//alert(graphName);
 
@@ -219,7 +226,7 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 		 theme: $(document).data("kendoSkin") || "silver",
 		  chartArea: {
 			    width: chartWidth,
-			    height:chartHeight,
+			    height:(chartHeight-20),
 			    background: ""
 			  },
 	     title: {
@@ -293,6 +300,9 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
 	         }
 	     });
 	 
+	 //set fontLegend
+	 $(".fontLegend").css({"font-size":fontLegend+"px"});
+	 
 	 /*
 	 //set barChart
 	 var chart = $("#chartYTD"+graphName+"-"+arIndex).data("kendoChart"),
@@ -321,6 +331,8 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
     		num++;
     	}
      });
+     
+     $(""+"#chartYTD"+graphName+"-"+arIndex+">svg").css({"width":(chartWidth+30)+"px"});
 
      
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(0)").children("path:eq(0)").attr({"fill":"orange" ,"stroke-opacity":"1" ,"fill-opacity":"1" ,"stroke-linejoin":"round" ,"stroke-linecap":"square" ,"stroke-width":"1","stroke":"#cc8400"});
@@ -338,6 +350,9 @@ function createChartSMI_SalePerMonthYTD(graphName,graphType,graphSeries,graphCat
      
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(0)").attr({"fill":"#cccccc","stroke":"#cccccc"});
      $(""+"#chartYTD"+graphName+"-"+arIndex+" svg g:eq(3)").children("path:eq(1)").attr({"stroke":"#cccccc"});
+     
+     
+    
 };
 
 

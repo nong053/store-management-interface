@@ -9,7 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="gwt:property" content="locale=th_TH">
         <!-- Uncomment to put your own favicon -->
-        <link rel="shortcut icon" href="/pentaho-style/favicon.ico" /> 
+        <link rel='shortcut icon' type='image/x-icon' href='images/favicon.ico' />
         <style type="text/css" media="screen, projection">
             *{margin:0;padding:0;}
             html{font-size:100%;}
@@ -29,7 +29,22 @@
             // This can be replaced with an AJAX solution
             //var ObBranch="";
            $(document).ready(function(){
-        	   
+        	   /*#########################Ajax start##########################*/
+        		//ajax Start
+        		$("#loading").ajaxStart(function(){
+        			//$("body").prepend("loading");
+        			var widthImg=(screen.availWidth/2)-50;
+        			var	hieghtImg=(screen.availHeight/2)-50;
+        			$(this).css({"top":hieghtImg+"px","left":widthImg}).show();
+        		});
+        		
+
+        		//ajax Stop
+        		$("#loading").ajaxStop(function(){
+        		$(this).hide();
+        		
+        		}); 
+        		/*#########################Ajax stop##########################*/
         	   //check login here start here.
         	   function DetectBrowser(a)
 				{
@@ -42,7 +57,7 @@
 				     }
 				     else
 				     {
-				    	 $(location).attr({"href":urlTablet});
+				    	 $(location).attr({"href":urlPc});
 				     }
 				}
 

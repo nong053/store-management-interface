@@ -46,6 +46,7 @@
 				htmlDropdown+="</select>";
 				//alert(htmlDropdown);
 				$("#areaParamStartDate"+graphNameArea).html(htmlDropdown);
+				$("#paramStartDate"+graphNameArea).kendoDropDownList();
 			}
 		});
 	}
@@ -60,23 +61,24 @@
 			async:false,
 			success:function(data){
 				//alert(data);
-				htmlDropdown+="<select class=\"list\" id=\"paramSubBranch"+graphNameArea+"\">";
+				htmlDropdown+="<select class=\"list paramSubBranch11\" id=\"paramSubBranch"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					if(paramSubBranch==indexEntry[0]){
-						htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[1]+"</option>";
+						htmlDropdown+="<option value="+indexEntry[1]+" selected>"+indexEntry[1]+"</option>";
 					}else{
-						htmlDropdown+="<option value="+indexEntry[0]+">"+indexEntry[1]+"</option>";
+						htmlDropdown+="<option value="+indexEntry[1]+">"+indexEntry[1]+"</option>";
 					}
 				});
 				htmlDropdown+="</select>";
 				//alert(htmlDropdown);
 				$("#areaParamSubBranch"+graphNameArea).html(htmlDropdown);
+				$("#paramSubBranch"+graphNameArea).kendoDropDownList();
 			}
 		});
 	}
 
 	
-function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objDataHrModelAll,graphHeight,paramMachine){
+function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objDataHrModelAll,graphHeight,paramMachine,vSubBranchName){
 	
 
 	var seriesDefaultsFont="";
@@ -174,7 +176,7 @@ function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objD
              columns: [ {
                      field: "Position",
                      width: PositionWidth,
-                     title: "<center><b>ครัว</b></center>"
+                     title: "<center><b><span id='subBranchName'></span></b></center>"
                  } , {
                      field: "Model",
                      //width: 90,
@@ -212,8 +214,44 @@ function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objD
              ]
          });
      
-     
 	 
+	 /*find sum value on graph start*/
+	 var sum_MDP_model=0;
+	 var sum_MDP_Acctal=0;
+	 var sum_MDP_Gap=0;
+	 var sum_MDP_NewEmp=0;
+	 var sum_MDP_resign=0;
+	 var sum_MDP_resignPercentage=0;
+	 var sum_MDP_resignAccumulated=0;
+	 
+	 $("#chart"+graphName+"-"+arIndex+" tbody tr").each(function(){
+		 sum_MDP_model+=parseInt($("td",this).eq(1).text()); 
+		 sum_MDP_Acctal+=parseInt($("td",this).eq(2).text()); 
+		 sum_MDP_Gap+=parseInt($("td",this).eq(3).text()); 
+		 sum_MDP_NewEmp+=parseInt($("td",this).eq(4).text()); 
+		 sum_MDP_resign+=parseInt($("td",this).eq(5).text()); 
+		 sum_MDP_resignPercentage+=parseInt($("td",this).eq(6).text()); 
+		 sum_MDP_resignAccumulated+=parseInt($("td",this).eq(7).text()); 
+	 });
+     var sumDataHtmlModelByDepartment="" +
+     
+     "<tr id=\"sumDataHtmlModelByDepartment\" style='background:#FEEEBD'>"+
+		"<td >รวม</td>"+
+		"<td>"+sum_MDP_model+"</td>"+
+		"<td>"+sum_MDP_Acctal+"</td>"+
+		"<td>"+sum_MDP_Gap+"</td>"+
+		"<td>"+sum_MDP_NewEmp+"</td>"+
+		"<td >"+sum_MDP_resign+"</td>"+
+		"<td>"+sum_MDP_resignPercentage+"%</td>"+
+		"<td>"+sum_MDP_resignAccumulated+"</td>"+
+	"</tr>";
+     $("tr#sumDataHtmlModelByDepartment").remove();
+     $("#chart"+graphName+"-"+arIndex+" tbody").append(sumDataHtmlModelByDepartment);
+      
+     /*find sum value on graph end*/
+     
+     
+     
 	//set Font for Gap if gap  number is Minus set red font.
 	 //$("#chart"+graphName+"-"+arIndex)
 	 
@@ -252,8 +290,9 @@ function createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objD
 	 
 	 
 	//set padding td in table grid
-	$(".k-grid td").css({"padding":"0px"});
-     
+	 $(".k-grid td").css({"padding-left":"2px","padding-right":"2px"});
+	//set shadow
+	$(".k-grid").shadow('lifted');
 };
 
 var htmlParam_SMI_HrCompareEmpPerModelByDepartment = function(graphNameArea){
@@ -347,6 +386,7 @@ var submit_SMI_HrCompareEmpPerModelByDepartment=function(graphNameArea,graphName
 		
 												  // graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine
 				HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramSubBranch,graphHeight,paramMachine);
+				
 				
 				if(paramMachine=="Tablet"){
 					$(".ui-icon-closethick").trigger("click");
@@ -493,6 +533,7 @@ function HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,
 			async:false,
 			data:{"paramBranch":vBranch,"paramAsofDate":vAsOfDate,"paramSubBranch":vSubBranch},
 			success:function(data){
+				
 				/*
 				 data: [
 			              {  "Position":"หัวหน้าหน่วยอาวุโส",
@@ -518,31 +559,112 @@ function HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,
 				dataHrModelAll+="[";
 				$.each(data,function(index,indexEntry){
 					
+					/*check value is null start*/
+					var ModelNum="";
+					var AcctalNum="";
+					var GapNum="";
+					var NewEmpNum="";
+					var resignNum="";
+					var resignPercentageNum="";
+					var resignAccumulatedNum="";
+					
+					if(indexEntry[1]==null){
+						ModelNum=0;
+					}else{
+						ModelNum=indexEntry[1];
+					}
+					
+					if(indexEntry[2]==null){
+						AcctalNum=0;
+					}else{
+						AcctalNum=indexEntry[2];
+					}
+					
+					
+					if(indexEntry[3]==null){
+						GapNum=0;
+					}else{
+						GapNum=indexEntry[3];
+					}
+					
+					
+					if(indexEntry[4]==null){
+						NewEmpNum=0;
+					}else{
+						NewEmpNum=indexEntry[4];
+					}
+					
+					
+					if(indexEntry[5]==null){
+						resignNum=0;
+					}else{
+						resignNum=indexEntry[5];
+					}
+					
+					if(indexEntry[6]==null){
+						resignPercentageNum=0+"%";
+					}else{
+						resignPercentageNum=parseInt(indexEntry[6])+"%";
+					}
+					
+					if(indexEntry[7]==null){
+						resignAccumulatedNum=0;
+					}else{
+						resignAccumulatedNum=indexEntry[7];
+					}
+
+					/*check value is null end*/
+					
+					
+					
+					
 					if(index==0){
 						dataHrModelAll+="{";
 					}else{
 						dataHrModelAll+=",{";
 					}
-					
+					/*
+					var ModelNum="";
+					var AcctalNum="";
+					var GapNum="";
+					var NewEmpNum="";
+					var resignNum="";
+					var resignPercentageNum="";
+					var resignAccumulatedNum="";
+					 */
 					
 					dataHrModelAll+="\"Position\":\""+indexEntry[0]+"\",";
-					dataHrModelAll+="\"Model\":"+indexEntry[1]+",";
-					dataHrModelAll+="\"Acctal\":"+indexEntry[2]+",";
-					dataHrModelAll+="\"Gap\":"+indexEntry[3]+",";
-					dataHrModelAll+="\"NewEmp\":"+indexEntry[4]+",";
-					dataHrModelAll+="\"resign\":"+indexEntry[5]+",";
-					dataHrModelAll+="\"resignPercentage\":"+indexEntry[6]+"," ;
-					dataHrModelAll+="\"resignAccumulated\":"+indexEntry[7]+"";
+					dataHrModelAll+="\"Model\":"+ModelNum+",";
+					dataHrModelAll+="\"Acctal\":"+AcctalNum+",";
+					dataHrModelAll+="\"Gap\":"+GapNum+",";
+					dataHrModelAll+="\"NewEmp\":"+NewEmpNum+",";
+					dataHrModelAll+="\"resign\":"+resignNum+",";
+					dataHrModelAll+="\"resignPercentage\":\""+resignPercentageNum+"\"," ;
+					dataHrModelAll+="\"resignAccumulated\":"+resignAccumulatedNum+"";
 					
 					dataHrModelAll+="}";
 					
 				});
+				/*
+					dataHrModelAll+=",{";
+					dataHrModelAll+="\"Position\":\"รวม\",";
+					dataHrModelAll+="\"Model\":11,";
+					dataHrModelAll+="\"Acctal\":22,";
+					dataHrModelAll+="\"Gap\":33,";
+					dataHrModelAll+="\"NewEmp\":44,";
+					dataHrModelAll+="\"resign\":55,";
+					dataHrModelAll+="\"resignPercentage\":66," ;
+					dataHrModelAll+="\"resignAccumulated\":77";
+					
+					dataHrModelAll+="}";
+				*/
+				
 				dataHrModelAll+="]";
 				var objDataHrModelAll=eval("("+dataHrModelAll+")");
 				
 				 
 				 createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objDataHrModelAll,graphHeight,paramMachine);
-				
+				 $("#subBranchName").text(vSubBranch);
 			}
 		});
 	 

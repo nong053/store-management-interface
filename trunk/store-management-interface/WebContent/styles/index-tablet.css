@@ -7,7 +7,7 @@
 #loading {
 	display: none;
 	position: absolute;
-	z-index: 10000;
+	z-index: 990000;
 	color: #000000;
 	background: #ffffff;
 	font-weight: bold;
@@ -23,7 +23,8 @@
 .touchslider-demo .touchslider-viewport {
 	height: 425px;
 	border: 0px solid #fff1e0;
-	background: #fff1e0;
+	/*background: #fff1e0;*/
+	background:white;
 	-webkit-border-radius: 6px;
 	        border-radius: 6px;
 }
@@ -150,6 +151,7 @@ Store Management
 #contentArea{
 	overflow:hidden;
 	
+	
 }
 #contentArea #leftMenu{
 	
@@ -225,6 +227,7 @@ Store Management
 	/*width:1018px;*/
 	height:425px;
 	background:white;
+	/*background:none repeat scroll 0 0 #FEEEBD;*/
 	
 }
 .contentGraph #settingArea{
@@ -232,13 +235,13 @@ Store Management
 	position:relative;
 	z-index:20;
 	width:1000px;
-	background:red;
+	
 }
 .contentGraph #settingArea .setting{
 	padding:15px;
 	float:right;
-	//background:url("../images/gear.png") repeat-x scroll 49.7% 50% #FECE2F;
-	background:url("../images/traingle.png") repeat-x scroll 49.7% 50% #FECE2F;
+	background:url("../images/gear.png") repeat-x scroll 49.7% 50% #FECE2F;
+	/*background:url("../images/traingle.png") repeat-x scroll 49.7% 50% #FECE2F;*/
 	border-radius:5px;
 	cursor:pointer;
 	border: 1px solid #D19405;
@@ -253,7 +256,7 @@ Store Management
 	
 }
 .contentGraph #settingArea .setting a:hover{
-	background:red;
+	/*background:red;*/
 	
 }
 .contentGraph .graphTop{
@@ -271,7 +274,7 @@ Store Management
 
 }
 .contentGraph .graphBottom .graphDetail{
-	width:540px;
+	width:560px;
 	/*padding:5px;*/
 	float:left;
 	font-weight:bold;
@@ -468,6 +471,7 @@ div#selectFav ul li .boxSlot{
 }
 .chart{
 	margin-left:45px;
+	margin-right:65px;
 }
 .chart2{
 	margin-left:0px;
@@ -690,6 +694,7 @@ div#selectFav ul li .boxSlot{
 }
 .fontLegend{
 	color:#4e5968;
+	font-size:14px;
 }
 /* GRAPH2 END*/
 

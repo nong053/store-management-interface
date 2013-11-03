@@ -34,7 +34,7 @@ function callAsOfDateEmpPerModelAll(graphNameArea,paramStartDate){
 		async:false,
 		success:function(data){
 			//alert(data);
-			htmlDropdown+="<select class='list' id='paramStartDate'>";
+			htmlDropdown+="<select class=\"list\" id=\"paramStartDate"+graphNameArea+"\">";
 			$.each(data,function(index,indexEntry){
 				if(paramStartDate==indexEntry[0]){
 					htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[0]+"</option>";
@@ -45,6 +45,8 @@ function callAsOfDateEmpPerModelAll(graphNameArea,paramStartDate){
 			htmlDropdown+="</select>";
 			//alert(htmlDropdown);
 			$("#areaParamStartDate"+graphNameArea).html(htmlDropdown);
+			$("#paramStartDate"+graphNameArea).kendoDropDownList();
+			
 		}
 	});
 }
@@ -52,20 +54,24 @@ function callAsOfDateEmpPerModelAll(graphNameArea,paramStartDate){
 
 function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objDataHrModelAll,paramMachine){
 
-
+	//alert(graphHeight);
 	var seriesDefaultsFont="";
 	var PositionWidth="";
 	if(paramMachine=="Tablet"){
 		seriesDefaultsFont="13px Tahoma";
-		PositionWidth=200;
+		PositionWidth=300;
+		//widthGrid="800";
 	}else{
+		//widthGrid="";
 		seriesDefaultsFont="10px Tahoma";
-		PositionWidth=150;
+		PositionWidth=200;
 	}
+	//alert(widthGrid);
 
 	 $("#chart"+graphName+"-"+arIndex).empty();
 	 $("#chart"+graphName+"-"+arIndex).kendoGrid({
 		 	 height: graphHeight,
+		 	// width:widthGrid,
              dataSource: {
             	 data:objDataHrModelAll,
                  /*
@@ -205,6 +211,45 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objD
      
      
 	 
+	 
+	 
+	 /*find sum value on graph start*/
+	 var sum_MD_model=0;
+	 var sum_MD_Acctal=0;
+	 var sum_MD_Gap=0;
+	 var sum_MD_NewEmp=0;
+	 var sum_MD_resign=0;
+	 var sum_MD_resignPercentage=0;
+	 var sum_MD_resignAccumulated=0;
+	 
+	 $("#chart"+graphName+"-"+arIndex+" tbody tr").each(function(){
+		 sum_MD_model+=parseInt($("td",this).eq(1).text()); 
+		 sum_MD_Acctal+=parseInt($("td",this).eq(2).text()); 
+		 sum_MD_Gap+=parseInt($("td",this).eq(3).text()); 
+		 sum_MD_NewEmp+=parseInt($("td",this).eq(4).text()); 
+		 sum_MD_resign+=parseInt($("td",this).eq(5).text()); 
+		 sum_MD_resignPercentage+=parseInt($("td",this).eq(6).text()); 
+		 sum_MD_resignAccumulated+=parseInt($("td",this).eq(7).text()); 
+	 });
+     var sumDataHtmlModel="" +
+     
+     "<tr id=\"sumDataHtmlModel\" style='background:#FEEEBD'>"+
+		"<td >รวม</td>"+
+		"<td>"+sum_MD_model+"</td>"+
+		"<td>"+sum_MD_Acctal+"</td>"+
+		"<td>"+sum_MD_Gap+"</td>"+
+		"<td>"+sum_MD_NewEmp+"</td>"+
+		"<td>"+sum_MD_resign+"</td>"+
+		"<td>"+sum_MD_resignPercentage+"%</td>"+
+		"<td>"+sum_MD_resignAccumulated+"</td>"+
+	"</tr>";
+     $("tr#sumDataHtmlModel").remove();
+     $("#chart"+graphName+"-"+arIndex+" tbody").append(sumDataHtmlModel);
+      
+     /*find sum value on graph end*/
+     
+     
+     
 	//set Font for Gap if gap  number is Minus set red font.
 	 //$("#chart"+graphName+"-"+arIndex)
 	 
@@ -243,7 +288,9 @@ function createChart_SMI_HrCompareEmpPerModel(graphName,arIndex,graphHeight,objD
 	 
 	 
 	//set padding td in table grid
-	$(".k-grid td").css({"padding":"0px"});
+	 $(".k-grid td").css({"padding-left":"2px","padding-right":"2px"});
+	 //set shadow
+    $(".k-grid").shadow('lifted');
      
 };
 
@@ -468,7 +515,7 @@ function manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,
 
 function HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine){
 	//graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine
-	
+	//alert(graphHeight);
 	//alert("graphName="+graphName);
 	//alert("graphType="+graphType);
 	//alert("arIndex="+arIndex);
@@ -485,10 +532,65 @@ function HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,gra
 			async:false,
 			data:{"paramBranch":vBranch,"paramStartDate":asOfDate},
 			success:function(data){
+				/*check value is null start*/
+				var ModelNum="";
+				var AcctalNum="";
+				var GapNum="";
+				var NewEmpNum="";
+				var resignNum="";
+				var resignPercentageNum="";
+				var resignAccumulatedNum="";
 				
+				
+				/*check value is null end*/
 				var dataHrModelAll="";
 				dataHrModelAll+="[";
 				$.each(data,function(index,indexEntry){
+					if(indexEntry[1]==null){
+						ModelNum=0;
+					}else{
+						ModelNum=indexEntry[1];
+					}
+					
+					if(indexEntry[2]==null){
+						AcctalNum=0;
+					}else{
+						AcctalNum=indexEntry[2];
+					}
+					
+					
+					if(indexEntry[3]==null){
+						GapNum=0;
+					}else{
+						GapNum=indexEntry[3];
+					}
+					
+					
+					if(indexEntry[4]==null){
+						NewEmpNum=0;
+					}else{
+						NewEmpNum=indexEntry[4];
+					}
+					
+					
+					if(indexEntry[5]==null){
+						resignNum=0;
+					}else{
+						resignNum=indexEntry[5];
+					}
+					
+					if(indexEntry[6]==null){
+						resignPercentageNum=0+"%";
+					}else{
+						resignPercentageNum=parseInt(indexEntry[6])+"%";
+					}
+					
+					if(indexEntry[7]==null){
+						resignAccumulatedNum=0;
+					}else{
+						resignAccumulatedNum=indexEntry[7];
+					}
+					
 					
 					if(index==0){
 						dataHrModelAll+="{";
@@ -496,15 +598,23 @@ function HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,gra
 						dataHrModelAll+=",{";
 					}
 					
+					/*
+					var AcctalNum="";
+					var GapNum="";
+					var NewEmpNum="";
+					var resignNum="";
+					var resignPercentageNum="";
+					var resignAccumulatedNum="";
+					*/
 					
 					dataHrModelAll+="\"Position\":\""+indexEntry[0]+"\",";
-					dataHrModelAll+="\"Model\":"+indexEntry[1]+",";
-					dataHrModelAll+="\"Acctal\":"+indexEntry[2]+",";
-					dataHrModelAll+="\"Gap\":"+indexEntry[3]+",";
-					dataHrModelAll+="\"NewEmp\":"+indexEntry[4]+",";
-					dataHrModelAll+="\"resign\":"+indexEntry[5]+",";
-					dataHrModelAll+="\"resignPercentage\":"+indexEntry[6]+"," ;
-					dataHrModelAll+="\"resignAccumulated\":"+indexEntry[7]+"";
+					dataHrModelAll+="\"Model\":"+ModelNum+",";
+					dataHrModelAll+="\"Acctal\":"+AcctalNum+",";
+					dataHrModelAll+="\"Gap\":"+GapNum+",";
+					dataHrModelAll+="\"NewEmp\":"+NewEmpNum+",";
+					dataHrModelAll+="\"resign\":"+resignNum+",";
+					dataHrModelAll+="\"resignPercentage\":\""+resignPercentageNum+"\"," ;
+					dataHrModelAll+="\"resignAccumulated\":"+resignAccumulatedNum+"";
 					
 					dataHrModelAll+="}";
 					

@@ -11,7 +11,7 @@
 <link href="../jqueryUI/css/custom-theme/jquery-ui-1.9.2.custom.min.css" rel="stylesheet">
 <link href="../styles/kendo.dataviz.min.css" rel="stylesheet">
 
-
+<link rel='shortcut icon' type='image/x-icon' href='../images/favicon.ico' />
 
 <link rel="stylesheet" href="../styles/index.css">
 <link rel="stylesheet" href="../styles/jquery.shadow.css" />

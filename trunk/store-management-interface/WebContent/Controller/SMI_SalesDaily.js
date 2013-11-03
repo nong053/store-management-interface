@@ -73,6 +73,8 @@ function createChart_salePerDay(graphName,graphType,graphSeries,graphCategory,ar
 	         template: "#= series.name #: #= addCommas(value) #",
 	         }
 	     });
+	//set shadow
+	   // $(".chart").shadow('lifted');
 };
 
 

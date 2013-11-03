@@ -66,7 +66,9 @@ function getWeekWasteWeeklyParameter(graphNameArea,paramYear,paramWeekSeleted){
 //$(document).on("click",".setting",function(){
 
 function createChart_SMI_WasteWeekly(graphName,graphType,graphSeries,graphCategory,arIndex,graphWidth,graphHeight,titleText) {
+	
 	//alert(graphName);
+	//alert(arIndex);
 	//alert(graphWidth);
 	//alert(graphHeight);
 	/*
