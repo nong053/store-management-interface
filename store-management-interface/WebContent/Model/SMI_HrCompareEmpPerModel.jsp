@@ -7,7 +7,9 @@ String paramBranch=request.getParameter("paramBranch");
 String paramStartDate=request.getParameter("paramStartDate");
 connectionJNDI jndi = new connectionJNDI();
 String columns="4,5,6,7,8,9,10,11";
-String query="CALL SMI_ManPowerOverall()";
+//paramBranch="311";
+//paramStartDate="2013-10-30";
+String query="CALL SMI_ManPowerOverall("+paramBranch+",'"+paramStartDate+"')";
 jndi.selectByIndexDwh(query, columns);
 out.println(jndi.getData());
 

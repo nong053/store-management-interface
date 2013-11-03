@@ -85,7 +85,7 @@ function createChart_SMI_CustomerPerMonth(graphName,graphType,graphSeries,graphC
     		//alert(labelValueAmount[1]);
     		var salesValue="";
     		if(objDataSeriesCustomerValueMonthThisYear[num1]!=0){
-    			salesValue=" : "+objDataSeriesCustomerValueMonthThisYear[num1]+"";
+    			salesValue=" : "+objDataSeriesCustomerValueMonthThisYear[num1]+" บาท";
     		}
     		$(this).text(""+addCommas(labelValueAmount[1])+""+addCommas(salesValue)+"");
     		num1++;

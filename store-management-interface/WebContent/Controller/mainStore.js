@@ -553,8 +553,32 @@ $(".cateGraph").live("mouseover",function(e){
 		$("#boxContent>ul").append("<li class=\"cateGraph\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a></li>");
 		   */
 		$(".listOther").remove();
-		$html="<li class=\"cateGraph listOther\" id=\"cateView\"><a href=\"#\">Myview("+countMyView+")</a>";
-		$html+="</li><li class=\"cateGraph listOther\" id=\"logOut\"><a href=\"deleteSession.jsp\">Logout</a></li>";
+		$html="<li class=\"cateGraph listOther\" id=\"cateView\"><a href=\"#\">" +
+				"<table>"+
+					"<tbody>"+
+					"<tr>"+
+					"<td>"+
+					"<span class=\"ui-icon ui-icon-folder-collapsed\"></span>"+
+					"</td>"+
+					"<td>Myview("+countMyView+")</td>"+
+					"</tr>"+
+					"</tbody>"+
+				"</table>" +
+				"</a></li>" ;
+				
+		
+		$html+="<li class=\"cateGraph listOther\" id=\"logOut\"><a href=\"deleteSession.jsp\">" +
+				"<table>"+
+					"<tbody>"+
+					"<tr>"+
+					"<td>"+
+					"<span class=\"ui-icon ui-icon-power\"></span>"+
+					"</td>"+
+					"<td>Logout</td>"+
+					"</tr>"+
+					"</tbody>"+
+				"</table>"+
+					"</a></li>";
 		$("#boxContent>ul").append($html);
 		
 		expansionFn();
@@ -2344,7 +2368,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 				
 			//Defualt Parameter End
 			 
-		}else if(graphName=="CompareEmployeePerModel"){
+		}else if(graphName=="ManPowerOverall"){
 			
 			//g16
 			
@@ -2395,7 +2419,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 			
 			//Defualt Parameter End
 			
-		}else if(graphName=="CompareEmployeePerModelByDepartment"){
+		}else if(graphName=="ManPowerByOrganization"){
 			
 			
 			//g16
@@ -2428,7 +2452,8 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							async:false,
 							success:function(data){
 								//alert(data);
-								vSubBranch=data[0][0];
+								vSubBranch=data[0][1];
+								//vSubBranchName=data[0][1];
 								
 							}
 						});
@@ -2439,8 +2464,9 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							  //vSubBranch="ครัว";
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-							vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramAsOfDate").text();
+							vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
 							vSubBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text();
+							
 						}
 
 
@@ -2450,7 +2476,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 				
 			//Defualt Parameter End
 			
-		}else if(graphName=="CompareEmployeePerModelByManager"){
+		}else if(graphName=="MonthlyTargetByBranch"){
 			
 			//g16
 			
@@ -2491,7 +2517,7 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 						
 						if($(".paramDefaultEmbed"+graphName).text()==""){
 							  vBranch =firstBranchCode;
-							  //vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
+							  vAsOfDate=asOfDate;
 							 
 						}else{
 							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
@@ -2553,7 +2579,18 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 		var htmlMenuLeft="" +
 				"<div id=\"boxContent\">" +
 					"<ul>" +
-						"<li class=\"selected\" id=\"mainMenu\">Main Menu</li>";
+						"<li class=\"selected\" id=\"mainMenu\">" +
+						"<table>"+
+							"<tbody>"+
+							"<tr>"+
+							"<td>"+
+							"<span class=\"ui-icon ui-icon-home\"></span>"+
+							"</td>"+
+							"<td>Main Menu</td>"+
+							"</tr>"+
+							"</tbody>"+
+							"</table>" +
+						"</li>";
 						
 						$.ajax({
 							url:"../Model/ui_SMI_ListAllCategory.jsp",
@@ -2595,7 +2632,19 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 											*/
 													htmlMenuLeft+="</ul>" +
 													 "</div>" +	
-													"<li class=\"cateGraph\" id=\""+EntryIndex[0]+"\"><a href=\"#\">"+EntryIndex[1]+"("+data.length+")</a>" +	
+													"<li class=\"cateGraph\" id=\""+EntryIndex[0]+"\"><a href=\"#\">" +
+															
+														"<table>"+
+															"<tbody>"+
+															"<tr>"+
+															"<td>"+
+															"<span class=\"ui-icon ui-icon-folder-collapsed\"></span>"+
+															"</td>"+
+															"<td>"+EntryIndex[1]+"("+data.length+")</a></td>"+
+															"</tr>"+
+															"</tbody>"+
+														"</table>" +
+
 													"</li>";
 										}
 									});
@@ -2604,8 +2653,19 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							}
 						});
 						
-						htmlMenuLeft+="<li class=\"cateGraph listOther\" id=\"cateView\"><a href=\"#\">Favorite("+countMyView+")</a></li>" +
-					"</ul>" +
+						htmlMenuLeft+="<li class=\"cateGraph listOther\" id=\"cateView\"><a href=\"#\">" +
+						"<table>"+
+							"<tbody>"+
+							"<tr>"+
+							"<td>"+
+							"<span class=\"ui-icon ui-icon-folder-collapsed\"></span>"+
+							"</td>"+
+							"<td>Favorite("+countMyView+")</td>"+
+							"</tr>"+
+							"</tbody>"+
+						"</table>" +
+								//"<a href=\"#\">Favorite("+countMyView+")</a></li>" +
+					"</a></li></ul>" +
 				"</div>" +
 				"";
 		 return htmlMenuLeft;
@@ -2670,14 +2730,14 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 		}else if(graphNameAreaNoneIndex=="areaCookingTimeRange"){
 			//g15
 			manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
-		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModel"){
+		}else if(graphNameAreaNoneIndex=="areaManPowerOverall"){
 			//g16
 			//alert("hello world managment table1");
 			manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,paramMachine);
-		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByDepartment"){
+		}else if(graphNameAreaNoneIndex=="areaManPowerByOrganization"){
 			//g17
 			manageParamHrCompareEmpPerModelByDepartmentFn(graphNameArea,graphWidth,graphHeight,paramMachine);
-		}else if(graphNameAreaNoneIndex=="areaCompareEmployeePerModelByManager"){
+		}else if(graphNameAreaNoneIndex=="areaMonthlyTargetByBranch"){
 			//g18
 			manageParamHrCompareEmpPerModelByManagerFn(graphNameArea,graphWidth,graphHeight,paramMachine);
 			

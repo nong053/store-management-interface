@@ -2,7 +2,7 @@ aside, nav, footer, header, section { display: block; }
 html, body { padding: 0; margin: 0; }
 
 body {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-body { background: #fff1e0 url(i/bg_main.png); }
+/*body { background: #fff1e0 url(i/bg_main.png); }*/
 a { color: #3674c9; }
 h1 { text-shadow: 0 1px 0 #fff; color: #3c3c3c; }
 h2 { text-shadow: 0 1px 0 #fff; color: #d4663b; font-weight: normal; font-family: Alike, serif; }

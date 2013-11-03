@@ -643,7 +643,7 @@ $(document).ready(function(){
 	//var graphHeight="365";
 	
 	var graphWidth=(widthScreen-110);
-	var graphHeight=(heightScreen-270);
+	var graphHeight=(heightScreen-250);
 	//seting layout dinamic
 	
 	//$("#contentGraph").css({"width":graphWidth+"px","height":graphHeight+"px"});
@@ -666,6 +666,7 @@ $(document).ready(function(){
 	/*#########################Ajax start##########################*/
 	//ajax Start
 	$("#loading").ajaxStart(function(){
+		//$("body").prepend("loading");
 		var widthImg=(screen.availWidth/2)-50;
 		var	hieghtImg=(screen.availHeight/2)-50;
 		$(this).css({"top":hieghtImg+"px","left":widthImg}).show();
@@ -739,6 +740,7 @@ $(document).ready(function(){
 			$("#leftMenu").html($("#areaLeftMenu").html());
 			
 			$(".cateView").remove();
+			$("li#logOut").remove();
 			
 			$("#boxContent>ul").append("<li class=\"cateGraph cateView\" id=\"cateView\">" +
 											"<a href=\"#\">" +
@@ -755,8 +757,9 @@ $(document).ready(function(){
 										
 											
 											"</a>" +
+											
 										"</li>" +
-										"<li class=\"cateGraph cateView \" id=\"logOut\">" +
+										"<li class=\"cateGraph  \" id=\"logOut\">" +
 											"<a href=\"#\">" +
 												"<table>" +
 													"<tr>" +
@@ -871,6 +874,17 @@ $(document).ready(function(){
 			}else if(graphNameAreaNoneIndex=="areaCookingTimeRange"){
 				//g15
 				manageParamcookingTimeRangeFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+			}else if(graphNameAreaNoneIndex=="areaManPowerOverall"){
+				//g16
+				//alert("hello world managment table1");
+				manageParamHrCompareEmpPerModelFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+			}else if(graphNameAreaNoneIndex=="areaManPowerByOrganization"){
+				//g17
+				manageParamHrCompareEmpPerModelByDepartmentFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+			}else if(graphNameAreaNoneIndex=="areaMonthlyTargetByBranch"){
+				//g18
+				manageParamHrCompareEmpPerModelByManagerFn(graphNameArea,graphWidth,graphHeight,paramMachine);
+				
 			}
 		    
 		};
@@ -1391,6 +1405,7 @@ $(document).ready(function(){
 			var createGraphByGaraphName=function(graphName,graphType,arIndex){
 				//Config width and height for pc here
 				//alert("graphName="+graphName);
+				//alert("arIndex="+arIndex);
 				if(graphName=="SalePerDay"){
 					
 							if($(".paramDefaultEmbed"+graphName).text()==""){
@@ -1817,143 +1832,134 @@ $(document).ready(function(){
 						
 					//Defualt Parameter End
 					
-				}else if(graphName=="CompareEmployeePerModel"){
+				}else if(graphName=="ManPowerOverall"){
 					
 					//g16
 					
 					//Defualt Parameter Start
-					 $.ajax({
-						url:"../Model/SMI_getBranch.jsp",
-						type:"get",
-						dataType:"json",
-						success:function(data){
-							
-							 var today = new Date(ParamCurrentDateDel2Day);
-							 var dd = today.getDate();
-							 var mm = today.getMonth()+1; //January is 0!
-							 var yyyy = today.getFullYear();
-							 
-							 if (mm < 10) {
-								    mm = '0' + mm;
-								}
+					var vBranch ="";
+					var asOfDate="";
+					
+				$.ajax({
+					url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+					type:"get",
+					dataType:"json",
+					//data:{"paramBranch":vBranch},
+					async:false,
+					success:function(data){
+						//alert(data);
+						asOfDate=data[0][0];
+						
+					}
+				});
+					
+					if($(".paramDefaultEmbed"+graphName).text()==""){
+						  vBranch =firstBranchCode;
+						 // asOfDate=""+yyyy+"-"+mm+"-"+dd;
+					}else{
+						vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
+						asOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
 
-								if (dd < 10) {
-								    dd = '0' + dd;
-								}
-								
-								var vBranch ="";
-								var vYear="";
-								var vMonth="";
-								
-								if($(".paramDefaultEmbed"+graphName).text()==""){
-									  vBranch =data[0][0];
-									  vYear=""+yyyy+"";
-									  vMonth=""+mm+"";
-								}else{
-									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-									vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-									vMonth=$("ul.paramDefaultEmbed"+graphName+">li.paramMonth").text();
-								}
+					}
 
-
-									     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-								HrCompareEmpPerModelFn(graphName,graphType,arIndex,graphHeight,paramMachine);
-							
-						}
-					 });
+						     //graphName,graphType,arIndex,vBranch,asOfDate,graphWidth,graphHeight
+					HrCompareEmpPerModelFn(graphName,graphType,arIndex,vBranch,asOfDate,graphHeight,paramMachine);
+					
 					//Defualt Parameter End
 					
-				}else if(graphName=="CompareEmployeePerModelByDepartment"){
+				}else if(graphName=="ManPowerByOrganization"){
 					
 					
 					//g16
 					
 					//Defualt Parameter Start
-					 $.ajax({
-						url:"../Model/SMI_getBranch.jsp",
+
+					
+					var vBranch ="";
+					var vAsOfDate="";
+					var vSubBranch="";
+					
+					$.ajax({
+						url:"../Model/SMI_ManPowerByOrganizationAsOfDate.jsp",
 						type:"get",
 						dataType:"json",
+						//data:{"paramBranch":vBranch},
+						async:false,
 						success:function(data){
-							
-							 var today = new Date(ParamCurrentDateDel2Day);
-							 var dd = today.getDate();
-							 var mm = today.getMonth()+1; //January is 0!
-							 var yyyy = today.getFullYear();
-							 
-							 if (mm < 10) {
-								    mm = '0' + mm;
-								}
-
-								if (dd < 10) {
-								    dd = '0' + dd;
-								}
-								
-								var vBranch ="";
-								var vYear="";
-								var vMonth="";
-								
-								if($(".paramDefaultEmbed"+graphName).text()==""){
-									  vBranch =data[0][0];
-									  vYear=""+yyyy+"";
-									  vMonth=""+mm+"";
-								}else{
-									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-									vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-									vMonth=$("ul.paramDefaultEmbed"+graphName+">li.paramMonth").text();
-								}
-
-
-									     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-								HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,graphHeight,paramMachine);
+							//alert(data);
+							vAsOfDate=data[0][0];
 							
 						}
-					 });
+					});
+					
+					$.ajax({
+						url:"../Model/SMI_ManPowerByOrganizationSubBranch.jsp",
+						type:"get",
+						dataType:"json",
+						//data:{"paramBranch":vBranch},
+						async:false,
+						success:function(data){
+							//alert(data);
+							vSubBranch=data[0][1];
+							//vSubBranchName=data[0][1];
+							
+						}
+					});
+					
+					if($(".paramDefaultEmbed"+graphName).text()==""){
+						  vBranch =firstBranchCode;
+						  //vAsOfDate=""+yyyy+"-"+mm+"-"+dd+"";
+						  //vSubBranch="ครัว";
+					}else{
+						vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
+						vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
+						vSubBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text();
+						
+					}
+
+
+						     //graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine
+					HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine);
+				
 					//Defualt Parameter End
 					
-				}else if(graphName=="CompareEmployeePerModelByManager"){
+				}else if(graphName=="MonthlyTargetByBranch"){
 					
 					//g16
 					
 					//Defualt Parameter Start
-					 $.ajax({
-						url:"../Model/SMI_getBranch.jsp",
+					var vBranch ="";
+					var vAsOfDate="";
+					
+					$.ajax({
+						url:"../Model/SMI_ManPowerBranchAsOfDate.jsp",
 						type:"get",
 						dataType:"json",
+						//data:{"paramBranch":vBranch},
+						async:false,
 						success:function(data){
-							
-							 var today = new Date(ParamCurrentDateDel2Day);
-							 var dd = today.getDate();
-							 var mm = today.getMonth()+1; //January is 0!
-							 var yyyy = today.getFullYear();
-							 
-							 if (mm < 10) {
-								    mm = '0' + mm;
-								}
-
-								if (dd < 10) {
-								    dd = '0' + dd;
-								}
-								
-								var vBranch ="";
-								var vYear="";
-								var vMonth="";
-								
-								if($(".paramDefaultEmbed"+graphName).text()==""){
-									  vBranch =data[0][0];
-									  vYear=""+yyyy+"";
-									  vMonth=""+mm+"";
-								}else{
-									vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
-									vYear=$("ul.paramDefaultEmbed"+graphName+">li.paramYear").text();
-									vMonth=$("ul.paramDefaultEmbed"+graphName+">li.paramMonth").text();
-								}
-
-
-									     //graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
-								HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,graphHeight,paramMachine);
+							//alert(data);
+							asOfDate=data[0][0];
 							
 						}
-					 });
+					});
+					
+						
+						
+						
+						if($(".paramDefaultEmbed"+graphName).text()==""){
+							  vBranch =firstBranchCode;
+							  vAsOfDate=asOfDate;
+							 
+						}else{
+							vBranch=$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text();
+							vAsOfDate=$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text();
+							
+						}
+
+						//graphName,graphType,arIndex,vBranch,vYear,vMonth,graphWidth,graphHeight
+						HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,vBranch,vAsOfDate,graphHeight,paramMachine);
+					
 					//Defualt Parameter End
 					
 				}
@@ -2022,7 +2028,7 @@ $(document).ready(function(){
 								//create sub menu sen graphName
 								createSubGraph(EntryIndex[1]);
 								//send graphName,graphType,index
-								createGraphByGaraphName(EntryIndex[1],EntryIndex[2],index);
+								createGraphByGaraphName(EntryIndex[1],EntryIndex[2],(parseInt(EntryIndex[4])-1));
 							
 							});
 							$('.listSequence').kendoDropDownList();

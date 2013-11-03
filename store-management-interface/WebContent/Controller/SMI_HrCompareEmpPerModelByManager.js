@@ -26,14 +26,14 @@
 	function callAsOfDateEmpPerModelAll(graphNameArea,paramStartDate){
 		var htmlDropdown="";
 		$.ajax({
-			url:"../Model/SMI_ManPowerOverallAsOfDate.jsp",
+			url:"../Model/SMI_ManPowerBranchAsOfDate.jsp",
 			type:"get",
 			dataType:"json",
 			//data:{"paramBranch":vBranch},
 			async:false,
 			success:function(data){
 				//alert(data);
-				htmlDropdown+="<select class='list' id='paramStartDate'>";
+				htmlDropdown+="<select class=\"list\" id=\"paramStartDate"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
 					if(paramStartDate==indexEntry[0]){
 						htmlDropdown+="<option value="+indexEntry[0]+" selected>"+indexEntry[0]+"</option>";
@@ -44,6 +44,7 @@
 				htmlDropdown+="</select>";
 				//alert(htmlDropdown);
 				$("#areaParamStartDate"+graphNameArea).html(htmlDropdown);
+				$("#paramStartDate"+graphNameArea).kendoDropDownList();
 			}
 		});
 	}
@@ -210,7 +211,40 @@ function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,objData
          });
      
      
+	 /*find sum value on graph start*/
+	 var sum_MDBM_model=0;
+	 var sum_MDBM_Acctal=0;
+	 var sum_MDBM_Gap=0;
+	 var sum_MDBM_NewEmp=0;
+	 var sum_MDBM_resign=0;
+	 var sum_MDBM_resignPercentage=0;
+	 var sum_MDBM_resignAccumulated=0;
 	 
+	 $("#chart"+graphName+"-"+arIndex+" tbody tr").each(function(){
+		 sum_MDBM_model+=parseInt($("td",this).eq(1).text()); 
+		 sum_MDBM_Acctal+=parseInt($("td",this).eq(2).text()); 
+		 sum_MDBM_Gap+=parseInt($("td",this).eq(3).text()); 
+		 sum_MDBM_NewEmp+=parseInt($("td",this).eq(4).text()); 
+		 sum_MDBM_resign+=parseInt($("td",this).eq(5).text()); 
+		 sum_MDBM_resignPercentage+=parseInt($("td",this).eq(6).text()); 
+		 sum_MDBM_resignAccumulated+=parseInt($("td",this).eq(7).text()); 
+	 });
+     var sumDataHtmlModelByManager="" +
+     
+     "<tr id=\"sumDataHtmlModelByManager\" style='background:#FEEEBD'>"+
+		"<td >รวม</td>"+
+		"<td>"+sum_MDBM_model+"</td>"+
+		"<td>"+sum_MDBM_Acctal+"</td>"+
+		"<td>"+sum_MDBM_Gap+"</td>"+
+		"<td>"+sum_MDBM_NewEmp+"</td>"+
+		"<td>"+sum_MDBM_resign+"</td>"+
+		"<td>"+sum_MDBM_resignPercentage+"%</td>"+
+		"<td>"+sum_MDBM_resignAccumulated+"</td>"+
+	"</tr>";
+     $("tr#sumDataHtmlModelByManager").remove();
+     $("#chart"+graphName+"-"+arIndex+" tbody").append(sumDataHtmlModelByManager);
+      
+     /*find sum value on graph end*/
 	//set Font for Gap if gap  number is Minus set red font.
 	 //$("#chart"+graphName+"-"+arIndex)
 	 
@@ -249,8 +283,9 @@ function createChart_SMI_HrCompareEmpPerModelByManager(graphName,arIndex,objData
 	 
 	 
 	//set padding td in table grid
-	$(".k-grid td").css({"padding":"0px"});
-     
+	 $(".k-grid td").css({"padding-left":"2px","padding-right":"2px"});
+	//set shadow
+	 $(".k-grid").shadow('lifted');
 };
 
 var htmlParam_SMI_HrCompareEmpPerModelByManager = function(graphNameArea){
@@ -476,25 +511,89 @@ function HrCompareEmpPerModelByManagerFn(graphName,graphType,arIndex,vBranch,vAs
 			async:false,
 			data:{"paramBranch":vBranch,"paramAsfDate":vAsOfDate},
 			success:function(data){
+				/*check value is null start*/
+				var ModelNum="";
+				var AcctalNum="";
+				var GapNum="";
+				var NewEmpNum="";
+				var resignNum="";
+				var resignPercentageNum="";
+				var resignAccumulatedNum="";
+				
+				
+				/*check value is null end*/
+				
+				
 				var dataHrModelByManager="";
 				dataHrModelByManager+="[";
 				$.each(data,function(index,indexEntry){
+					if(indexEntry[1]==null){
+						ModelNum=0;
+					}else{
+						ModelNum=indexEntry[1];
+					}
+					
+					if(indexEntry[2]==null){
+						AcctalNum=0;
+					}else{
+						AcctalNum=indexEntry[2];
+					}
+					
+					
+					if(indexEntry[3]==null){
+						GapNum=0;
+					}else{
+						GapNum=indexEntry[3];
+					}
+					
+					
+					if(indexEntry[4]==null){
+						NewEmpNum=0;
+					}else{
+						NewEmpNum=indexEntry[4];
+					}
+					
+					
+					if(indexEntry[5]==null){
+						resignNum=0;
+					}else{
+						resignNum=indexEntry[5];
+					}
+					
+					if(indexEntry[6]==null){
+						resignPercentageNum=0+"%";
+					}else{
+						resignPercentageNum=parseInt(indexEntry[6])+"%";
+					}
+					
+					if(indexEntry[7]==null){
+						resignAccumulatedNum=0;
+					}else{
+						resignAccumulatedNum=indexEntry[7];
+					}
+
 					
 					if(index==0){
 						dataHrModelByManager+="{";
 					}else{
 						dataHrModelByManager+=",{";
 					}
-					
-					
+					/*
+					var AcctalNum="";
+					var GapNum="";
+					var NewEmpNum="";
+					var resignNum="";
+					var resignPercentageNum="";
+					var resignAccumulatedNum="";
+					*/
 					dataHrModelByManager+="\"Position\":\""+indexEntry[0]+"\",";
-					dataHrModelByManager+="\"Model\":"+indexEntry[1]+",";
-					dataHrModelByManager+="\"Acctal\":"+indexEntry[2]+",";
-					dataHrModelByManager+="\"Gap\":"+indexEntry[3]+",";
-					dataHrModelByManager+="\"NewEmp\":"+indexEntry[4]+",";
-					dataHrModelByManager+="\"resign\":"+indexEntry[5]+",";
-					dataHrModelByManager+="\"resignPercentage\":"+indexEntry[6]+"," ;
-					dataHrModelByManager+="\"resignAccumulated\":"+indexEntry[7]+"";
+					dataHrModelByManager+="\"Model\":"+ModelNum+",";
+					dataHrModelByManager+="\"Acctal\":"+AcctalNum+",";
+					dataHrModelByManager+="\"Gap\":"+GapNum+",";
+					dataHrModelByManager+="\"NewEmp\":"+NewEmpNum+",";
+					dataHrModelByManager+="\"resign\":"+resignNum+",";
+					dataHrModelByManager+="\"resignPercentage\":\""+resignPercentageNum+"\"," ;
+					dataHrModelByManager+="\"resignAccumulated\":"+resignAccumulatedNum+"";
 					
 					dataHrModelByManager+="}";
 					
