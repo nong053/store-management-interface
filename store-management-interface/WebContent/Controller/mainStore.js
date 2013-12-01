@@ -514,7 +514,7 @@ $(".cateGraph").live("mouseover",function(e){
 		data:{"paramUserLogin":userLogin},
 		success:function(data){
 			//alert(data[0][0]);
-			if(data[0][0]){
+			if(data[0][0]!=null){
 				countMyView= data[0][0];
 			}else{
 				countMyView= 0;
@@ -2448,11 +2448,11 @@ var createLayoutGraphNotReturn = function(graphName,graphType,graphId,arIndex,gr
 							url:"../Model/SMI_ManPowerByOrganizationSubBranch.jsp",
 							type:"get",
 							dataType:"json",
-							//data:{"paramBranch":vBranch},
+							data:{"paramBranch":firstBranchCode},
 							async:false,
 							success:function(data){
-								//alert(data);
-								vSubBranch=data[0][1];
+								//send by id sub branch
+								vSubBranch=data[0][0]+"-"+data[0][1];
 								//vSubBranchName=data[0][1];
 								
 							}

@@ -9,12 +9,19 @@ import java.util.Hashtable;
 import javax.naming.ldap.*;
 import javax.naming.directory.*;
 import javax.naming.*;
+import org.apache.log4j.Logger;
 
 public class ldapConnect {
 	Object dataObject;
+	private static Logger logger=Logger.getLogger("ldapConnect");
 	
 	public void setLdap(String user ,String password) {
-
+		
+		
+		//logger.warn("hellow world");
+		//logger.error("test error");
+		
+		
 		Hashtable env = new Hashtable();
 		String adminName = "uid="+user+",ou=corporate,dc=snp,dc=com";
 		String adminPassword = password;
@@ -95,6 +102,7 @@ public class ldapConnect {
 
 		} catch (NamingException e) {
 			//System.err.println("Problem searching directory: " + e);
+			logger.error("Error "+e);
 		}
 	}
 	public Object getRole(){

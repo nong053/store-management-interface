@@ -485,7 +485,7 @@ var getEndWeekParameter = function(graphNameArea,paramYear){
 			embedParameter_SMI_SalesPerBillWeeklyFn(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
-			if(startWeek < endWeek){
+			if(startWeek <= endWeek){
 					//call function create graph for gernarate new graph
 					salesPerBillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
 					if(paramMachine=="Tablet"){

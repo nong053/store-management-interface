@@ -1896,11 +1896,11 @@ $(document).ready(function(){
 						url:"../Model/SMI_ManPowerByOrganizationSubBranch.jsp",
 						type:"get",
 						dataType:"json",
-						//data:{"paramBranch":vBranch},
+						data:{"paramBranch":firstBranchCode},
 						async:false,
 						success:function(data){
 							//alert(data);
-							vSubBranch=data[0][1];
+							vSubBranch=data[0][0]+"-"+data[0][1];
 							//vSubBranchName=data[0][1];
 							
 						}

@@ -431,7 +431,7 @@ function top10BeverageFn(graphName,graphType,arIndex,vBranch,vSDate,vEDate,graph
 			         	color: '#007bc3'
 				     }];
 				 
-				 var titleText="10 อันดับขายดี Bakery ตั้งแต่วันที่  "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+"-"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
+				 var titleText="10 อันดับขายดี Beverage ตั้งแต่วันที่  "+getDayOnDate(vSDate)+" "+getMonthName(getMonthOnDate(vSDate))+" ปี"+getYearONDate(vSDate)+"-"+getDayOnDate(vEDate)+" "+getMonthName(getMonthOnDate(vEDate))+" ปี"+getYearONDate(vEDate)+"";
 				 
 				 createChart_SMI_Top10Beverage(graphName,graphType,series,objCategories,arIndex,graphWidth,graphHeight,paramMachine,titleText,
 						 objDataSeriesSaleValue,objDataSeriesSaleValueLastMonth);
