@@ -394,7 +394,7 @@ function SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,
 			embedParameter_SMI_SalesByProductCategoryWeekly(graphName,paramBranch,paramYear,startWeek,endWeek);
 			//Embed Default Parameter end
 				
-			if(startWeek < endWeek){
+			if(startWeek <= endWeek){
 				
 				SalesByProductCategoryWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
 				

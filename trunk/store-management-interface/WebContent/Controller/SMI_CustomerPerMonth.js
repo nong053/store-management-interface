@@ -392,7 +392,7 @@ function customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,st
 			//###################Embead parameter to call embed parameter function start##############
 			
 			//call function create graph for gernarate new graph
-			if(startWeek < endWeek){
+			if(startWeek <= endWeek){
 				
 				customerPerMonthFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight,paramMachine);
 				

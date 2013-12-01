@@ -7,10 +7,10 @@ import javax.sql.*;
 import java.sql.*;
 import org.json.JSONArray;
 import org.json.JSONException;
-
+import org.apache.log4j.Logger;
 
 public class connectionJNDI {
-
+	private static Logger logger=Logger.getLogger("connectionJNDI");
 
   String data1 = "";
   String data2 = "";
@@ -56,7 +56,8 @@ public class connectionJNDI {
 	        }
 	      }
 	    }catch(Exception e) {
-	      e.printStackTrace();
+	    	e.printStackTrace();
+	    	logger.error("erorr"+e);
 	    }
 	 }
   public void selectByColumnName(String query,String field) {
@@ -98,6 +99,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   public void setStoreFactsContractName(String query,String field) {
@@ -139,6 +141,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   public void setStoreFactsContractIndex(String query,String field) {
@@ -182,6 +185,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -226,6 +230,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -270,6 +275,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -315,6 +321,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -363,6 +370,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
  //StoreFactsContract
@@ -419,6 +427,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -452,6 +461,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -491,6 +501,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -531,6 +542,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -571,6 +583,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -611,6 +624,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   //listRegion
@@ -652,6 +666,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
 //listProvince
@@ -694,6 +709,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
 //listArea
@@ -736,6 +752,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   
@@ -770,6 +787,7 @@ public class connectionJNDI {
 	      }
 	    }catch(Exception e) {
 	      e.printStackTrace();
+	      logger.error("erorr"+e);
 	    }
 	 }
   

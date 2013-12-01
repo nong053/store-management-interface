@@ -473,7 +473,7 @@ function BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWee
 			//Embed Default Parameter end
 			//###################Embead parameter to call embed parameter function start##############
 			
-			if(startWeek < endWeek){
+			if(startWeek <= endWeek){
 							//graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight
 				BillWeeklyFn(graphName,graphType,arIndex,paramBranch,paramYear,startWeek,endWeek,graphWidth,graphHeight);
 				if(paramMachine=="Tablet"){

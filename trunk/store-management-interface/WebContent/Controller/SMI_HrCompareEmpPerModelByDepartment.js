@@ -24,6 +24,35 @@
 		return x1 + x2;
 	}	
 	
+	function getBranchParameterHr(graphNameArea,branchCode){
+		//alert("branchCode"+branchCode);
+		var branchHtml = "";
+		
+				branchHtml+="<select class=\"list\" id=\"paramBranch"+graphNameArea+"\">";
+				//console.log(getObjBranch());
+				$.each(getObjBranch(),function(index,indexEntry){
+					//alert(indexEntry[0]);
+					//var branchArray= indexEntry[index].split("-");
+					//alert(branchArray[0]);
+					if(branchCode==indexEntry[0]){
+					branchHtml+="<option selected value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";
+					}else{
+					branchHtml+="<option value=\""+indexEntry[0]+"\">"+indexEntry[1]+"</option>";	
+					}
+				});
+				branchHtml+="</select>";
+		
+	$("td#areaParamBranch"+graphNameArea).html(branchHtml);
+	$("select#paramBranch"+graphNameArea).kendoDropDownList();
+	
+	$("select#paramBranch"+graphNameArea).change(function(){
+		callSubBranchEmpPerModelDepartment(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text(),$(this).val());
+	});
+	
+	}
+	
+	
+	
 	//create list dropdown as of date function 
 	function callAsOfDateEmpPerModelDepartment(graphNameArea,paramStartDate){
 		var htmlDropdown="";
@@ -51,28 +80,30 @@
 		});
 	}
 	//create list dropdown sub branch function 
-	function callSubBranchEmpPerModelDepartment(graphNameArea,paramSubBranch){
+	function callSubBranchEmpPerModelDepartment(graphNameArea,paramSubBranch,vBranch){
 		var htmlDropdown="";
 		$.ajax({
 			url:"../Model/SMI_ManPowerByOrganizationSubBranch.jsp",
 			type:"get",
 			dataType:"json",
-			//data:{"paramBranch":vBranch},
+			data:{"paramBranch":vBranch},
 			async:false,
 			success:function(data){
 				//alert(data);
+				
 				htmlDropdown+="<select class=\"list paramSubBranch11\" id=\"paramSubBranch"+graphNameArea+"\">";
 				$.each(data,function(index,indexEntry){
-					if(paramSubBranch==indexEntry[0]){
-						htmlDropdown+="<option value="+indexEntry[1]+" selected>"+indexEntry[1]+"</option>";
+					if(paramSubBranch==indexEntry[0]+"-"+indexEntry[1]){
+						htmlDropdown+="<option value='"+indexEntry[0]+"-"+indexEntry[1]+"' selected>"+indexEntry[1]+"</option>";
 					}else{
-						htmlDropdown+="<option value="+indexEntry[1]+">"+indexEntry[1]+"</option>";
+						htmlDropdown+="<option value='"+indexEntry[0]+"-"+indexEntry[1]+"'>"+indexEntry[1]+"</option>";
 					}
 				});
 				htmlDropdown+="</select>";
 				//alert(htmlDropdown);
 				$("#areaParamSubBranch"+graphNameArea).html(htmlDropdown);
 				$("#paramSubBranch"+graphNameArea).kendoDropDownList();
+				
 			}
 		});
 	}
@@ -382,7 +413,7 @@ var submit_SMI_HrCompareEmpPerModelByDepartment=function(graphNameArea,graphName
 		
 		
 		//call function create graph for gernarate new graph
-		//HrCompareEmpPerModelByDepartmentFn
+		//
 		
 												  // graphName,graphType,arIndex,vBranch,vAsOfDate,vSubBranch,graphHeight,paramMachine
 				HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,paramBranch,paramStartDate,paramSubBranch,graphHeight,paramMachine);
@@ -492,9 +523,9 @@ function manageParamHrCompareEmpPerModelByDepartmentFn(graphNameArea,graphWidth,
 		
 		 //create button submit
 		 //#####################check parameter is selected start#########################
-		getBranchParameter(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
+		 getBranchParameterHr(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
 		callAsOfDateEmpPerModelDepartment(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramStartDate").text());
-		callSubBranchEmpPerModelDepartment(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text());
+		callSubBranchEmpPerModelDepartment(graphNameArea,$("ul.paramDefaultEmbed"+graphName+">li.paramSubBranch").text(),$("ul.paramDefaultEmbed"+graphName+">li.paramBranch").text());
 		//######################check parameter is selected end###########################
 		 submit_SMI_HrCompareEmpPerModelByDepartment(graphNameArea,graphName,'column',graphIndex,graphWidth,graphHeight,paramMachine);
 		 
@@ -525,13 +556,18 @@ function HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,
 	embedParameterHrCompareEmpPerModelByDepartment(graphName,vBranch,vAsOfDate,vSubBranch);
 	//#########################set embed parameter for embed default parameter end########################
 	
+	var subBranchCodeArray=vSubBranch.split("-");
+	var subBranchCode=subBranchCodeArray[0];
+	var subBranchName=subBranchCodeArray[1];
+	
+	//alert(subBranchCodeArray);
 	
 	 $.ajax({
 			url:"../Model/SMI_HrCompareEmpPerModelByDepartment.jsp",
 			type:"POST",
 			dataType:"json",
 			async:false,
-			data:{"paramBranch":vBranch,"paramAsofDate":vAsOfDate,"paramSubBranch":vSubBranch},
+			data:{"paramBranch":vBranch,"paramAsofDate":vAsOfDate,"paramSubBranch":subBranchCode},
 			success:function(data){
 				
 				/*
@@ -661,10 +697,10 @@ function HrCompareEmpPerModelByDepartmentFn(graphName,graphType,arIndex,vBranch,
 				
 				dataHrModelAll+="]";
 				var objDataHrModelAll=eval("("+dataHrModelAll+")");
-				
-				 
+
 				 createChart_SMI_HrCompareEmpPerModelByDepartment(graphName,arIndex,objDataHrModelAll,graphHeight,paramMachine);
-				 $("#subBranchName").text(vSubBranch);
+				 
+				 $("#subBranchName").text(subBranchName);
 			}
 		});
 	 
