@@ -175,7 +175,7 @@ var submit_SMI_SalePerDay=function(graphNameArea,graphName,graphType,arIndex,gra
 		
 		if((parseInt(startDate[0])==parseInt(endDate[0]))&&((parseInt(startDate[1]))==parseInt(endDate[1]))){
 			
-			if(parseInt(startDate[2]) < parseInt(endDate[2])){
+			if(parseInt(startDate[2]) <= parseInt(endDate[2])){
 					
 					salePerDayFn(graphName,graphType,arIndex,paramStartDate,paramEndDate,paramBranch,graphWidth,graphHeight,paramMachine);
 					if(paramMachine=="Tablet"){

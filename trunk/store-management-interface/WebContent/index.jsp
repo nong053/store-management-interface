@@ -3,4 +3,5 @@
 	$(document).ready(function(){
 			$(location).attr({"href":"View/index.jsp"});
 	});
+	
 </script>

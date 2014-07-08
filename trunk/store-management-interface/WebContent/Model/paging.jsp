@@ -17,6 +17,7 @@
 	out.print("getData"+jndi.getData());
 	*/
 	String query="CALL ui_SMI_ListGraphOfCategory('"+paramCateId+"')";
+	//String query="CALL ui_SMI_ListGraphOfCategory('1')";
 	String columns="1,2,3,4";
 	pj.selectByIndex(query, columns);
 	out.print(pj.getData());
