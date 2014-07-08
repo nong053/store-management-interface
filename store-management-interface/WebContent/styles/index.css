@@ -51,15 +51,19 @@ body{
 }
 #mainBody #header #heaerLeft{
 	float:left;
-	width:635px;
+	/*width:635px;*/
 }
 #mainBody #header #heaerRight{
-	float:left;
-	width:400px;
+	float: left;
+    margin-left: 50px;
+    position: absolute;
+    text-align: center;
+    width: 1290px;
 }
 #mainBody #header #heaerRight #boxTopButton{
 	width:200px;
-	display:inline;
+	/*display:inline;*/
+	text-align:center;
 	
 }
 #mainBody #header #heaerLeft #btHideShowArea{

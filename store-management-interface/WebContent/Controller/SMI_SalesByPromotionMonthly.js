@@ -956,7 +956,8 @@ function SalesByPromotionMonthlyFn(graphName,graphType,arIndex,vBranch,vYear,
 			
 
 			 //##################### get embed parameter function start ##################
-			getBranchParam_SMI_SalesByPromotionMonthly(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramBranch").text());
+			getBranchParameter(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramBranch").text());
+			/*getBranchParam_SMI_SalesByPromotionMonthly(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramBranch").text());*/
 			getYearParam_SMI_SalesByPromotionMonthly(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramYear").text());
 			getMonthParam_SMI_SalesByPromotionMonthly(graphNameArea,$("ul.paramEmbed"+graphName+">li.paramMonth").text());
 			
